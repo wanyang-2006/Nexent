@@ -1,0 +1,161 @@
+[
+  {
+    "file": "华为ICT第十届官方手册.pdf",
+    "url": "https://e.huawei.com/marketingcloud/pep/asset/20000001/Material/212464e4d94143deaad4b1ee7f9dc55f/M3T1A669N1207723985743143006/%E5%8D%8E%E4%B8%BAICT%E5%A4%A7%E8%B5%9B2025-2026%20%E6%89%8B%E5%86%8C-20251216.pdf",
+    "purpose": "第十届历史资料；不是第十一届赛题规则",
+    "checked_on": "2026-10-26",
+    "status": "downloaded",
+    "final_url": "https://e-file.huawei.com/marketingcloud/pep/asset/20000001/Material/212464e4d94143deaad4b1ee7f9dc55f/M3T1A669N1207723985743143006/%E5%8D%8E%E4%B8%BAICT%E5%A4%A7%E8%B5%9B2025-2026%20%E6%89%8B%E5%86%8C-20251216.pdf",
+    "bytes": 7722436,
+    "sha256": "8b2d86ee92c061312e75f97fc8115629c0f04ea2f4319f2547f6a5cba426107b",
+    "relative_path": "04_技术与数据/已下载资料/华为ICT第十届官方手册.pdf",
+    "pages": 27,
+    "relevant_pages": [
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      21,
+      22,
+      24,
+      25,
+      26
+    ]
+  },
+  {
+    "file": "腾讯开悟2026人工智能专项赛题.pdf",
+    "url": "https://jwc.njxzc.edu.cn/_upload/article/files/2d/dd/717c626c4df9ac0fa43539f46b63/03c27bbb-f82c-4963-a974-dc84cad867e7.pdf",
+    "purpose": "高校发布的官方赛题附件，包含智慧法律方向",
+    "checked_on": "2026-10-26",
+    "status": "downloaded",
+    "final_url": "https://jwc.njxzc.edu.cn/_upload/article/files/2d/dd/717c626c4df9ac0fa43539f46b63/03c27bbb-f82c-4963-a974-dc84cad867e7.pdf",
+    "bytes": 836058,
+    "sha256": "48d77348cc78284da4aefaee566a96ee009c8080f8b159245938025d752fac08",
+    "relative_path": "04_技术与数据/已下载资料/腾讯开悟2026人工智能专项赛题.pdf",
+    "pages": 37,
+    "relevant_pages": [
+      2,
+      21,
+      28,
+      29,
+      31
+    ]
+  },
+  {
+    "file": "Nexent_README.md",
+    "url": "https://raw.githubusercontent.com/ModelEngine-Group/nexent/main/README.md",
+    "purpose": "官方仓库README，仅作技术资料；未安装平台",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。"
+  },
+  {
+    "file": "Nexent_LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/ModelEngine-Group/nexent/main/LICENSE",
+    "purpose": "官方许可文本",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。"
+  },
+  {
+    "file": "GraphRAG_README.md",
+    "url": "https://raw.githubusercontent.com/microsoft/graphrag/main/README.md",
+    "purpose": "官方图谱检索基线项目，不是本体动态更新的完整方案",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。"
+  },
+  {
+    "file": "GraphRAG_LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/microsoft/graphrag/main/LICENSE",
+    "purpose": "官方许可文本",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "TimeoutError: The read operation timed out"
+  },
+  {
+    "file": "KAG_README.md",
+    "url": "https://raw.githubusercontent.com/OpenSPG/KAG/master/README.md",
+    "purpose": "知识增强生成与逻辑推理参考；不得当作自研创新",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。"
+  },
+  {
+    "file": "KAG_LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/OpenSPG/KAG/master/LICENSE",
+    "purpose": "官方许可文本",
+    "checked_on": "2026-10-26",
+    "status": "downloaded",
+    "final_url": "https://raw.githubusercontent.com/OpenSPG/KAG/master/LICENSE",
+    "bytes": 11357,
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "relative_path": "04_技术与数据/已下载资料/KAG_LICENSE.txt"
+  },
+  {
+    "file": "WeKnora_README.md",
+    "url": "https://raw.githubusercontent.com/Tencent/WeKnora/main/README.md",
+    "purpose": "腾讯开源文档理解参考；平台迁移需自行实现",
+    "checked_on": "2026-10-26",
+    "status": "downloaded",
+    "final_url": "https://raw.githubusercontent.com/Tencent/WeKnora/main/README.md",
+    "bytes": 36311,
+    "sha256": "5c78549c424a1e0264a9e88a02706e844c9548fbd6bef59b2dd981e31b0621c4",
+    "relative_path": "04_技术与数据/已下载资料/WeKnora_README.md"
+  },
+  {
+    "file": "WeKnora_LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/Tencent/WeKnora/main/LICENSE",
+    "purpose": "官方许可文本",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "TimeoutError: The read operation timed out"
+  },
+  {
+    "file": "FinQA_README.md",
+    "url": "https://raw.githubusercontent.com/czyssrs/FinQA/main/README.md",
+    "purpose": "金融报告数值推理数据集说明；只下载说明，不代表取得中文行业数据",
+    "checked_on": "2026-10-26",
+    "status": "downloaded",
+    "final_url": "https://raw.githubusercontent.com/czyssrs/FinQA/main/README.md",
+    "bytes": 6518,
+    "sha256": "eb86779cfed6f0a253913761d8e4fabe032a29d9fcf2944e56c23bf007064605",
+    "relative_path": "04_技术与数据/已下载资料/FinQA_README.md"
+  },
+  {
+    "file": "FinQA_LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/czyssrs/FinQA/main/LICENSE",
+    "purpose": "许可文本，如不存在则记为未取得",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。"
+  },
+  {
+    "file": "TATQA_README.md",
+    "url": "https://raw.githubusercontent.com/NExTplusplus/TAT-QA/master/README.md",
+    "purpose": "表格与文本联合问答数据说明",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "TimeoutError: The read operation timed out"
+  },
+  {
+    "file": "TATQA_LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/NExTplusplus/TAT-QA/master/LICENSE",
+    "purpose": "许可文本，如不存在则记为未取得",
+    "checked_on": "2026-10-26",
+    "status": "failed",
+    "error": "TimeoutError: The read operation timed out"
+  }
+]
