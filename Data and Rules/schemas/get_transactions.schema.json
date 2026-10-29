@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:get_transactions",
+  "title": "get_transactions 返回值",
+  "type": "object",
+  "required": ["acct_id", "total", "count", "truncated", "transactions"],
+  "properties": {
+    "acct_id": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"},
+    "start": {"anyOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/time"}, {"type": "null"}]},
+    "end": {"anyOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/time"}, {"type": "null"}]},
+    "total": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+    "count": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+    "truncated": {"type": "boolean"},
+    "transactions": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "required": ["tx_id", "time", "from_acct", "to_acct", "amount", "tx_type"],
+        "properties": {
+          "tx_id": {"$ref": "urn:fundtrace:schema:common#/$defs/tx_id"},
+          "time": {"$ref": "urn:fundtrace:schema:common#/$defs/time"},
+          "from_acct": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"},
+          "to_acct": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_or_cash"},
+          "amount": {"$ref": "urn:fundtrace:schema:common#/$defs/amount"},
+          "tx_type": {"$ref": "urn:fundtrace:schema:common#/$defs/tx_type"},
+          "direction": {"enum": ["转入", "转出"]}
+        }
+      }
+    }
+  }
+}

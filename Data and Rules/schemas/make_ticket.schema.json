@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:make_ticket",
+  "title": "研判工单（make_ticket / get_ticket 返回值）",
+  "type": "object",
+  "required": ["ticket_id", "acct_id", "rule_version", "status", "role", "chain_id", "conclusion",
+               "supporting_evidence", "counter_evidence", "missing_evidence", "rule_basis", "suggested_actions"],
+  "properties": {
+    "ticket_id": {"type": "string", "pattern": "^TK-v\\d+-A\\d{4,}$"},
+    "spec_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "acct_id": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"},
+    "rule_version": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_version"},
+    "status": {"$ref": "urn:fundtrace:schema:common#/$defs/status"},
+    "status_code": {"$ref": "urn:fundtrace:schema:common#/$defs/status_code"},
+    "role": {"$ref": "urn:fundtrace:schema:common#/$defs/role"},
+    "chain_id": {"anyOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/system_chain_id"}, {"type": "null"}]},
+    "conclusion": {"type": "string", "minLength": 1, "maxLength": 200},
+    "supporting_evidence": {
+      "type": "array", "maxItems": 10,
+      "items": {"type": "object", "required": ["tx_id", "desc"],
+                "properties": {"tx_id": {"$ref": "urn:fundtrace:schema:common#/$defs/tx_id"}, "desc": {"type": "string", "minLength": 1}}}
+    },
+    "counter_evidence": {
+      "type": "array",
+      "items": {"type": "object", "required": ["rule_id", "desc", "tx_ids"],
+                "properties": {"rule_id": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_id"},
+                               "rule_name": {"type": "string"},
+                               "desc": {"type": "string", "minLength": 1},
+                               "tx_ids": {"$ref": "urn:fundtrace:schema:common#/$defs/tx_ids"}}}
+    },
+    "missing_evidence": {
+      "type": "array", "minItems": 1,
+      "items": {"type": "object", "required": ["code", "desc"],
+                "properties": {"code": {"$ref": "urn:fundtrace:schema:common#/$defs/gap_code"}, "desc": {"type": "string", "minLength": 1}}}
+    },
+    "rule_basis": {
+      "type": "array",
+      "items": {"type": "object", "required": ["rule_id", "rule_name", "aligned_to"],
+                "properties": {"rule_id": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_id"},
+                               "rule_name": {"type": "string"}, "aligned_to": {"type": "string"}}}
+    },
+    "suggested_actions": {"type": "array", "maxItems": 1, "items": {"$ref": "urn:fundtrace:schema:common#/$defs/action"}}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "未见异常"}}},
+     "then": {"properties": {"suggested_actions": {"maxItems": 0}}},
+     "else": {"properties": {"supporting_evidence": {"minItems": 1}, "suggested_actions": {"minItems": 1}}}},
+    {"if": {"properties": {"status": {"const": "建议人工复核"}}}, "then": {"properties": {"suggested_actions": {"const": ["建议人工复核"]}}}},
+    {"if": {"properties": {"status": {"const": "存在风险信号"}}}, "then": {"properties": {"suggested_actions": {"const": ["建议关注后续交易"]}}}},
+    {"if": {"properties": {"status": {"const": "证据不足"}}}, "then": {"properties": {"suggested_actions": {"const": ["建议补充材料"]}}}},
+    {"if": {"properties": {"role": {"const": "无"}}},
+     "then": {"properties": {"chain_id": {"type": "null"}}},
+     "else": {"properties": {"chain_id": {"type": "string"}}}}
+  ]
+}

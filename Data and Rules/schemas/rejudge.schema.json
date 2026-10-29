@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:rejudge",
+  "title": "rejudge 返回值",
+  "type": "object",
+  "required": ["changed", "summary"],
+  "properties": {
+    "old": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_version"},
+    "new": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_version"},
+    "changed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["acct_id", "old_status", "new_status", "reason"],
+        "properties": {
+          "acct_id": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"},
+          "old_status": {"$ref": "urn:fundtrace:schema:common#/$defs/status"},
+          "new_status": {"$ref": "urn:fundtrace:schema:common#/$defs/status"},
+          "direction": {"$ref": "urn:fundtrace:schema:common#/$defs/direction"},
+          "old_role": {"$ref": "urn:fundtrace:schema:common#/$defs/role"},
+          "new_role": {"$ref": "urn:fundtrace:schema:common#/$defs/role"},
+          "old_chain_id": {"anyOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/system_chain_id"}, {"type": "null"}]},
+          "new_chain_id": {"anyOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/system_chain_id"}, {"type": "null"}]},
+          "rule_changes": {
+            "type": "object",
+            "required": ["added", "removed"],
+            "properties": {
+              "added": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_ids"},
+              "removed": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_ids"}
+            }
+          },
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "changed", "by_transition"],
+      "properties": {
+        "total": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+        "changed": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+        "upgraded": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+        "downgraded": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+        "by_transition": {
+          "type": "object",
+          "propertyNames": {"pattern": "^(未见异常|存在风险信号|证据不足|建议人工复核)→(未见异常|存在风险信号|证据不足|建议人工复核)$"},
+          "additionalProperties": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}

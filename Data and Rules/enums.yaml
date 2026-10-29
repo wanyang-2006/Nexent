@@ -1,0 +1,130 @@
+# 枚举与代码注册表（机器可读，权威）
+# 规则：
+#   - value 是 CSV / JSON 中实际出现的中文值；code 是稳定的英文代码，供代码内部、日志、扩展使用
+#   - state: active（当前可用） / reserved（已占位，v1 数据与输出中不得出现） / deprecated（不再产生，但读取时仍须接受）
+#   - 枚举值只增不删；改名视为不兼容变更，须升主版本
+spec_version: 1.0.0
+
+enums:
+  acct_type:
+    - {value: 个人, code: PERSON, state: active}
+    - {value: 商户, code: MERCHANT, state: active}
+    - {value: 企业, code: CORP, state: active}
+
+  tx_type:
+    - {value: 转账, code: TRANSFER, state: active}
+    - {value: 工资, code: SALARY, state: active}
+    - {value: 消费, code: PAYMENT, state: active}
+    - {value: 提现, code: WITHDRAW, state: active}
+    - {value: 退款, code: REFUND, state: reserved}
+    - {value: 跨行转出, code: XBANK_OUT, state: reserved}
+    - {value: 分账, code: SETTLE_SPLIT, state: reserved}
+
+  # 答案表 pattern 列。kind=fraud 为埋入的涉诈模式，kind=benign 为正常干扰
+  pattern:
+    - {code: P01, value: 快进快出, kind: fraud, state: active, amlsim_ref: null}
+    - {code: P02, value: 分层中转, kind: fraud, state: active, amlsim_ref: stack}
+    - {code: P03, value: 拆分转出, kind: fraud, state: active, amlsim_ref: fan_out}
+    - {code: P04, value: 汇聚转入, kind: fraud, state: reserved, amlsim_ref: fan_in}
+    - {code: P05, value: 快速取现, kind: fraud, state: reserved, amlsim_ref: null}
+    - {code: P06, value: 循环回流, kind: fraud, state: reserved, amlsim_ref: cycle}
+    - {code: B01, value: 工资, kind: benign, state: active}
+    - {code: B02, value: 商户, kind: benign, state: active}
+    - {code: B03, value: 合租转发, kind: benign, state: active}
+    - {code: B04, value: 家庭代付, kind: benign, state: reserved}
+    - {code: B05, value: 理财赎回, kind: benign, state: reserved}
+
+  # 链路角色。in_answer=true 表示可出现在 eval/answer.csv；system=true 表示可出现在系统输出（工单、trace_chain）
+  role:
+    - {value: 疑似受骗付款端, code: VICTIM_PAYER, state: active, in_answer: true, system: true}
+    - {value: 一级收款端, code: FIRST_RECEIVER, state: active, in_answer: true, system: true}
+    - {value: 中转端, code: RELAY, state: active, in_answer: true, system: true}
+    - {value: 拆分端, code: SPLITTER, state: active, in_answer: true, system: true}
+    - {value: 汇聚端, code: COLLECTOR, state: reserved, in_answer: true, system: true}
+    - {value: 末端, code: TERMINAL, state: active, in_answer: true, system: true}
+    - {value: 无, code: NONE, state: active, in_answer: true, system: true}
+
+  # 研判状态。severity 用于重判时判断“升级/降级”；action 为该状态下唯一的建议动作（null 表示无动作）
+  status:
+    - {value: 未见异常, code: CLEAR, severity: 0, action: null, state: active}
+    - {value: 存在风险信号, code: RISK_SIGNAL, severity: 1, action: 建议关注后续交易, state: active}
+    - {value: 证据不足, code: INSUFFICIENT, severity: 2, action: 建议补充材料, state: active}
+    - {value: 建议人工复核, code: REVIEW, severity: 3, action: 建议人工复核, state: active}
+
+  action:
+    - {value: 建议人工复核, code: ACT_REVIEW, state: active}
+    - {value: 建议关注后续交易, code: ACT_MONITOR, state: active}
+    - {value: 建议补充材料, code: ACT_MORE_INFO, state: active}
+    - {value: 建议提交合规岗评估, code: ACT_COMPLIANCE, state: reserved}
+
+  rule_type:
+    - {value: risk, code: RISK, state: active}
+    - {value: counter, code: COUNTER, state: active}
+
+  rule_level:
+    - {value: 高, code: HIGH, state: active}
+    - {value: 中, code: MEDIUM, state: active}
+    - {value: 低, code: LOW, state: active}
+
+  # 工单 missing_evidence 的缺口代码
+  gap_code:
+    - {code: GAP_KYC, desc: 对手方账户的开户与实名信息, state: active}
+    - {code: GAP_MEMO_DEVICE, desc: 转账附言与登录设备信息, state: active}
+    - {code: GAP_CALLBACK, desc: 付款方的回访或报案记录, state: active}
+    - {code: GAP_EXT, desc: 资金提现后的去向（链路止于现金出口 CASH）, state: active}
+    - {code: GAP_HISTORY, desc: 数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断）, state: active}
+    - {code: GAP_BIZ, desc: 反向证据的业务背景核实（工资发放单位、商户经营资质）, state: active}
+    - {code: GAP_XBANK, desc: 跨机构交易流水, state: reserved}
+
+  error_code:
+    - {code: ACCOUNT_NOT_FOUND, desc: 账户不存在, state: active}
+    - {code: BAD_RULE_VERSION, desc: 规则版本不存在, state: active}
+    - {code: BAD_TIME_FORMAT, desc: 时间格式应为 YYYY-MM-DD HH:MM, state: active}
+    - {code: BAD_PARAM, desc: 参数取值不合法, state: active}
+    - {code: INTERNAL, desc: 内部错误, state: active}
+
+  direction:
+    - {value: 升级, code: UP, state: active}
+    - {value: 降级, code: DOWN, state: active}
+
+special_ids:
+  cash: CASH                 # 现金出口，只能作为 tx_type=提现 的 to_acct
+  external_prefix: "EXT-"    # 预留：外部机构对手方（如 EXT-B0001），v1 不出现
+
+id_patterns:
+  acct_id: '^A\d{4,}$'
+  tx_id: '^T\d{5,}$'
+  answer_chain_id: '^C\d{2,}$'
+  system_chain_id: '^L-T\d{5,}$'
+  ticket_id: '^TK-v\d+-A\d{4,}$'
+  rule_id: '^R\d{2,}$'
+  rule_version: '^v\d+$'
+  external_acct: '^EXT-[A-Z]\d{4,}$'
+
+# 规则实现注册表：rules_vN.yaml 的每条规则通过 impl 指向这里的一项
+# params：必须提供的参数；types：该实现会读取的交易类型字段（in_types / out_types）
+rule_impls:
+  fast_in_out:        {params: [window_min, ratio_min, ratio_max, min_amount], types: [in_types, out_types]}
+  multi_source_in:    {params: [window_min, min_sources], types: [in_types]}
+  split_out:          {params: [window_min, min_receivers, max_single, min_total], types: [out_types]}
+  day_clearout:       {params: [ratio_min, ratio_max, min_amount], types: [in_types, out_types]}
+  new_account_inflow: {params: [max_age_days, day_in_amount], types: [in_types]}
+  night_large:        {params: [hour_from, hour_to, amount], types: [in_types, out_types]}
+  long_chain:         {params: [min_hops], types: []}
+  first_cp_large:     {params: [amount], types: [in_types]}
+  salary_income:      {params: [min_count], types: [in_types]}
+  merchant_profile:   {params: [min_payers, median_max], types: [in_types]}
+  multi_first_cp:     {params: [window_min, min_counterparties, amount], types: [in_types]}
+
+# 工单 conclusion 字段的禁用词（只检查 conclusion；rule_basis 中的法规名称不受限）
+conclusion_banned_words:
+  - 认定
+  - 确定为
+  - 定性
+  - 就是诈骗
+  - 诈骗分子
+  - 犯罪
+  - 罪犯
+  - 洗钱
+  - 冻结
+  - 封停

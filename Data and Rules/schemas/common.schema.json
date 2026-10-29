@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:common",
+  "title": "公共定义",
+  "description": "被其他 schema 引用。枚举值必须与 enums.yaml 中 state=active 的值一致（validate_spec.py 会核对）。",
+  "$defs": {
+    "acct_id": {"type": "string", "pattern": "^A\\d{4,}$"},
+    "cash": {"const": "CASH"},
+    "acct_or_cash": {"anyOf": [{"$ref": "#/$defs/acct_id"}, {"$ref": "#/$defs/cash"}]},
+    "tx_id": {"type": "string", "pattern": "^T\\d{5,}$"},
+    "time": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$"},
+    "date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "amount": {"type": "number", "exclusiveMinimum": 0},
+    "nonneg_amount": {"type": "number", "minimum": 0},
+    "count": {"type": "integer", "minimum": 0},
+    "rule_id": {"type": "string", "pattern": "^R\\d{2,}$"},
+    "rule_version": {"type": "string", "pattern": "^v\\d+$"},
+    "system_chain_id": {"type": "string", "pattern": "^L-T\\d{5,}$"},
+    "acct_type": {"enum": ["个人", "商户", "企业"]},
+    "tx_type": {"enum": ["转账", "工资", "消费", "提现"]},
+    "status": {"enum": ["未见异常", "存在风险信号", "证据不足", "建议人工复核"]},
+    "status_code": {"enum": ["CLEAR", "RISK_SIGNAL", "INSUFFICIENT", "REVIEW"]},
+    "role": {"enum": ["疑似受骗付款端", "一级收款端", "中转端", "拆分端", "末端", "无"]},
+    "action": {"enum": ["建议人工复核", "建议关注后续交易", "建议补充材料"]},
+    "rule_type": {"enum": ["risk", "counter"]},
+    "rule_level": {"enum": ["高", "中", "低"]},
+    "gap_code": {"enum": ["GAP_KYC", "GAP_MEMO_DEVICE", "GAP_CALLBACK", "GAP_EXT", "GAP_HISTORY", "GAP_BIZ"]},
+    "error_code": {"enum": ["ACCOUNT_NOT_FOUND", "BAD_RULE_VERSION", "BAD_TIME_FORMAT", "BAD_PARAM", "INTERNAL"]},
+    "direction": {"enum": ["升级", "降级"]},
+    "edge": {
+      "type": "object",
+      "required": ["tx_id", "from_acct", "to_acct", "time", "amount"],
+      "properties": {
+        "tx_id": {"$ref": "#/$defs/tx_id"},
+        "from_acct": {"$ref": "#/$defs/acct_id"},
+        "to_acct": {"$ref": "#/$defs/acct_id"},
+        "time": {"$ref": "#/$defs/time"},
+        "amount": {"$ref": "#/$defs/amount"}
+      }
+    },
+    "tx_ids": {"type": "array", "items": {"$ref": "#/$defs/tx_id"}, "uniqueItems": true},
+    "rule_ids": {"type": "array", "items": {"$ref": "#/$defs/rule_id"}, "uniqueItems": true}
+  }
+}

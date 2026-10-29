@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:check_rules",
+  "title": "check_rules 返回值",
+  "type": "object",
+  "required": ["hits", "counter"],
+  "properties": {
+    "acct_id": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"},
+    "rule_version": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_version"},
+    "hits": {"type": "array", "items": {"$ref": "#/$defs/hit"}},
+    "counter": {"type": "array", "items": {"$ref": "#/$defs/hit"}}
+  },
+  "$defs": {
+    "hit": {
+      "type": "object",
+      "required": ["rule_id", "rule_name", "evidence_tx_ids", "detail"],
+      "properties": {
+        "rule_id": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_id"},
+        "rule_name": {"type": "string", "minLength": 1},
+        "type": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_type"},
+        "level": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_level"},
+        "evidence_tx_ids": {"allOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/tx_ids"}, {"maxItems": 10}]},
+        "detail": {"type": "string", "minLength": 1},
+        "metrics": {"type": "object"}
+      }
+    }
+  }
+}

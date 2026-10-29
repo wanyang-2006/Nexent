@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:dataset_meta",
+  "title": "data/dataset_meta.json",
+  "type": "object",
+  "required": ["dataset_id", "spec_version", "source", "profile", "generator", "seed", "time_range",
+               "timezone", "currency", "amount_unit", "row_counts", "sha256"],
+  "properties": {
+    "dataset_id": {"type": "string", "pattern": "^[a-z]+-[A-Za-z0-9_]+-seed\\d+$"},
+    "spec_version": {"type": "string", "pattern": "^1\\.\\d+\\.\\d+$"},
+    "source": {"enum": ["synthetic", "amlsim", "mixed"]},
+    "profile": {"type": "string", "minLength": 1},
+    "generator": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "time_range": {"type": "array", "minItems": 2, "maxItems": 2,
+                   "items": {"$ref": "urn:fundtrace:schema:common#/$defs/time"}},
+    "timezone": {"const": "Asia/Shanghai"},
+    "currency": {"const": "CNY"},
+    "amount_unit": {"const": "元"},
+    "row_counts": {
+      "type": "object", "required": ["accounts", "transactions"],
+      "properties": {"accounts": {"type": "integer", "minimum": 1}, "transactions": {"type": "integer", "minimum": 1}}
+    },
+    "sha256": {
+      "type": "object", "required": ["accounts.csv", "transactions.csv"],
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "transform": {"type": "object", "description": "导入外部数据时的变换说明（如 AMLSim 时间补齐方式）"}
+  },
+  "not": {"anyOf": [{"required": ["generated_at"]}, {"required": ["chains"]}, {"required": ["answer"]}]}
+}

@@ -1,0 +1,118 @@
+# 规则集 v1（仿真内部规则，非官方要求）。字段说明见 02_规则规范.md
+spec_version: 1.0.0
+version: v1
+based_on: null
+source: 仿真内部规则（非官方要求）
+evidence_limit: 10                 # 每条命中最多返回的证据交易号
+
+# 资金链追踪参数（core/trace.py 读取）
+trace:
+  window_from: R01.window_min      # 追链时间窗 W 取自 R01；v2 改 R01 即同时改变追链
+  edge_types: [转账]               # 只有这些类型、且双方都是账户的交易能成为链边
+  seed_min_amount: 3000            # 链边最小金额
+  min_chain_amount: 10000          # 链内至少一笔不低于此金额
+  conserve_ratio: 0.5              # 节点守恒比例
+  max_component_edges: 500         # 安全上限：单条链边数超过即截断并告警（防大数据集爆炸）
+
+rules:
+  - rule_id: R01
+    name: 快进快出
+    type: risk
+    level: 高
+    impl: fast_in_out
+    in_types: [转账]
+    out_types: [转账]
+    params: {window_min: 60, ratio_min: 0.9, ratio_max: 1.1, min_amount: 10000}
+    aligned_to: "仿真内部规则v1#R01"
+    desc: 收到转入后 60 分钟内转出金额达到这段时间转入合计的 90% 至 110%，且转入合计不少于 10000 元
+
+  - rule_id: R02
+    name: 短时多来源集中转入
+    type: risk
+    level: 中
+    impl: multi_source_in
+    in_types: [转账, 消费]
+    params: {window_min: 60, min_sources: 3}
+    aligned_to: "仿真内部规则v1#R02"
+    desc: 任意连续 60 分钟内，转入来源账户不少于 3 个（统计转账与消费）
+
+  - rule_id: R03
+    name: 拆分转出
+    type: risk
+    level: 高
+    impl: split_out
+    out_types: [转账]
+    params: {window_min: 60, min_receivers: 4, max_single: 9999, min_total: 20000}
+    aligned_to: "仿真内部规则v1#R03"
+    desc: 60 分钟内向不少于 4 个不同账户转出，每笔不超过 9999 元，且这些转出合计不少于 20000 元
+
+  - rule_id: R04
+    name: 余额清零
+    type: risk
+    level: 中
+    impl: day_clearout
+    in_types: [转账]
+    out_types: [转账]
+    params: {ratio_min: 0.95, ratio_max: 1.1, min_amount: 10000}
+    aligned_to: "仿真内部规则v1#R04"
+    desc: 同一自然日内转入不少于 10000 元，且当日转出达到转入的 95% 至 110%（以流入流出比近似余额清零）
+
+  - rule_id: R05
+    name: 新开账户大额转入
+    type: risk
+    level: 中
+    impl: new_account_inflow
+    in_types: [转账]
+    params: {max_age_days: 30, day_in_amount: 20000}
+    aligned_to: "仿真内部规则v1#R05"
+    desc: 开户距数据起始日不足 30 天，且某一自然日转入合计超过 20000 元
+
+  - rule_id: R06
+    name: 夜间大额
+    type: risk
+    level: 中
+    impl: night_large
+    in_types: [转账]
+    out_types: [转账]
+    params: {hour_from: 0, hour_to: 5, amount: 10000}
+    aligned_to: "仿真内部规则v1#R06"
+    desc: 00:00 至 04:59 发生单笔超过 10000 元的转账（转入或转出）
+
+  - rule_id: R07
+    name: 多层链路
+    type: risk
+    level: 高
+    impl: long_chain
+    params: {min_hops: 3}
+    aligned_to: "仿真内部规则v1#R07"
+    desc: 账户位于已识别的资金链上，且该链最长路径不少于 3 跳
+
+  - rule_id: R08
+    name: 首次对手大额转入
+    type: risk
+    level: 中
+    impl: first_cp_large
+    in_types: [转账]
+    params: {amount: 20000}
+    aligned_to: "仿真内部规则v1#R08"
+    desc: 收到单笔超过 20000 元的转入，且在本数据时间范围内此前与该对手无任何交易
+
+  - rule_id: R09
+    name: 稳定工资收入
+    type: counter
+    level: 低
+    impl: salary_income
+    in_types: [工资]
+    params: {min_count: 1}
+    aligned_to: "仿真内部规则v1#R09"
+    desc: 有不少于 1 笔工资入账（7 天数据内偏弱；90 天数据时应提高到 3 笔）
+
+  - rule_id: R10
+    name: 商户经营特征
+    type: counter
+    level: 低
+    impl: merchant_profile
+    in_types: [消费]
+    params: {min_payers: 10, median_max: 500}
+    aligned_to: "仿真内部规则v1#R10"
+    desc: 账户类型为商户，消费转入来自不少于 10 个不同付款方，且转入金额中位数不超过 500 元

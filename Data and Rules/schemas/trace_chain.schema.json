@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:trace_chain",
+  "title": "trace_chain 返回值",
+  "type": "object",
+  "required": ["acct_id", "rule_version", "chains"],
+  "properties": {
+    "acct_id": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"},
+    "rule_version": {"$ref": "urn:fundtrace:schema:common#/$defs/rule_version"},
+    "window_min": {"type": "integer", "minimum": 1},
+    "max_hops": {"type": "integer", "minimum": 1, "maximum": 10},
+    "chains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["chain_id", "hops", "total_amount", "duration_minutes", "accounts", "tx_ids", "edges"],
+        "properties": {
+          "chain_id": {"$ref": "urn:fundtrace:schema:common#/$defs/system_chain_id"},
+          "hops": {"type": "integer", "minimum": 2},
+          "total_amount": {"$ref": "urn:fundtrace:schema:common#/$defs/amount"},
+          "duration_minutes": {"type": "integer", "minimum": 0},
+          "accounts": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"}},
+          "tx_ids": {"allOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/tx_ids"}, {"minItems": 2}]},
+          "edges": {"type": "array", "minItems": 2, "items": {"$ref": "urn:fundtrace:schema:common#/$defs/edge"}},
+          "roles": {"type": "object", "propertyNames": {"pattern": "^A\\d{4,}$"}, "additionalProperties": {"$ref": "urn:fundtrace:schema:common#/$defs/role"}},
+          "truncated": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

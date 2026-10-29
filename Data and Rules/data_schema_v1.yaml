@@ -1,0 +1,108 @@
+# 数据表结构（机器可读，权威）。说明见 01_数据规范.md
+spec_version: 1.0.0
+
+csv_format:
+  encoding: utf-8          # 无 BOM
+  newline: LF
+  delimiter: ","
+  header: true
+  quoting: minimal         # 仅在值含逗号、引号、换行时加双引号
+  null: ""                 # 空值写空串；必填列不得为空
+
+time:
+  format: "%Y-%m-%d %H:%M"  # 精确到分钟，无秒
+  timezone: Asia/Shanghai   # 本地时间，不带时区后缀
+  dataset_range: ["2026-03-01 00:00", "2026-03-07 23:59"]   # v1 数据集；其他数据集以 dataset_meta.json 为准
+  tie_break: tx_id          # 同一分钟内的先后顺序按 tx_id 升序
+
+amount:
+  unit: 元
+  currency: CNY
+  type: number              # 消费方必须按数值读取，允许最多 2 位小数
+  v1_generator: integer     # v1 生成器只输出正整数
+  min_exclusive: 0
+
+files:
+  accounts:
+    path: data/accounts.csv
+    required: true
+    readable_by_tools: true
+    primary_key: [acct_id]
+    columns:
+      - {name: acct_id,   type: string, required: true, pattern_ref: acct_id, unique: true}
+      - {name: name,      type: string, required: true, desc: "合成名：个人“用户0001”、商户“商户001”、企业“企业01”"}
+      - {name: acct_type, type: enum,   required: true, enum: acct_type}
+      - {name: open_date, type: date,   required: true, format: "%Y-%m-%d", desc: "不晚于数据起始日"}
+    optional_columns:
+      - {name: bank_code, type: string, pattern: '^[A-Z0-9]{2,8}$', desc: 开户机构代码（跨机构扩展）}
+      - {name: region,    type: string, desc: 行政区划代码或名称}
+      - {name: kyc_level, type: string, desc: 实名等级}
+      - {name: status,    type: string, desc: 账户状态（正常/销户等），注意与研判 status 无关}
+    forbidden_columns: [chain_id, pattern, role, label, is_fraud, is_sar, alert_id]
+
+  transactions:
+    path: data/transactions.csv
+    required: true
+    readable_by_tools: true
+    primary_key: [tx_id]
+    sort_by: [time, tx_id]     # 文件按时间升序；tx_id 随时间单调递增
+    columns:
+      - {name: tx_id,     type: string, required: true, pattern_ref: tx_id, unique: true}
+      - {name: time,      type: datetime, required: true}
+      - {name: from_acct, type: string, required: true, fk: accounts.acct_id}
+      - {name: to_acct,   type: string, required: true, fk: accounts.acct_id, allow_special: [cash]}
+      - {name: amount,    type: amount, required: true}
+      - {name: tx_type,   type: enum,   required: true, enum: tx_type}
+    optional_columns:
+      - {name: currency,      type: string, default: CNY}
+      - {name: channel,       type: string, desc: 渠道（手机银行/网银/柜面/ATM）}
+      - {name: memo,          type: string, desc: 附言（仿真文本，不含真实信息）}
+      - {name: device_id,     type: string, desc: 设备标识（仿真）}
+      - {name: balance_after, type: amount, desc: 交易后余额；v1 不提供，R04 用流入流出比近似}
+      - {name: src_ref,       type: string, desc: 外部来源交易号（如 AMLSim tran_id），用于追溯}
+    forbidden_columns: [chain, chain_id, pattern, role, label, is_fraud, is_sar, alert_id]
+    constraints:
+      - {id: TX_NO_SELF,  desc: from_acct 与 to_acct 不得相同}
+      - {id: TX_TYPE_PARTY, desc: 交易类型与双方账户类型须满足 tx_type_parties}
+      - {id: TX_CASH_ONLY_WITHDRAW, desc: CASH 只能出现在提现的 to_acct，且提现的 to_acct 必须是 CASH}
+      - {id: TX_IN_RANGE, desc: time 在 dataset_meta.time_range 内}
+      - {id: TX_SORTED,  desc: 按 (time, tx_id) 升序，且 tx_id 排序与时间排序一致}
+      - {id: TX_OPEN_BEFORE, desc: 交易日期不早于双方开户日期}
+
+  dataset_meta:
+    path: data/dataset_meta.json
+    required: true
+    readable_by_tools: true
+    schema: schemas/dataset_meta.schema.json
+
+  answer:
+    path: eval/answer.csv
+    required: true
+    readable_by_tools: false   # core/api.py 与 mcp_server/ 禁止引用 eval/
+    primary_key: [acct_id, chain_id]
+    columns:
+      - {name: acct_id,  type: string, required: true, fk: accounts.acct_id}
+      - {name: chain_id, type: string, required: false, pattern_ref: answer_chain_id, desc: 干扰账户留空}
+      - {name: pattern,  type: enum,   required: true, enum: pattern}
+      - {name: role,     type: enum,   required: true, enum: role, enum_filter: in_answer}
+    constraints:
+      - {id: ANS_FRAUD_HAS_CHAIN, desc: pattern 为 fraud 类时 chain_id 必填且 role≠无}
+      - {id: ANS_BENIGN_NO_CHAIN, desc: pattern 为 benign 类时 chain_id 为空且 role=无}
+      - {id: ANS_ONE_PATTERN_PER_CHAIN, desc: 同一 chain_id 的所有行 pattern 相同}
+
+  answer_tx:
+    path: eval/answer_tx.csv
+    required: false            # 建议输出，用于交易级评测
+    readable_by_tools: false
+    primary_key: [tx_id]
+    columns:
+      - {name: tx_id,    type: string, required: true, fk: transactions.tx_id}
+      - {name: chain_id, type: string, required: true, pattern_ref: answer_chain_id}
+    desc: 每条埋入链路中账户到账户的“转账”交易；提现到 CASH 不列入
+
+# 交易类型与双方账户类型的约束（from/to 列出允许的 acct_type；cash 表示特殊值 CASH）
+tx_type_parties:
+  转账: {from: [个人, 商户, 企业], to: [个人, 商户, 企业]}
+  工资: {from: [企业], to: [个人]}
+  消费: {from: [个人], to: [商户]}
+  提现: {from: [个人, 商户, 企业], to: [cash]}

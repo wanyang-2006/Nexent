@@ -1,0 +1,23 @@
+{
+  "acct_id": "A0087",
+  "rule_version": "v1",
+  "window_min": 60,
+  "max_hops": 4,
+  "chains": [
+    {
+      "chain_id": "L-T00412",
+      "hops": 2,
+      "total_amount": 62000,
+      "duration_minutes": 47,
+      "accounts": ["A0150", "A0211", "A0087", "A0142"],
+      "tx_ids": ["T00412", "T00415", "T00431"],
+      "edges": [
+        {"tx_id": "T00412", "from_acct": "A0211", "to_acct": "A0087", "time": "2026-03-03 10:05", "amount": 30000},
+        {"tx_id": "T00415", "from_acct": "A0150", "to_acct": "A0087", "time": "2026-03-03 10:09", "amount": 32000},
+        {"tx_id": "T00431", "from_acct": "A0087", "to_acct": "A0142", "time": "2026-03-03 10:52", "amount": 60500}
+      ],
+      "roles": {"A0150": "疑似受骗付款端", "A0211": "疑似受骗付款端", "A0087": "一级收款端", "A0142": "末端"},
+      "truncated": false
+    }
+  ]
+}

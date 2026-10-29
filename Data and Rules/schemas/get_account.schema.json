@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fundtrace:schema:get_account",
+  "title": "get_account 返回值",
+  "type": "object",
+  "required": ["acct_id", "acct_type", "open_date", "in_count", "in_amount", "out_count", "out_amount", "counterparty_count"],
+  "properties": {
+    "acct_id": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_id"},
+    "name": {"type": "string"},
+    "acct_type": {"$ref": "urn:fundtrace:schema:common#/$defs/acct_type"},
+    "open_date": {"$ref": "urn:fundtrace:schema:common#/$defs/date"},
+    "in_count": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+    "in_amount": {"$ref": "urn:fundtrace:schema:common#/$defs/nonneg_amount"},
+    "out_count": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+    "out_amount": {"$ref": "urn:fundtrace:schema:common#/$defs/nonneg_amount"},
+    "counterparty_count": {"$ref": "urn:fundtrace:schema:common#/$defs/count"},
+    "first_tx_time": {"anyOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/time"}, {"type": "null"}]},
+    "last_tx_time": {"anyOf": [{"$ref": "urn:fundtrace:schema:common#/$defs/time"}, {"type": "null"}]}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "acct_id": "A0087",
+  "start": null,
+  "end": null,
+  "total": 4,
+  "count": 4,
+  "truncated": false,
+  "transactions": [
+    {"tx_id": "T00412", "time": "2026-03-03 10:05", "from_acct": "A0211", "to_acct": "A0087", "amount": 30000, "tx_type": "转账", "direction": "转入"},
+    {"tx_id": "T00415", "time": "2026-03-03 10:09", "from_acct": "A0150", "to_acct": "A0087", "amount": 32000, "tx_type": "转账", "direction": "转入"},
+    {"tx_id": "T00431", "time": "2026-03-03 10:52", "from_acct": "A0087", "to_acct": "A0142", "amount": 60500, "tx_type": "转账", "direction": "转出"},
+    {"tx_id": "T01290", "time": "2026-03-05 09:10", "from_acct": "A0290", "to_acct": "A0087", "amount": 6000, "tx_type": "工资", "direction": "转入"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "acct_id": "A0087",
+  "name": "用户0062",
+  "acct_type": "个人",
+  "open_date": "2026-02-10",
+  "in_count": 3,
+  "in_amount": 68000,
+  "out_count": 1,
+  "out_amount": 60500,
+  "counterparty_count": 4,
+  "first_tx_time": "2026-03-03 10:05",
+  "last_tx_time": "2026-03-05 09:10"
+}

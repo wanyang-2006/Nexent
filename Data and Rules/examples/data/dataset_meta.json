@@ -1,0 +1,17 @@
+{
+  "dataset_id": "sim-examples-seed0",
+  "spec_version": "1.0.0",
+  "source": "synthetic",
+  "profile": "examples",
+  "generator": "手写样例（Data and Rules/examples）",
+  "seed": 0,
+  "time_range": ["2026-03-01 00:00", "2026-03-07 23:59"],
+  "timezone": "Asia/Shanghai",
+  "currency": "CNY",
+  "amount_unit": "元",
+  "row_counts": {"accounts": 10, "transactions": 9},
+  "sha256": {
+    "accounts.csv": "433582c296e50e4e8cf403c26f05918d7dd3040afba73ef7d2621e74f7aaf950",
+    "transactions.csv": "c89f11ffaaa491985522a1a78880d3f9888dc51839e3d3d78f5237278eb4f9d5"
+  }
+}
