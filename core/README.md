@@ -10,6 +10,8 @@
 | `fixtures/*.json` | 7 个工具的假返回值，供乙在真实接口完成前接入（复制自 `Data and Rules/examples/fixtures`，只与样例数据自洽） | — | 第 1 天 |
 | `gen_data.py` | 按 `Data and Rules/gen_profile_v1.yaml` 生成 `data/` 与 `eval/` | 可以（写答案） | 第 2 天完成 |
 | `verify_injected_chains.py` | 埋入链路核对脚本：逐条检查 12 条链与 D3 是否符合 profile | 可以（只读） | 第 2 天新增 |
+| `store.py` | 数据仓库：读 `data/` 两个 CSV，按账户建交易索引；只用标准库 | **不可** | 第 3 天（提前完成） |
+| `api.py` | `get_account`、`get_transactions`（已实现）；其余四个函数后续加入 | **不可** | 第 3 天（提前完成） |
 
 规则引擎和工具代码**不得** import `gen_data.py` 或 `verify_injected_chains.py`，也不得引用 `eval/`。
 
@@ -81,8 +83,63 @@ python core/verify_injected_chains.py --data _tmp_x --answers _tmp_x_eval
 
 最后打印每条链的汇总表。退出码 0 表示全部通过。
 
+## store.py 与 api.py（数据查询层）
+
+```text
+Nexent 智能体 → mcp_server/server.py（乙：接线） → core/api.py（甲：函数） → core/store.py（档案柜） → data/*.csv
+```
+
+- `store.py` 启动时一次性读入 `accounts.csv`、`transactions.csv`，建好 `by_acct`（账户 → 其全部交易，按 `(time, tx_id)` 升序）。以后的 `trace.py`、`rules.py`、`ticket.py` 共用这份数据。数据目录默认 `data/`，可用环境变量 `FUNDTRACE_DATA_DIR` 改（部署时挂载只读卷用）。数据改动后需重启服务。
+- `api.py` 的函数一律返回 dict、不抛异常，未预期异常转成 `INTERNAL` 错误。
+
+| 函数 | 说明 |
+|---|---|
+| `get_account(acct_id)` | 统计全部交易类型；提现计入转出；`counterparty_count` 去重且不含 `CASH`；无交易时 `first_tx_time`、`last_tx_time` 为 `null` |
+| `get_transactions(acct_id, start=None, end=None, limit=50)` | `start`/`end` 闭区间，格式 `YYYY-MM-DD HH:MM`，空串视为不限；`limit` 1 至 200（`None` 取 50）；`total` 是范围内总数，`truncated = total > count` |
+
+输入处理：账户号先去首尾空白并转大写，再校验 `^A\d{4,}$`，格式不对返回 `BAD_PARAM`，格式对但不存在返回 `ACCOUNT_NOT_FOUND`；时间格式或日期不合法返回 `BAD_TIME_FORMAT`；`start` 晚于 `end`、`limit` 越界或不是整数返回 `BAD_PARAM`。
+
+### 给乙的接入说明
+
+1. `git pull`，确认有 `core/store.py`、`core/api.py`。`server.py` 里按模式切换，**逐个工具切换**，不要等四个函数全部完成：
+
+```python
+import os
+MODE = os.environ.get("MCP_MODE", "fixture")      # fixture | real
+
+if MODE == "real":
+    from core import api
+    # get_account / get_transactions 调 api；其余四个工具暂时仍读 fixtures
+```
+
+2. 注意事项：
+   - 函数返回的就是 03 规范规定的 JSON 对象，**不要再包一层**；`get_transactions` 的键名是 `transactions`。
+   - 云端必须能 `import core`：服务从仓库根目录启动，或把根目录加入 `PYTHONPATH`。
+   - 云端需要仓库里的 `data/` 目录。**不需要** `eval/`，也不要复制过去（答案表不应出现在服务器上的服务目录里）。
+   - 只用标准库，不要求云端安装 pandas。
+3. 验证（在云端仓库根目录）：
+
+```bash
+python -c "from core import api; import json; print(json.dumps(api.get_account('A0209'), ensure_ascii=False, indent=1))"
+python -c "from core import api; print(api.get_transactions('A0283', limit=5)['total'])"
+python -m pytest tests -q          # 需要 pip install pytest jsonschema referencing
+```
+
+   期望（已按 `data/transactions.csv` 手工核算）：`get_account('A0209')` 为 `in_count 6、in_amount 75241、out_count 9、out_amount 72356、counterparty_count 14、first_tx_time 2026-03-01 09:14、last_tx_time 2026-03-07 21:54`；样例 A0087 的 `in_amount` 是 68000，不应出现；`A9999` 返回 `ACCOUNT_NOT_FOUND`。
+4. 切换后，提示词、Skill、测试中的账户号换成 `eval/demo_accounts.md` 里的“替换表”。
+5. 重启 MCP 服务并在 Nexent 点“刷新工具”。
+
+## 测试
+
+```powershell
+python -m pytest tests -q
+```
+
+`tests/test_api_queries.py` 包含：样例数据下与 `fixtures` 逐字段相等；正式数据下 300 个账户全部与“逐行暴力统计”一致并通过 schema 校验；已知交易锚点；时间范围、`limit`、各类错误输入；输出可复现；返回值是副本；代码不引用 `eval/`。依赖 `pytest`、`jsonschema`、`referencing`。
+
 ## 变更记录
 
+- 第 3 天（提前）：新增 `store.py`、`api.py`（`get_account`、`get_transactions`）与 `tests/test_api_queries.py`。
 - 第 1 天：`gen_data.py` 背景部分、`fixtures/`、`__init__.py`。
 - 第 2 天：
   - `gen_data.py` 实现埋链。原计划的 `inject_ffio / inject_layered / inject_split / inject_d3` 改为蓝图模式：`plan_ffio / plan_layered / plan_split / plan_d3` 加统一的 `write_plan`；新增 `plan_withdrawals`、`plan_new_accounts`、`check_plan`、`reserve_plan`、`order_answer`。
