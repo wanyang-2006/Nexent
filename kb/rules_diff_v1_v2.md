@@ -1,7 +1,7 @@
 # 规则 v1 到 v2 的差异说明
 
 - 来源：仿真内部规则（非官方要求）
-- 依据：`Data and Rules/rules/rules_v1.yaml` 与 `rules_v2.yaml`。脚本 `--print-diff v1 v2` 完成后将由脚本重新生成。
+- 本文件由 `core/export_rules_md.py` 从 `rules_v1.yaml` 与 `rules_v2.yaml` 生成，与 `python "Data and Rules/validate_spec.py" --print-diff v1 v2` 的结果一致。
 
 ## 新增规则
 
@@ -23,7 +23,7 @@
 
 | 字段 | v1 | v2 | 原因 |
 |---|---|---|---|
-| 追链时间窗 W | 60 分钟 | 120 分钟 | 追链时间窗取自 R01 的 window_min |
+| 追链时间窗 W | 60 分钟 | 120 分钟 | 追链时间窗取自 R01.window_min |
 
 ## 变化的含义
 

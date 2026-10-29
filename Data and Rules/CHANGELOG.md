@@ -2,6 +2,18 @@
 
 格式：每个版本按"新增 / 变更 / 修复"列出，并注明影响方（甲 = 数据与算法，乙 = Nexent 与工具接入，文档 = 开发指南与任务书）。
 
+## 1.0.2 — 2026-10-29（四个算法函数的实现细则，字段不变）
+
+`core/trace.py`、`rules.py`、`ticket.py`、`rejudge.py` 实现时对 02、03 规范未写明处的取舍，乙的 `server.py` 与提示词按此对接（代码尚未在本机运行，以运行结果为准）：
+
+- 规则版本参数先去首尾空白并转小写（`" V2"` 等同 `"v2"`）；不是 `^v\d+$` 或规则文件不存在都返回 `BAD_RULE_VERSION`。`max_hops` 为 `None` 时取 4，不是 1 至 10 的整数（含布尔）返回 `BAD_PARAM`。校验顺序：账户格式 → 规则版本 → 其他参数 → 账户是否存在。（甲、乙）
+- `trace_chain` 的 `max_hops` 只裁剪 `edges`：保留两端距查询账户都 ≤ `max_hops` 的边；不足 2 条时（schema 要求 `edges` 至少 2 条）放宽为至少一端 ≤ `max_hops`。`accounts`、`tx_ids`、`roles` 与统计字段始终描述整条链。（甲、乙）
+- `check_rules` 的窗口：聚合窗口从锚点交易起（同一分钟内按 `tx_id` 先后），前向窗口按分钟取 `(t, t+W]`；多个窗口都命中时取代表窗口，并列取最早的。`detail` 中的时间写完整的 `YYYY-MM-DD HH:MM`（样例 fixture 只写了 `HH:MM`，措辞不作为契约）。（甲）
+- 工单：状态为“证据不足”且账户在链上时，`conclusion` 在模板前加“该账户在资金链 {chain_id} 中表现为{role}，”，以满足“在链上时必须包含 chain_id”。`supporting_evidence` 先放本账户在主链上的边，再用风险规则证据补足，最多 10 条，按时间升序（避免规则证据多时挤掉链上的边）。（甲）
+- 工单落盘目录默认 `tickets/`，可用环境变量 `FUNDTRACE_TICKET_DIR` 修改（测试用临时目录）。（甲、乙）
+- `rejudge` 的 `reason`：同一条链上只有角色变化时，链变化片段写“在资金链 {chain_id} 中的角色由{旧}变为{新}”。“新命中”括号中的变化说明取自 `rules_diff` 的 changed（参数、`in_types`/`out_types`、等级都会写出，参数去掉 `params.` 前缀）。（甲）
+- `02_规则规范.md` 5.3 节同步写入 `max_hops` 的放宽规则。（甲）
+
 ## 1.0.1 — 2026-10-29（只补充实现细则，字段不变）
 
 `core/api.py` 的 `get_account`、`get_transactions` 实现时对 03 规范第 1、2 节未写明处的取舍，乙的 `server.py` 与提示词按此对接：

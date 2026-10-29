@@ -1,0 +1,36 @@
+{
+  "ticket_id": "TK-v2-A0015",
+  "spec_version": "1.0.0",
+  "acct_id": "A0015",
+  "rule_version": "v2",
+  "status": "存在风险信号",
+  "status_code": "RISK_SIGNAL",
+  "role": "疑似受骗付款端",
+  "chain_id": "L-T01338",
+  "conclusion": "该账户在资金链 L-T01338 中表现为疑似受骗付款端，存在风险信号，建议关注后续交易。",
+  "supporting_evidence": [
+    {
+      "tx_id": "T01349",
+      "desc": "2026-03-04 10:26 向 A0176 转出 39044 元"
+    }
+  ],
+  "counter_evidence": [],
+  "missing_evidence": [
+    {
+      "code": "GAP_KYC",
+      "desc": "对手方账户的开户与实名信息"
+    },
+    {
+      "code": "GAP_MEMO_DEVICE",
+      "desc": "转账附言与登录设备信息"
+    },
+    {
+      "code": "GAP_CALLBACK",
+      "desc": "付款方的回访或报案记录"
+    }
+  ],
+  "rule_basis": [],
+  "suggested_actions": [
+    "建议关注后续交易"
+  ]
+}

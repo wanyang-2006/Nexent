@@ -28,3 +28,9 @@ python "Data and Rules/validate_spec.py" --skip-spec --data data --tickets ticke
 
 - 数据重新生成后，旧工单里的交易号会失效，需要删除重新生成。
 - 工单只用于辅助研判，不是对账户的定性。
+- 运行 `python core/run_checks_jia.py` 会为 10 个演示账户（见 `eval/demo_accounts.md`）生成 v1、v2 工单并校验；测试运行时工单写到临时目录，不进入本目录。
+- 部署时可用环境变量 `FUNDTRACE_TICKET_DIR` 把工单目录改到别处。
+
+## 变更记录
+
+- 2026-10-29：`core/ticket.py` 已实现 `make_ticket` 的落盘（UTF-8、LF、indent=2）；尚未在本机运行生成工单。

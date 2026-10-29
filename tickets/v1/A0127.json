@@ -1,0 +1,21 @@
+{
+  "ticket_id": "TK-v1-A0127",
+  "spec_version": "1.0.0",
+  "acct_id": "A0127",
+  "rule_version": "v1",
+  "status": "未见异常",
+  "status_code": "CLEAR",
+  "role": "无",
+  "chain_id": null,
+  "conclusion": "在本数据范围内未发现风险规则命中，也不在已识别的资金链上。",
+  "supporting_evidence": [],
+  "counter_evidence": [],
+  "missing_evidence": [
+    {
+      "code": "GAP_KYC",
+      "desc": "对手方账户的开户与实名信息"
+    }
+  ],
+  "rule_basis": [],
+  "suggested_actions": []
+}

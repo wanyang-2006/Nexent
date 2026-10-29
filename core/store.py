@@ -69,9 +69,27 @@ class Store:
         meta_path = self.data_dir / "dataset_meta.json"
         self.meta: dict = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.is_file() else {}
 
+        self._cache: dict = {}
+        self._cache_lock = threading.RLock()     # 可重入：规则计算里会再取追链缓存
+
+    def cached(self, key, factory):
+        """按 key 缓存由本数据快照派生的结果（如各规则版本的全量追链）。数据重载（reset_store）后随实例一起失效。"""
+        with self._cache_lock:
+            if key not in self._cache:
+                self._cache[key] = factory()
+            return self._cache[key]
+
     @property
     def dataset_id(self) -> str | None:
         return self.meta.get("dataset_id")
+
+    @property
+    def start_date(self) -> str:
+        """数据起始日（R05 的基准日）：取 dataset_meta.time_range[0] 的日期；没有 meta 时取最早一笔交易的日期。"""
+        tr = self.meta.get("time_range")
+        if tr:
+            return tr[0][:10]
+        return self.transactions[0]["time"][:10] if self.transactions else "1970-01-01"
 
     def has_account(self, acct_id: str) -> bool:
         return acct_id in self.accounts

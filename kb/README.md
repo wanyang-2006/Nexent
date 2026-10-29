@@ -24,6 +24,7 @@
 ## 当前已有文件（2026-10-29 补充）
 
 - `rules_v1.md`、`rules_v2.md`、`rules_diff_v1_v2.md`：依据 YAML 手工整理的临时版本，格式与最终脚本输出一致，`core/export_rules_md.py` 完成后由脚本重新生成并覆盖。
+  - 2026-10-29 补充：`core/export_rules_md.py` 已编写（`python -m core.export_rules_md`，或随 `python core/run_checks_jia.py` 第 7 步运行）。运行后这三个文件被脚本版覆盖，内容与手工版基本相同（多了“统计范围”按 YAML 自动生成、R05 与 R11 的说明），乙需重新上传到“涉诈规则库”。
 - `cases/case01` 至 `case05`：5 篇**仿真示例案例**（3 种涉诈手法、2 种干扰情形），原创改写，不含来源链接。丙提供正式公开案例后替换，替换时注明来源链接与访问日期。
 
 ## 注意

@@ -216,6 +216,7 @@ def test_data_dir_missing_gives_internal_error(monkeypatch, tmp_path, validator)
 def test_core_does_not_touch_answer_files():
     import re
     leak = re.compile(r"""(["'/\\]eval["'/\\]|answer(_tx)?\.csv|EVAL_DIR)""")
-    for name in ("store.py", "api.py"):
+    for name in ("store.py", "api.py", "ruleset.py", "trace.py", "rules.py", "ticket.py", "rejudge.py",
+                 "export_rules_md.py", "run_checks_jia.py"):
         for i, line in enumerate((ROOT / "core" / name).read_text(encoding="utf-8").splitlines(), 1):
             assert not leak.search(line), f"{name}:{i}"

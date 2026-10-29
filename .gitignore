@@ -10,6 +10,8 @@ venv/
 # 运行产物
 mcp.log
 *.log
+mcp_server/demo_tickets/
+_tmp*/
 
 # 本地配置与编辑器
 .env
