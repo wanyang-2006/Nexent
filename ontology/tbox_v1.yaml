@@ -1,0 +1,48 @@
+# 本体 v1（TBox）。第 6 天补充项 S1，对应赛题“知识图谱/本体构建方案”
+# 说明：这是轻量版本，只描述本作品实际使用的概念与关系，实例数据在 data/ 与 tickets/ 中。
+version: v1
+spec_version: 1.0.0
+note: 仿真场景；规则阈值为仿真内部规则，不是官方要求
+
+classes:
+  - {name: Account, desc: 账户，资金图节点, props: [acct_id, name, acct_type, open_date], source: data/accounts.csv}
+  - {name: Transaction, desc: 交易，资金图的边, props: [tx_id, time, amount, tx_type], source: data/transactions.csv}
+  - {name: FundChain, desc: 满足时序与守恒约束的资金链, props: [chain_id, hops, total_amount, duration_minutes], source: core/trace.py}
+  - {name: ChainRole, desc: 账户在资金链中的角色, values: [疑似受骗付款端, 一级收款端, 中转端, 拆分端, 末端, 无]}
+  - {name: FraudPattern, desc: 手法模式, values: [快进快出, 分层中转, 拆分转出]}
+  - {name: RiskSignal, desc: 可计算的风险信号, props: [signal_id, formula, params]}
+  - {name: Rule, desc: 可执行规则, props: [rule_id, version, type, level, impl, params], source: "Data and Rules/rules/rules_v*.yaml"}
+  - {name: Regulation, desc: 规范依据；当前为仿真内部规则, props: [doc_no, article, effective_date]}
+  - {name: Case, desc: 案例摘要, props: [case_id, pattern], source: kb/cases/}
+  - {name: Evidence, desc: 支持或反向证据, props: [polarity, tx_id, rule_id]}
+  - {name: Ticket, desc: 研判工单, props: [ticket_id, status, role, suggested_actions], source: tickets/}
+  - {name: Asset, desc: 数据与文档资产, props: [asset_id, sha256, version, is_synthetic]}
+
+relations:
+  - {name: from_acct, domain: Transaction, range: Account}
+  - {name: to_acct, domain: Transaction, range: Account}
+  - {name: contains, domain: FundChain, range: Transaction}
+  - {name: plays, domain: Account, range: ChainRole, via: FundChain}
+  - {name: matches, domain: FundChain, range: FraudPattern}
+  - {name: indicated_by, domain: FraudPattern, range: RiskSignal}
+  - {name: uses, domain: Rule, range: RiskSignal}
+  - {name: aligned_to, domain: Rule, range: Regulation, note: 当前指向“仿真内部规则vN#Rxx”}
+  - {name: exemplifies, domain: Case, range: FraudPattern}
+  - {name: concludes_on, domain: Ticket, range: Account}
+  - {name: supported_by, domain: Ticket, range: Evidence}
+  - {name: derived_from, domain: Evidence, range: Asset}
+  - {name: depends_on, domain: Ticket, range: Rule, note: 带规则版本，如 Rule@v1，rejudge 据此判断受影响工单}
+
+# 规则到风险信号的对应（用于说明 Rule uses RiskSignal）
+rule_signals:
+  R01: 入出金额比与停留时间
+  R02: 窗口内来源账户去重数
+  R03: 窗口内收款方去重数与单笔金额
+  R04: 自然日流入流出比
+  R05: 开户天数与单日转入额
+  R06: 夜间大额
+  R07: 链路最长路径跳数
+  R08: 首次对手大额转入
+  R09: 工资入账笔数（反向）
+  R10: 商户付款方数与金额中位数（反向）
+  R11: 窗口内首次对手数（v2 新增）
