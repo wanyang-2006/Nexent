@@ -1,0 +1,11 @@
+# 本机环境（Python 3.14.2）实测版本。pandas 3.x 要求 Python >= 3.11，其他机器请使用 3.11 及以上
+pandas==3.0.0
+numpy==2.4.1
+networkx==3.6.1
+PyYAML==6.0.3
+jsonschema==4.26.0
+matplotlib==3.10.8
+
+# 本机尚未安装，暂不固定版本。乙在 ECS 上 pip install 后，用 pip show 查到版本号，改成 ==x.y.z 并推送
+fastmcp
+pytest

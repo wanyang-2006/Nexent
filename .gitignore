@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# 虚拟环境
+.venv/
+venv/
+
+# 运行产物
+mcp.log
+*.log
+
+# 本地配置与编辑器
+.env
+.idea/
+.vscode/
