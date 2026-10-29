@@ -52,7 +52,9 @@ chain_common:
   start_hour: [8, 17]              # 链路首笔时间 08:00~16:59（与 hours 相同，左闭右开）；C03 例外
   same_natural_day: true
   quiet_margin_min: 180            # 链上账户在链路首笔前、末笔后各 180 分钟内不得有其他“转账”往来
-  fresh_counterparty: true         # 链上每对账户此前在数据中无任何交易（保证 R08/R11 稳定）
+  quiet_scope: natural_day         # 静默期再扩大到链路所在自然日的全天（R04 按自然日统计，当天混入约 1000 元转入就会掉到 0.95 以下）；D3 同样适用
+  r02_guard: true                  # v1 应为“未见异常”的账户（v2 演示链的受骗方、D3 三方）的背景转入不得凑成 R02（参数取 rules_v1 的 R02）
+  fresh_counterparty: true         # 同一条链上任意两个账户之间，除链上交易外在数据中无任何交易（保证 R08/R11 稳定）
   no_shared_accounts: true         # 一个账户只属于一条链
   intermediate_new_account_ratio: 0.5    # 一级收款端/中转端/拆分端中约一半为新开户
   new_account_open_days_before: [10, 25] # 开户日期 = 数据起始日 − 10~25 天

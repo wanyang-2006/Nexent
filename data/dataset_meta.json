@@ -14,10 +14,10 @@
   "amount_unit": "元",
   "row_counts": {
     "accounts": 300,
-    "transactions": 2937
+    "transactions": 2973
   },
   "sha256": {
-    "accounts.csv": "b10616c771df95ab561c2591f9dba1d266498190fa64332c14231a514b1d8d19",
-    "transactions.csv": "687a8c3fe1a2c77d00ab8e6f48189cf04256e63737f14a00fabd9478b058fb03"
+    "accounts.csv": "bcc91394c0f89b4f1e11c7e47835c3f4dea959edaea3d0828a598c103aca9911",
+    "transactions.csv": "51a1b0e3f3cac58756a69b0e57c086852f15ec8bca4bae6ebc0c2916b69f3120"
   }
 }

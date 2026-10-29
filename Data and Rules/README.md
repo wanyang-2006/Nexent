@@ -48,7 +48,7 @@ python "Data and Rules/validate_spec.py" --data data --fixtures core/fixtures
 python "Data and Rules/validate_spec.py" --data data --tickets tickets/v1
 
 # 防泄题：检查 core/ 和 mcp_server/ 中的代码是否读取了 eval/
-#（evaluate.py、selfcheck.py、gen_data.py、import_amlsim.py 允许引用，不扫描）
+#（evaluate.py、selfcheck.py、gen_data.py、verify_injected_chains.py、import_amlsim.py 允许引用，不扫描）
 python "Data and Rules/validate_spec.py" --skip-spec --check-leak core mcp_server
 
 # 打印 v1 到 v2 的规则差异（rejudge 的 rule_changes 应与此一致）
