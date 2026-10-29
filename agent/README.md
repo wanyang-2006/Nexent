@@ -26,7 +26,7 @@
 - 智能体展示名：涉诈资金链路研判助手；变量名曾建议 `fundtrace_agent`，实际保存值待核实。
 - 智能体已绑定工具：get_account、get_transactions、trace_chain、check_rules、make_ticket。
 - 当前模式：fixture，仅固定仿真样例；尚未完成 core.api 真实数据联调。
-- 云端服务运行命令（用户已验证的前台方式）：
+- 云端手动运行命令（历史前台方式，当前改由 systemd 管理，不再重复执行）：
 
 ```bash
 cd ~/fundtrace-mcp
@@ -34,7 +34,8 @@ MCP_MODE=fixture MCP_HOST=0.0.0.0 MCP_PORT=8900 MCP_TRANSPORT=sse \
   .venv/bin/python mcp_server/server.py
 ```
 
-- 后台运行、进程守护、开机自启尚未验收，前台服务窗口需保持运行。
+- 2026-10-29 20:18 CST：用户已在云端安装 fundtrace-mcp.service，输出 enabled、active (running)，进程内与网络自检均通过（8工具、18次调用）。已配置开机启动及进程退出自动重启，不依赖前台终端。实际服务器重启恢复、进程异常退出自动恢复尚未做现场测试。
+- 日常管理：`sudo systemctl status fundtrace-mcp --no-pager`；更新代码后 `sudo systemctl restart fundtrace-mcp`；日志 `sudo journalctl -u fundtrace-mcp -n 50 --no-pager`。不要与 nohup 重复启动。
 - 规则库素材：`kb/rules_v1_draft.md`，规则问答及与 MCP 联合研判已获得文档引用；引用展开与检索调用记录待留档。
 - Skill 文件：`agent/skills/fund-chain-investigation.md` 已创建；用户按上传绑定步骤进行测试，实际技能加载记录尚待留档核实。
 - 重新导入时需手动配置模型、MCP 地址与权限、规则知识库及向量模型，并确认 Skill 和工具绑定；配置导出/导入尚未验收。
