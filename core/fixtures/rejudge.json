@@ -1,0 +1,25 @@
+{
+  "old": "v1",
+  "new": "v2",
+  "changed": [
+    {"acct_id": "A0044", "old_status": "存在风险信号", "new_status": "建议人工复核", "direction": "升级",
+     "old_role": "无", "new_role": "一级收款端", "old_chain_id": null, "new_chain_id": "L-T00500",
+     "rule_changes": {"added": ["R01", "R11"], "removed": []},
+     "reason": "新命中 R01（快进快出，window_min 60→120）；新命中 R11（多个首次对手集中转入，v2 新增规则）；进入资金链 L-T00500（一级收款端）"},
+    {"acct_id": "A0123", "old_status": "未见异常", "new_status": "存在风险信号", "direction": "升级",
+     "old_role": "无", "new_role": "疑似受骗付款端", "old_chain_id": null, "new_chain_id": "L-T00500",
+     "rule_changes": {"added": [], "removed": []},
+     "reason": "进入资金链 L-T00500（疑似受骗付款端）"},
+    {"acct_id": "A0176", "old_status": "未见异常", "new_status": "存在风险信号", "direction": "升级",
+     "old_role": "无", "new_role": "疑似受骗付款端", "old_chain_id": null, "new_chain_id": "L-T00500",
+     "rule_changes": {"added": [], "removed": []},
+     "reason": "进入资金链 L-T00500（疑似受骗付款端）"}
+  ],
+  "summary": {
+    "total": 10,
+    "changed": 3,
+    "upgraded": 3,
+    "downgraded": 0,
+    "by_transition": {"存在风险信号→建议人工复核": 1, "未见异常→存在风险信号": 2}
+  }
+}

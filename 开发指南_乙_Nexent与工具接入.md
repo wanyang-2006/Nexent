@@ -81,7 +81,7 @@
 | 与甲对约定 | 1.5 | 读 `Data and Rules/README.md`、`CHANGELOG.md`、`03_判定与输出规范.md` 第 1、2 节；确认 `get_transactions` 的返回结构、编号、枚举、错误码 | 群里回复“确认” |
 | 拉仓库 | 0.5 | `git clone`；在 ECS 上建 `.venv`，`pip install -r requirements.txt` | `python -c "import fastmcp"` 无报错 |
 | 只含 `hello` 的 MCP | 2.5 | 见下方步骤 1.1 至 1.4 | Nexent 对话中看到 `hello` 被调用 |
-| 6 个假工具 | 1 | 见附录 A 的 `server.py`，设置 `USE_STUB=1`，工具返回 `core/fixtures/*.json`（甲从 `Data and Rules/examples/fixtures/` 复制而来，样例账户为 A0087、A0044 等） | 6 个工具在 Nexent 中可见、可测试 |
+| 7 个假工具 | 1 | 见附录 A 的 `server.py`（6 个函数加 `get_ticket`），设置 `USE_STUB=1`，工具返回 `core/fixtures/*.json`（甲从 `Data and Rules/examples/fixtures/` 复制而来，共 7 个，样例账户为 A0087、A0044 等） | 7 个业务工具在 Nexent 中可见、可测试 |
 | 记录环境信息 | 0.5 | 在 `agent/README.md` 记下：MCP 地址、使用的 LLM 与向量模型名称、服务运行方式 | 丙写文档时可直接引用 |
 
 **1.1 写最小服务。** 在 `mcp_server/server.py` 先只放 `hello`：

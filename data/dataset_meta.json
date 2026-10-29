@@ -1,0 +1,23 @@
+{
+  "dataset_id": "sim-gen_profile_v1-seed42",
+  "spec_version": "1.0.0",
+  "source": "synthetic",
+  "profile": "gen_profile_v1",
+  "generator": "core/gen_data.py",
+  "seed": 42,
+  "time_range": [
+    "2026-03-01 00:00",
+    "2026-03-07 23:59"
+  ],
+  "timezone": "Asia/Shanghai",
+  "currency": "CNY",
+  "amount_unit": "元",
+  "row_counts": {
+    "accounts": 300,
+    "transactions": 2937
+  },
+  "sha256": {
+    "accounts.csv": "b10616c771df95ab561c2591f9dba1d266498190fa64332c14231a514b1d8d19",
+    "transactions.csv": "687a8c3fe1a2c77d00ab8e6f48189cf04256e63737f14a00fabd9478b058fb03"
+  }
+}

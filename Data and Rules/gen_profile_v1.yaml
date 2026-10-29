@@ -49,7 +49,7 @@ background:
 chain_common:
   victim_amount: [25000, 50000]    # 每个受骗方的转出金额
   inflow_spread_max_min: 10        # 多个受骗方入账的最大时间差
-  start_hour: [8, 17]              # 链路首笔时间；C03 例外
+  start_hour: [8, 17]              # 链路首笔时间 08:00~16:59（与 hours 相同，左闭右开）；C03 例外
   same_natural_day: true
   quiet_margin_min: 180            # 链上账户在链路首笔前、末笔后各 180 分钟内不得有其他“转账”往来
   fresh_counterparty: true         # 链上每对账户此前在数据中无任何交易（保证 R08/R11 稳定）
