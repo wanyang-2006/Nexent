@@ -1,6 +1,6 @@
 # core/
 
-甲负责的数据与算法代码。工具接口（`api.py`、`trace.py`、`rules.py`、`ticket.py`、`rejudge.py`）在第 3 天以后加入。
+甲负责的数据与算法代码。六个工具函数统一从 `api.py` 导出，算法分别在 `trace.py`、`rules.py`、`ticket.py`、`rejudge.py` 中实现。
 
 ## 文件
 
@@ -10,10 +10,19 @@
 | `fixtures/*.json` | 7 个工具的假返回值，供乙在真实接口完成前接入（复制自 `Data and Rules/examples/fixtures`，只与样例数据自洽） | — | 第 1 天 |
 | `gen_data.py` | 按 `Data and Rules/gen_profile_v1.yaml` 生成 `data/` 与 `eval/` | 可以（写答案） | 第 2 天完成 |
 | `verify_injected_chains.py` | 埋入链路核对脚本：逐条检查 12 条链与 D3 是否符合 profile | 可以（只读） | 第 2 天新增 |
-| `store.py` | 数据仓库：读 `data/` 两个 CSV，按账户建交易索引；只用标准库 | **不可** | 第 3 天（提前完成） |
-| `api.py` | `get_account`、`get_transactions`（已实现）；其余四个函数后续加入 | **不可** | 第 3 天（提前完成） |
+| `store.py` | 数据仓库：读 `data/` 两个 CSV，按账户建交易索引；带派生结果缓存 `cached()`；只用标准库 | **不可** | 第 3 天（提前完成） |
+| `api.py` | 六个工具函数的参数校验与导出（乙的 `server.py` 只调用这里） | **不可** | 六个函数已全部实现 |
+| `ruleset.py` | 读规则 YAML 与 `enums.yaml`、追链窗口、规则差异 `rules_diff`、时间换算等公用工具 | **不可** | 新增 |
+| `trace.py` | 资金链追踪：移植 `validate_spec.py` 的 `reference_chains`，按规则版本全量计算并缓存；`max_hops` 裁剪 | **不可** | 新增 |
+| `rules.py` | 规则引擎：R01–R11 共 11 个 impl，按 YAML 的 `impl` 分发（`IMPLS`） | **不可** | 新增 |
+| `ticket.py` | 角色与状态判定 `judge`、工单组装 `ticket_result`、落盘 `write_ticket` | **不可** | 新增 |
+| `rejudge.py` | 全部账户按两个规则版本重判，列出状态变化与原因 | **不可** | 新增 |
+| `export_rules_md.py` | 把规则 YAML 渲染成 `kb/rules_v1.md`、`rules_v2.md`、`rules_diff_v1_v2.md` | 不需要 | 新增 |
+| `selfcheck.py` | 自检：答案表每个账户的命中规则、角色、状态、是否追到，演示账户与设计预期对照；写 `eval/selfcheck_v*.txt` | 可以（白名单） | 新增 |
+| `evaluate.py` | 评测：识别链路数、账户召回、误报、背景告警、v1→v2 状态变化；写 `eval/result.md` | 可以（白名单） | 新增 |
+| `run_checks_jia.py` | 甲的一键核验：把下面“核验”一节的 10 个步骤串起来，最后汇总通过/失败 | 不读（由白名单脚本自己读） | 新增 |
 
-规则引擎和工具代码**不得** import `gen_data.py` 或 `verify_injected_chains.py`，也不得引用 `eval/`。
+规则引擎和工具代码（`api`、`ruleset`、`trace`、`rules`、`ticket`、`rejudge`、`store`）**不得** import `gen_data.py`、`verify_injected_chains.py`、`selfcheck.py`、`evaluate.py`，也不得引用 `eval/`（`tests/test_engine.py` 会检查）。
 
 ## gen_data.py
 
@@ -101,7 +110,7 @@ Nexent 智能体 → mcp_server/server.py（乙：接线） → core/api.py（�
 
 ### 给乙的接入说明
 
-1. `git pull`，确认有 `core/store.py`、`core/api.py`。`server.py` 里按模式切换，**逐个工具切换**，不要等四个函数全部完成：
+1. `git pull`，确认有 `core/store.py`、`core/api.py` 以及 `ruleset.py`、`trace.py`、`rules.py`、`ticket.py`、`rejudge.py`。六个函数都已实现，`server.py` 仍建议**逐个工具切换**（先切 `get_account`、`get_transactions`，联调通过再切其余四个），出问题时可单个退回 fixture：
 
 ```python
 import os
@@ -109,7 +118,7 @@ MODE = os.environ.get("MCP_MODE", "fixture")      # fixture | real
 
 if MODE == "real":
     from core import api
-    # get_account / get_transactions 调 api；其余四个工具暂时仍读 fixtures
+    # api.get_account / get_transactions / trace_chain / check_rules / make_ticket / rejudge
 ```
 
 2. 注意事项：
@@ -117,6 +126,9 @@ if MODE == "real":
    - 云端必须能 `import core`：服务从仓库根目录启动，或把根目录加入 `PYTHONPATH`。
    - 云端需要仓库里的 `data/` 目录。**不需要** `eval/`，也不要复制过去（答案表不应出现在服务器上的服务目录里）。
    - 只用标准库，不要求云端安装 pandas。
+   - 规则引擎需要 `pyyaml`，并读取仓库里的 `Data and Rules/rules/` 与 `enums.yaml`，云端要一并部署（不含 `eval/`）。
+   - `make_ticket` 会写 `tickets/<版本>/<账户>.json`，服务进程对 `tickets/` 要有写权限；可用环境变量 `FUNDTRACE_TICKET_DIR` 改目录。
+   - 规则版本参数接受 `v1`、`V1 ` 等写法（去空白转小写）；不存在的版本返回 `BAD_RULE_VERSION`。
 3. 验证（在云端仓库根目录）：
 
 ```bash
@@ -129,6 +141,37 @@ python -m pytest tests -q          # 需要 pip install pytest jsonschema refere
 4. 切换后，提示词、Skill、测试中的账户号换成 `eval/demo_accounts.md` 里的“替换表”。
 5. 重启 MCP 服务并在 Nexent 点“刷新工具”。
 
+## 追链、规则、工单、重判（实现要点）
+
+| 函数 | 实现 | 要点 |
+|---|---|---|
+| `trace_chain(acct_id, max_hops=4, rule_version="v1")` | `trace.py` | 链接图 + 弱连通分量，逐行移植 `reference_chains`；每个版本全量算一次并缓存在 `store.cached(("trace", 版本))`。`max_hops` 只裁剪 `edges`：保留两端距起点都 ≤ `max_hops` 的边，不足 2 条（schema 要求）时放宽为至少一端 ≤ `max_hops` |
+| `check_rules(acct_id, rule_version="v1")` | `rules.py` | `IMPLS` 按 `impl` 分发；YAML 中出现未实现的 impl 返回 `INTERNAL`。聚合窗口从锚点交易起（同一分钟按 `tx_id`），前向窗口按分钟取 `(t, t+W]`；多个窗口命中取规则表写明的代表窗口，并列取最早；`detail` 带日期时间与关键数字 |
+| `make_ticket(acct_id, rule_version="v1")` | `ticket.py` | 状态按 03 规范第 4 节顺序判定；支持证据 = 本账户在主链上的边优先，再用风险规则证据补足，最多 10 条、按时间升序；“证据不足”且在链上时，结论前加“该账户在资金链 … 中表现为…，”以满足“在链上须含 chain_id” |
+| `rejudge(old="v1", new="v2")` | `rejudge.py` | 300 个账户各判两次；`reason` 按模板拼接；同一条链上仅角色变化时写“在资金链 … 中的角色由…变为…” |
+
+## 核验（简化版：一条命令）
+
+```powershell
+python core/run_checks_jia.py           # 全部 10 步
+python core/run_checks_jia.py --fast    # 跳过 pytest 与埋链核对
+```
+
+| 步骤 | 内容 | 失败时先看 |
+|---|---|---|
+| 1 环境 | Python ≥ 3.11；pyyaml、jsonschema、referencing、pytest | `pip install -r requirements.txt` |
+| 2 规范自检 | `validate_spec.py`（枚举、规则、生成配置、样例） | 规范文件是否被改动 |
+| 3 fixtures | `core/fixtures` 与样例数据一致 | 乙是否改过 fixtures |
+| 4 数据与防泄题 | `data/` 格式与 sha256；`core`、`mcp_server` 不引用答案目录 | sha256 不符说明冻结数据被改了 |
+| 5 埋链核对 | `verify_injected_chains.py` | — |
+| 6 单元测试 | `pytest tests -q` | 失败的测试名 |
+| 7 规则文档 | 重新生成 `kb/rules_*.md` | — |
+| 8 自检 | `eval/selfcheck_v1.txt`、`v2.txt`；终端打印角色与演示账户不一致的账户 | selfcheck 文件里“否”的行 |
+| 9 评测 | `eval/result.md` | — |
+| 10 工单 | 10 个演示账户的 v1、v2 工单写入 `tickets/`，再用 `validate_spec.py --tickets` 校验 | — |
+
+失败的步骤会打印最后 40 行输出；完整日志在 `_tmp_checks/run_checks_jia_log.txt`。
+
 ## 测试
 
 ```powershell
@@ -137,8 +180,11 @@ python -m pytest tests -q
 
 `tests/test_api_queries.py` 包含：样例数据下与 `fixtures` 逐字段相等；正式数据下 300 个账户全部与“逐行暴力统计”一致并通过 schema 校验；已知交易锚点；时间范围、`limit`、各类错误输入；输出可复现；返回值是副本；代码不引用 `eval/`。依赖 `pytest`、`jsonschema`、`referencing`。
 
+`tests/test_engine.py` 包含：样例数据下 `trace_chain`、`rejudge` 与 fixtures 完全相等，`check_rules`、`make_ticket` 除 `detail`/`conclusion` 措辞外相等；正式数据下 v1、v2 的全部链与参考实现 `reference_chains` 逐条一致（设计值 v1 10 条、v2 13 条＝12 条埋入链 + D3）；300 个账户 × 两个版本全部通过 schema 和工单语义检查；`max_hops` 只裁剪边；`rejudge` 汇总自洽；03 规范典型结果的几个设计预期；错误参数；工具模块不 import 答案脚本。
+
 ## 变更记录
 
+- 2026-10-29（第 3 至 5 天内容提前）：新增 `ruleset.py`、`trace.py`、`rules.py`、`ticket.py`、`rejudge.py`、`export_rules_md.py`、`selfcheck.py`、`evaluate.py`、`run_checks_jia.py`；`api.py` 导出其余四个函数；`store.py` 增加 `cached()` 与 `start_date`；新增 `tests/test_engine.py`。**编写时所在环境无法运行 Python，以上代码只做过静态核对，以本机运行 `python core/run_checks_jia.py` 的结果为准。**
 - 第 3 天（提前）：新增 `store.py`、`api.py`（`get_account`、`get_transactions`）与 `tests/test_api_queries.py`。
 - 第 1 天：`gen_data.py` 背景部分、`fixtures/`、`__init__.py`。
 - 第 2 天：

@@ -24,6 +24,12 @@ def validator():
     return lambda name: Draft202012Validator(schemas[name], registry=registry)
 
 
+@pytest.fixture(autouse=True)
+def _tickets_to_tmp(monkeypatch, tmp_path):
+    """make_ticket 会落盘；测试中一律写到临时目录，避免样例数据的工单写进 tickets/。"""
+    monkeypatch.setenv("FUNDTRACE_TICKET_DIR", str(tmp_path / "tickets"))
+
+
 @pytest.fixture
 def real_data(monkeypatch):
     """使用正式数据 data/。"""

@@ -61,4 +61,4 @@ D3 合租转发：F=A0127、P=A0104、L=A0168（2026-03-04 14:00、15:30），P 
 
 ## 当前后端状态
 
-乙的 MCP 目前仍是 fixture 模式。`core/api.py` 的 `get_account`、`get_transactions` 已可用（见 `core/README.md` 的“给乙的接入说明”），其余四个工具（`trace_chain`、`check_rules`、`make_ticket`、`rejudge`）仍待实现，在此之前对真实账户的研判只能到“查账户、查交易”。
+乙的 MCP 目前仍是 fixture 模式。`core/api.py` 的六个函数已全部编写（2026-10-29），但截至编写时**尚未在本机运行验证**。运行 `python core/run_checks_jia.py` 后，以 `eval/selfcheck_v1.txt`、`selfcheck_v2.txt` 中“演示账户”一节的实测状态更新本表，再通知乙按工具逐个切换到 real 模式。

@@ -1,0 +1,40 @@
+{
+  "ticket_id": "TK-v1-A0105",
+  "spec_version": "1.0.0",
+  "acct_id": "A0105",
+  "rule_version": "v1",
+  "status": "未见异常",
+  "status_code": "CLEAR",
+  "role": "无",
+  "chain_id": null,
+  "conclusion": "在本数据范围内未发现风险规则命中，也不在已识别的资金链上。",
+  "supporting_evidence": [],
+  "counter_evidence": [
+    {
+      "rule_id": "R09",
+      "rule_name": "稳定工资收入",
+      "desc": "有 1 笔工资入账（A0162，8094 元）",
+      "tx_ids": [
+        "T01736"
+      ]
+    }
+  ],
+  "missing_evidence": [
+    {
+      "code": "GAP_KYC",
+      "desc": "对手方账户的开户与实名信息"
+    },
+    {
+      "code": "GAP_BIZ",
+      "desc": "反向证据的业务背景核实（工资发放单位、商户经营资质）"
+    }
+  ],
+  "rule_basis": [
+    {
+      "rule_id": "R09",
+      "rule_name": "稳定工资收入",
+      "aligned_to": "仿真内部规则v1#R09"
+    }
+  ],
+  "suggested_actions": []
+}

@@ -1,0 +1,58 @@
+{
+  "ticket_id": "TK-v2-A0044",
+  "spec_version": "1.0.0",
+  "acct_id": "A0044",
+  "rule_version": "v2",
+  "status": "存在风险信号",
+  "status_code": "RISK_SIGNAL",
+  "role": "疑似受骗付款端",
+  "chain_id": "L-T01908",
+  "conclusion": "该账户在资金链 L-T01908 中表现为疑似受骗付款端，命中 R07，存在风险信号，建议关注后续交易。",
+  "supporting_evidence": [
+    {
+      "tx_id": "T01908",
+      "desc": "2026-03-05 14:28 向 A0283 转出 35710 元"
+    },
+    {
+      "tx_id": "T01913",
+      "desc": "2026-03-05 14:33 向 A0283 转出 36059 元"
+    },
+    {
+      "tx_id": "T01932",
+      "desc": "2026-03-05 15:04 向 A0209 转出 70850 元"
+    },
+    {
+      "tx_id": "T01938",
+      "desc": "2026-03-05 15:14 向 A0177 转出 70396 元"
+    },
+    {
+      "tx_id": "T01942",
+      "desc": "2026-03-05 15:20 向 A0186 转出 70093 元"
+    }
+  ],
+  "counter_evidence": [],
+  "missing_evidence": [
+    {
+      "code": "GAP_KYC",
+      "desc": "对手方账户的开户与实名信息"
+    },
+    {
+      "code": "GAP_MEMO_DEVICE",
+      "desc": "转账附言与登录设备信息"
+    },
+    {
+      "code": "GAP_CALLBACK",
+      "desc": "付款方的回访或报案记录"
+    }
+  ],
+  "rule_basis": [
+    {
+      "rule_id": "R07",
+      "rule_name": "多层链路",
+      "aligned_to": "仿真内部规则v2#R07"
+    }
+  ],
+  "suggested_actions": [
+    "建议关注后续交易"
+  ]
+}

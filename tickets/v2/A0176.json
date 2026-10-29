@@ -1,0 +1,74 @@
+{
+  "ticket_id": "TK-v2-A0176",
+  "spec_version": "1.0.0",
+  "acct_id": "A0176",
+  "rule_version": "v2",
+  "status": "建议人工复核",
+  "status_code": "REVIEW",
+  "role": "一级收款端",
+  "chain_id": "L-T01338",
+  "conclusion": "该账户在资金链 L-T01338 中表现为一级收款端，命中 5 条风险规则（R01、R04、R05、R08、R11），建议人工复核。",
+  "supporting_evidence": [
+    {
+      "tx_id": "T01338",
+      "desc": "2026-03-04 10:18 收到 A0146 转入 46061 元（首次交易对手）"
+    },
+    {
+      "tx_id": "T01349",
+      "desc": "2026-03-04 10:26 收到 A0015 转入 39044 元（首次交易对手）"
+    },
+    {
+      "tx_id": "T01381",
+      "desc": "2026-03-04 11:37 向 A0082 转出 82445 元"
+    }
+  ],
+  "counter_evidence": [],
+  "missing_evidence": [
+    {
+      "code": "GAP_KYC",
+      "desc": "对手方账户的开户与实名信息"
+    },
+    {
+      "code": "GAP_MEMO_DEVICE",
+      "desc": "转账附言与登录设备信息"
+    },
+    {
+      "code": "GAP_CALLBACK",
+      "desc": "付款方的回访或报案记录"
+    },
+    {
+      "code": "GAP_HISTORY",
+      "desc": "数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断）"
+    }
+  ],
+  "rule_basis": [
+    {
+      "rule_id": "R01",
+      "rule_name": "快进快出",
+      "aligned_to": "仿真内部规则v2#R01"
+    },
+    {
+      "rule_id": "R04",
+      "rule_name": "余额清零",
+      "aligned_to": "仿真内部规则v2#R04"
+    },
+    {
+      "rule_id": "R05",
+      "rule_name": "新开账户大额转入",
+      "aligned_to": "仿真内部规则v2#R05"
+    },
+    {
+      "rule_id": "R08",
+      "rule_name": "首次对手大额转入",
+      "aligned_to": "仿真内部规则v2#R08"
+    },
+    {
+      "rule_id": "R11",
+      "rule_name": "多个首次对手集中转入",
+      "aligned_to": "仿真内部规则v2#R11"
+    }
+  ],
+  "suggested_actions": [
+    "建议人工复核"
+  ]
+}

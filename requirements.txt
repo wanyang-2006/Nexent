@@ -8,5 +8,5 @@ matplotlib==3.10.8
 
 # 本机尚未安装，暂不固定版本。乙在 ECS 上 pip install 后，用 pip show 查到版本号，改成 ==x.y.z 并推送
 # 注意：ECS 上的 Python 若低于 3.11，pandas==3.0.0 无法安装，需放宽 pandas 与 numpy 的版本或升级 Python
-fastmcp
+fastmcp==4.1.4
 pytest
