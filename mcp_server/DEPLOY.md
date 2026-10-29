@@ -10,6 +10,14 @@ These are fixed synthetic examples matching Data and Rules/examples/data/,
 not calculations over the generated full dataset in data/.
 Every successful fixture response includes _demo to make that distinction visible.
 
+`MCP_MODE=hybrid` is available after deploying this full repository revision:
+`get_account` and `get_transactions` query the generated dataset in `data/` (300
+accounts, 2,973 transactions, dataset `sim-gen_profile_v1-seed42`). They include
+`_demo.mode=synthetic_dataset`. `trace_chain`, `check_rules`, `make_ticket`,
+`get_ticket`, and `rejudge` remain fixed fixture outputs. Never combine an
+arbitrary account query with the A0087 fixture analysis. No result is live bank
+data. `MCP_MODE=real` still requires all seven production APIs and is not ready.
+
 | Tool | Fixture behavior |
 | --- | --- |
 | hello | Returns a greeting |
@@ -37,34 +45,37 @@ fundtrace-mcp/
     requirements.txt
     README.md
     DEPLOY.md
+    install_systemd.sh
   core/
+    __init__.py
+    api.py
+    store.py
     fixtures/
-      get_account.json
-      get_transactions.json
-      trace_chain.json
-      check_rules.json
-      make_ticket.json
-      rejudge.json
-      error.json
+      (fixture JSON files)
+  data/
+    accounts.csv
+    transactions.csv
+    dataset_meta.json
 ```
 
-Do not upload only server.py: business tools need the fixture files too.
-The bundle contains no virtual environment or real account data.
+Do not upload only server.py: hybrid needs core.api, core.store, fixtures, and
+the three data files. The dataset is synthetic, not real account data. Do not
+include `eval/` or answer files in the deployment bundle.
 
 From the extracted project root on Linux:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r mcp_server/requirements.txt
-MCP_MODE=fixture .venv/bin/python mcp_server/selftest.py --in-process
-MCP_MODE=fixture MCP_HOST=0.0.0.0 MCP_PORT=8900 \
+MCP_MODE=hybrid .venv/bin/python mcp_server/selftest.py --in-process
+MCP_MODE=hybrid MCP_HOST=0.0.0.0 MCP_PORT=8900 \
   .venv/bin/python mcp_server/server.py
 ```
 
 Keep that terminal open during initial validation. In a second terminal:
 
 ```bash
-MCP_MODE=fixture .venv/bin/python mcp_server/selftest.py http://127.0.0.1:8900/sse
+MCP_MODE=hybrid .venv/bin/python mcp_server/selftest.py http://127.0.0.1:8900/sse
 ```
 
 The self-test must report 8 tools and 18 successful checks. It calls make_ticket
@@ -74,12 +85,13 @@ still running the old code and must be restarted.
 After the foreground test passes, stop it with Ctrl+C and run in the background:
 
 ```bash
-nohup env MCP_MODE=fixture MCP_HOST=0.0.0.0 MCP_PORT=8900 \
+nohup env MCP_MODE=hybrid MCP_HOST=0.0.0.0 MCP_PORT=8900 \
   .venv/bin/python mcp_server/server.py > mcp.log 2>&1 < /dev/null &
 ```
 
 This survives SSH logout but does not automatically restart after a reboot.
-For normal operation use the server's existing process supervisor or systemd.
+For normal operation use systemd with `bash mcp_server/install_systemd.sh`; the
+installer validates hybrid mode before restarting the service.
 
 ## Nexent configuration
 
@@ -98,14 +110,15 @@ data. Do not claim that other accounts or the full dataset have been analyzed."
 ## Modes and future real backend
 
 - MCP_MODE=fixture is the default; legacy USE_STUB=1 also selects it.
+- MCP_MODE=hybrid routes account and transaction queries to core.api and keeps other tools on fixtures.
 - MCP_FIXTURES_DIR optionally points to another directory of compatible fixtures.
 - MCP_MODE=real (or legacy USE_STUB=0) delegates to core.api.
 - MCP_TRANSPORT=streamable-http changes the endpoint to /mcp; default SSE uses /sse.
 - MCP_HOST defaults to 0.0.0.0; use 127.0.0.1 for local-only tests.
 
-The current repository does not contain core/api.py. Do not switch to real mode
-yet. When it is implemented, deploy the backend and its data/dependencies as well,
-then restart in real mode. Real-mode get_ticket reads tickets/<version>/<account>.json
+Real mode is not ready: core.api currently implements only account and transaction
+queries. Deploy the backend and data before using hybrid; do not switch to real
+until all tool APIs are implemented and validated. Real-mode get_ticket reads tickets/<version>/<account>.json
 and calls core.api.make_ticket if absent. The wrapper never falls back to samples
 when a real backend fails. Error responses follow {error, code, detail}.
 

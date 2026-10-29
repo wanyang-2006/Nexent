@@ -1,4 +1,4 @@
-"""Fundtrace MCP: existing fixtures first; core.api when explicitly enabled."""
+"""Fundtrace MCP: fixture, hybrid query, or full core.api mode."""
 from __future__ import annotations
 
 import importlib
@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 MODE = os.getenv("MCP_MODE", "fixture" if os.getenv("USE_STUB", "1") == "1" else "real")
+HYBRID_API_TOOLS = {"get_account", "get_transactions"}
 FIXTURES = Path(os.getenv("MCP_FIXTURES_DIR", str(ROOT / "core" / "fixtures")))
 DEMO_TICKETS = Path(os.getenv("MCP_DEMO_TICKETS_DIR", str(Path(__file__).resolve().parent / "demo_tickets")))
 logger = logging.getLogger("fundtrace")
@@ -24,10 +25,12 @@ logger = logging.getLogger("fundtrace")
 mcp = FastMCP(
     "fundtrace",
     instructions=(
-        f"Current mode: {MODE}. In fixture mode results are FIXED SYNTHETIC EXAMPLES, "
-        "not live analysis. Account tools support only A0087; rule results only v1; "
-        "trace_chain only max_hops=4; rejudge only v1 to v2. "
-        "Tell users that fixture results are demonstration data."
+        f"Current mode: {MODE}. In fixture mode all business results are fixed synthetic examples. "
+        "In hybrid mode get_account and get_transactions query the full generated synthetic dataset "
+        "and identify the dataset in _demo; trace_chain, check_rules, make_ticket, get_ticket, and "
+        "rejudge remain fixed A0087/v1 or v1-to-v2 fixtures. Never combine a hybrid query for one "
+        "account with the A0087 fixture chain, rules, or ticket as if they were one analysis. "
+        "These are synthetic data, not live bank data."
     ),
 )
 
@@ -120,6 +123,25 @@ def _real(name: str, params: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+def _hybrid(name: str, params: dict[str, Any]) -> dict[str, Any]:
+    if name not in HYBRID_API_TOOLS:
+        return _fixture(name, params)
+    api = importlib.import_module("core.api")
+    result = getattr(api, name)(**params)
+    if not isinstance(result, dict):
+        raise ValueError("core.api must return a JSON object as specified")
+    if "error" not in result:
+        from core.store import get_store
+
+        result["_demo"] = {
+            "mode": "synthetic_dataset",
+            "dataset_id": get_store().dataset_id,
+            "source": "data/accounts.csv and data/transactions.csv",
+            "notice": "基于完整合成数据集计算，不是真实银行数据；其他分析工具仍返回固定样例，不可拼接为同一账户研判。",
+        }
+    return result
+
+
 def _call(name: str, **params: Any) -> dict[str, Any]:
     try:
         _validate(params)
@@ -127,12 +149,14 @@ def _call(name: str, **params: Any) -> dict[str, Any]:
             return _fixture(name, params)
         if MODE == "real":
             return _real(name, params)
-        raise RequestError("INTERNAL", "MCP_MODE 只能为 fixture 或 real")
+        if MODE == "hybrid":
+            return _hybrid(name, params)
+        raise RequestError("INTERNAL", "MCP_MODE 只能为 fixture、hybrid 或 real")
     except RequestError as exc:
         return {"error": str(exc), "code": exc.code, "detail": exc.detail}
     except ModuleNotFoundError as exc:
         logger.exception("Backend unavailable")
-        return {"error": "真实后端尚未就绪；请先使用 MCP_MODE=fixture", "code": "INTERNAL", "detail": str(exc)}
+        return {"error": "所需后端不可用；可切回 MCP_MODE=fixture 使用固定样例", "code": "INTERNAL", "detail": str(exc)}
     except Exception as exc:
         logger.exception("Tool %s failed", name)
         return {"error": "工具执行失败，请检查服务端日志", "code": "INTERNAL", "detail": type(exc).__name__}
@@ -143,49 +167,58 @@ def hello(name: str) -> str:
     return f"hello {name}"
 
 
-@mcp.tool(description="账户画像。fixture模式仅支持A0087，返回固定仿真样例。")
+@mcp.tool(description="账户画像。fixture模式返回A0087固定样例；hybrid模式查询完整合成数据集，结果含数据集标记。")
 def get_account(acct_id: str) -> dict[str, Any]:
     return _call("get_account", acct_id=acct_id)
 
 
-@mcp.tool(description="账户交易，按时间排序，闭区间筛选，limit为1至200；fixture仅支持A0087。")
+@mcp.tool(description="账户交易，按时间排序，闭区间筛选，limit为1至200；hybrid模式查询完整合成数据集。")
 def get_transactions(acct_id: str, start: str | None = None, end: str | None = None, limit: int = 50) -> dict[str, Any]:
     return _call("get_transactions", acct_id=acct_id, start=start, end=end, limit=limit)
 
 
-@mcp.tool(description="资金链追踪。fixture仅提供A0087、v1、max_hops=4的固定结果。")
+@mcp.tool(description="资金链追踪。当前仅提供A0087、v1、max_hops=4固定样例；hybrid不代表追链算法已接入。")
 def trace_chain(acct_id: str, max_hops: int = 4, rule_version: str = "v1") -> dict[str, Any]:
     return _call("trace_chain", acct_id=acct_id, max_hops=max_hops, rule_version=rule_version)
 
 
-@mcp.tool(description="规则命中与反向证据。fixture仅提供A0087、v1样例。")
+@mcp.tool(description="规则命中与反向证据。当前仅提供A0087、v1固定样例；hybrid不代表规则算法已接入。")
 def check_rules(acct_id: str, rule_version: str = "v1") -> dict[str, Any]:
     return _call("check_rules", acct_id=acct_id, rule_version=rule_version)
 
 
-@mcp.tool(description="生成研判工单。fixture仅A0087/v1，样例落盘到mcp_server/demo_tickets，与真实工单隔离。")
+@mcp.tool(description="生成研判工单。当前仅生成A0087/v1固定样例，hybrid不代表工单算法已接入。")
 def make_ticket(acct_id: str, rule_version: str = "v1") -> dict[str, Any]:
     return _call("make_ticket", acct_id=acct_id, rule_version=rule_version)
 
 
-@mcp.tool(description="获取研判工单。真实模式读取tickets，缺失时生成；fixture返回并保存固定样例。")
+@mcp.tool(description="获取研判工单。fixture/hybrid返回并保存A0087/v1固定样例；real模式读取真实工单或调用后端。")
 def get_ticket(acct_id: str, rule_version: str = "v1") -> dict[str, Any]:
     return _call("get_ticket", acct_id=acct_id, rule_version=rule_version)
 
 
-@mcp.tool(description="比较规则版本重判结果。fixture仅返回v1到v2的10账户固定样例，非全量真实重判。")
+@mcp.tool(description="比较规则版本重判结果。fixture/hybrid仅返回v1到v2的10账户固定样例，非全量真实重判。")
 def rejudge(old: str = "v1", new: str = "v2") -> dict[str, Any]:
     return _call("rejudge", old=old, new=new)
 
 
 if __name__ == "__main__":
-    if MODE not in ("fixture", "real"):
-        raise SystemExit("MCP_MODE must be fixture or real")
-    if MODE == "fixture":
+    if MODE not in ("fixture", "hybrid", "real"):
+        raise SystemExit("MCP_MODE must be fixture, hybrid, or real")
+    if MODE in ("fixture", "hybrid"):
         for tool_name in ("get_account", "get_transactions", "trace_chain", "check_rules", "make_ticket", "rejudge"):
             _read_object(FIXTURES / f"{tool_name}.json")
-    elif importlib.util.find_spec("core.api") is None:
+    if MODE in ("hybrid", "real") and importlib.util.find_spec("core.api") is None:
         raise SystemExit("core/api.py is missing; use MCP_MODE=fixture until the backend is ready")
+    if MODE == "hybrid":
+        try:
+            from core.store import get_store
+
+            store = get_store()
+            if not store.accounts or not store.transactions or not store.dataset_id:
+                raise ValueError("synthetic dataset has no accounts or transactions")
+        except Exception as exc:
+            raise SystemExit(f"hybrid dataset preflight failed: {exc}") from exc
     transport = os.getenv("MCP_TRANSPORT", "sse")
     if transport not in ("sse", "streamable-http"):
         raise SystemExit(f"MCP_TRANSPORT 只能是 sse 或 streamable-http，当前为 {transport!r}")
