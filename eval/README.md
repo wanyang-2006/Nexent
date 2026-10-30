@@ -18,7 +18,8 @@
 | `selfcheck_v1.txt`、`selfcheck_v2.txt` | 每个答案账户的命中规则、角色、状态、是否追到；答案链识别情况；演示账户实测与设计预期对照；背景账户告警 | `python -m core.selfcheck` | 脚本已写，待本机运行生成 |
 | `result.md` | 评测结果表（v1、v2 两列）、明细与 v1→v2 状态变化 | `python -m core.evaluate` | 已生成 |
 | `baseline.md` | 对照基线：B1 单笔规则、B2 无时序追链与本作品 v1、v2 对比，附由数字生成的解读 | `python -m core.evaluate`（与 `result.md` 同时写出） | 已生成（10-30） |
-| `nexent_evalset.md` | 给乙建 Nexent 评测集用：5 条用例的必须出现/不得出现要点，加人工核对参考表（均为实测值） | 手写，依据 selfcheck 与工单 | 已写（第 5 天） |
+| `nexent_evalset.md` | V5/V8 实际使用的五题评测集、参考事实与回归结果 | 乙整理，依据规则、工具结果及评估留档 | V8 回归 15/15；平台任务 3 原始分 0.924，限制见报告 |
+| `nexent_evalset_jia_day5.md` | 甲提供的第 5 天短题版本及人工核对参考表 | 甲编写，依据 selfcheck 与工单 | 已归档；尚未执行此版本评估，不能沿用 V5/V8 成绩 |
 | `给乙_第5天修改说明.md` | 乙第 5 天的操作清单：评估打分、提示词与 Skill 的可直接粘贴的修改、记录表、晚间决策规则 | 手写 | 已写（第 5 天） |
 | `assets_manifest.csv` | 资产登记表：`asset_id, asset_type, title, source, version, sha256, is_synthetic` | `python -m core.export_assets_manifest`（脚本生成，请勿手改） | 已生成（10-30），13 条 |
 | `graphs/<版本>_<chain_id>.png` | 资金链图：v1 的 L-T01908、L-T01001，v2 的 L-T01338、L-T01454 | `python -m core.export_graph` | 已生成（10-30） |
@@ -51,6 +52,8 @@ python "Data and Rules/validate_spec.py" --skip-spec --data data --eval eval
 - 所有评测结果都要注明 `data/dataset_meta.json` 里的 `dataset_id`（当前为 `sim-gen_profile_v1-seed42`）。
 
 ## 变更记录
+
+- 2026-10-30：整理合并冲突，将甲的第 5 天短题版本单独保存为 `nexent_evalset_jia_day5.md`；保留 `nexent_evalset.md` 的实际评测题目及 V5/V8 结果，两套成绩不能混用。
 
 - 2026-10-29：`core/selfcheck.py`、`core/evaluate.py` 已编写，分别生成 `selfcheck_v*.txt` 与 `result.md`（尚未运行，文件生成后以其中数字为准）。一键运行见 `core/README.md` 的“核验”一节。
 - 第 2 天：生成 `answer.csv`、`answer_tx.csv`（seed 42）；新增 `demo_accounts.md`；`verify_injected_chains.py` 加入允许读取本目录的名单。
