@@ -15,6 +15,10 @@
 
 ## 当前环境记录（2026-10-30）
 
+- 最新发布为平台V8/fundtrace-v1.1-20261030，严格输出协议与静默修复开启，模型仍DeepSeek-V4.1-Flash、最大步数15、记忆关闭。五题各三次独立回归15/15通过，有限样本边界见evaluations/stability-20261030.md。
+- 用户已提供开机恢复和SIGKILL异常退出自动恢复证据，NRestarts由0升至1、active/running、real模式8工具19调用自检通过。
+- 最新配置备份exports/fundtrace_agent-v8-v1.1-20261030.zip；旧V5 ZIP保留。V8 ZIP静态核查通过，尚未重新执行导入副本验收。以下V5状态属于历史记录。
+
 - 云端用户回传两轮 `PASS: 8 tools; 19 MCP calls; real algorithms on synthetic dataset`，systemd enabled、active。当前 `MCP_MODE=real`，算法处理300账户、2973笔合成交易，不是真实银行记录。
 - Nexent `fundtrace_agent` 已绑定七个业务工具（增加 get_ticket、rejudge），以及 fund-chain-investigation Skill；最大步数15。
 - 模型：`deepseek-ai/DeepSeek-V4.1-Flash`。两知识库的向量模型均为 `Qwen/Qwen3-Embedding-4B`。

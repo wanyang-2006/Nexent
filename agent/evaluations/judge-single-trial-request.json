@@ -1,0 +1,1 @@
+{"agent_id":1,"agent_version_no":5,"query":"请按 v1 研判账户 A0209，结合规则知识库生成工单。","judge_model_id":84,"evaluator_ids":[7],"field_mappings":{"7":{"query":"case.inputs.query","actual":"agent_output"}}}

@@ -1,5 +1,15 @@
 # Nexent 配置备份
 
+## 最新V8备份（2026-10-30）
+
+文件 `fundtrace_agent-v8-v1.1-20261030.zip`，平台发布名称fundtrace-v1.1-20261030。SHA256：`CE3D3091712C5367DC0F95AD703C08BE313C8D545E7D49EA85AEA86F4DFD29BF`。
+
+已用平台导出并检查ZIP结构：agent.json及skills/fund-chain-investigation.zip。agent_info中模型DeepSeek-V4.1-Flash、最大步数15、8个工具（7业务工具加知识检索）、原Skill，enable_protocol_repair_retry=true，提示词包含精简核验约束。角色/使用要求/示例逐字等于线上V8详情，最大步数和修复开关一致。五题独立回归15/15通过，调整后评估记录见../evaluations/。平台ZIP不自带发布版本号，此版本对应关系来自导出时发布版核查。
+
+旧V5/r2备份保留为历史记录，勿以旧包恢复后声称协议修复已开启。V8包尚未重新导入验证；此前同环境导入验证针对旧V5包，不能直接套用。迁移资源与敏感标识边界同下文；平台记忆关闭仍需另行配置。
+
+## 历史V5备份
+
 导出日期：2026-10-30。通过 Nexent「我的智能体 → 更多操作 → 导出」下载，平台显示导出成功。
 
 文件：`fundtrace_agent-20261030-r2.zip`。
