@@ -20,7 +20,10 @@
 | `export_rules_md.py` | 把规则 YAML 渲染成 `kb/rules_v1.md`、`rules_v2.md`、`rules_diff_v1_v2.md` | 不需要 | 新增 |
 | `selfcheck.py` | 自检：答案表每个账户的命中规则、角色、状态、是否追到，演示账户与设计预期对照；写 `eval/selfcheck_v*.txt` | 可以（白名单） | 新增 |
 | `evaluate.py` | 评测：识别链路数、账户召回、误报、背景告警、v1→v2 状态变化；写 `eval/result.md` | 可以（白名单） | 新增 |
-| `run_checks_jia.py` | 甲的一键核验：把下面“核验”一节的 10 个步骤串起来，最后汇总通过/失败 | 不读（由白名单脚本自己读） | 新增 |
+| `baseline_compare.py` | 对照基线：B1 单笔 ≥ 10000 元转账即告警；B2 不看时间窗与守恒的追链。只给出判定与链，打分在 `evaluate.py` | 不读 | 新增（10-30） |
+| `export_graph.py` | 把追链结果画成 PNG，写 `eval/graphs/<版本>_<链号>.png`（只用 matplotlib，不依赖 networkx） | 只写不读答案 | 新增（10-30），已登记白名单（1.0.3） |
+| `export_assets_manifest.py` | 资产登记表，写 `eval/assets_manifest.csv`（不写生成时间，重复运行结果不变） | 只写不读答案 | 新增（10-30），已登记白名单（1.0.3） |
+| `run_checks_jia.py` | 甲的一键核验：把“核验”一节的步骤串起来（现为 12 步，10-30 增加链路图与资产登记），最后汇总通过/失败 | 不读（由白名单脚本自己读） | 新增 |
 
 规则引擎和工具代码（`api`、`ruleset`、`trace`、`rules`、`ticket`、`rejudge`、`store`）**不得** import `gen_data.py`、`verify_injected_chains.py`、`selfcheck.py`、`evaluate.py`，也不得引用 `eval/`（`tests/test_engine.py` 会检查）。
 
@@ -193,3 +196,4 @@ python -m pytest tests -q
   - `gen_salary` 排除 D3 的第二家企业与 F、P、L。
   - `--stage` 默认值由 `background` 改为 `full`。
   - 新增 `verify_injected_chains.py`。
+- 2026-10-30：新增 `baseline_compare.py`（B1、B2 基线）、`export_graph.py`（链路图）、`export_assets_manifest.py`（资产登记表）；`evaluate.py` 增加基线打分，运行时同时写 `eval/baseline.md`（`result.md` 内容未变，已核对）；`run_checks_jia.py` 增加第 11、12 步。已登记防泄题白名单（`Data and Rules/CHANGELOG.md` 1.0.3）：`export_graph.py`、`export_assets_manifest.py` 的输出路径含 `eval/`，但只写不读答案。

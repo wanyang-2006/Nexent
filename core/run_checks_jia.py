@@ -14,8 +14,10 @@
   6 单元测试   pytest tests -q（六个函数的契约与正确性）
   7 规则文档   export_rules_md 重新生成 kb/rules_v1.md、rules_v2.md、rules_diff_v1_v2.md
   8 自检       selfcheck 写出 selfcheck_v1.txt、selfcheck_v2.txt
-  9 评测       evaluate 写出 result.md
+  9 评测       evaluate 写出 result.md 与 baseline.md（对照基线）
   10 工单      为演示账户生成 v1、v2 工单并用 validate_spec.py 校验
+  11 链路图    export_graph 写出 eval/graphs/ 下 4 张演示图
+  12 资产登记  export_assets_manifest 写出 eval/assets_manifest.csv
 
 完整日志写到 _tmp_checks/run_checks_jia_log.txt（_tmp*/ 已在 .gitignore 中）。
 本脚本不读取答案目录；需要答案的步骤由白名单脚本（selfcheck、evaluate、verify_injected_chains）自己读取。
@@ -121,6 +123,8 @@ def main(argv=None) -> int:
         ("8 自检", lambda: run(py("-m", "core.selfcheck"))),
         ("9 评测", lambda: run(py("-m", "core.evaluate"))),
         ("10 工单", step_tickets),
+        ("11 链路图", lambda: run(py("-m", "core.export_graph"))),
+        ("12 资产登记", lambda: run(py("-m", "core.export_assets_manifest"))),
     ]
 
     LOG_DIR.mkdir(exist_ok=True)

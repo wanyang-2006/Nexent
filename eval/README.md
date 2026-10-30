@@ -14,11 +14,12 @@
 |---|---|---|---|
 | `answer.csv` | 账户级答案：`acct_id, chain_id, pattern, role` | `python -m core.gen_data --force` 与 `data/` 一起生成 | 已生成（第 2 天） |
 | `answer_tx.csv` | 每条链的账户间 `转账`：`tx_id, chain_id`（不含提现） | 同上 | 已生成（第 2 天） |
-| `demo_accounts.md` | 演示问题 Q1、Q2、Q3、Q5 和备用账户，以及 v1、v2 的预期状态 | 手写，交乙 | 已写（状态为设计预期） |
+| `demo_accounts.md` | 演示问题 Q1、Q2、Q3、Q5 和备用账户，以及 v1、v2 的预期状态 | 手写，交乙 | 已写，状态已改为 2026-10-29 实测，含 8 个变化账户与 T01942 |
 | `selfcheck_v1.txt`、`selfcheck_v2.txt` | 每个答案账户的命中规则、角色、状态、是否追到；答案链识别情况；演示账户实测与设计预期对照；背景账户告警 | `python -m core.selfcheck` | 脚本已写，待本机运行生成 |
-| `result.md` | 评测结果表（v1、v2 两列）、明细与 v1→v2 状态变化 | `python -m core.evaluate` | 脚本已写，待本机运行生成 |
-| `assets_manifest.csv` | 资产登记表：`asset_id, asset_type, title, source, version, sha256, is_synthetic` | 手写 | 第 5 天以后 |
-| `graphs/<chain_id>.png` | 资金链图 | 第 5 天以后（可选） | |
+| `result.md` | 评测结果表（v1、v2 两列）、明细与 v1→v2 状态变化 | `python -m core.evaluate` | 已生成 |
+| `baseline.md` | 对照基线：B1 单笔规则、B2 无时序追链与本作品 v1、v2 对比，附由数字生成的解读 | `python -m core.evaluate`（与 `result.md` 同时写出） | 已生成（10-30） |
+| `assets_manifest.csv` | 资产登记表：`asset_id, asset_type, title, source, version, sha256, is_synthetic` | `python -m core.export_assets_manifest`（脚本生成，请勿手改） | 已生成（10-30），13 条 |
+| `graphs/<版本>_<chain_id>.png` | 资金链图：v1 的 L-T01908、L-T01001，v2 的 L-T01338、L-T01454 | `python -m core.export_graph` | 已生成（10-30） |
 
 ## answer.csv 的内容（seed 42）
 
@@ -51,3 +52,4 @@ python "Data and Rules/validate_spec.py" --skip-spec --data data --eval eval
 
 - 2026-10-29：`core/selfcheck.py`、`core/evaluate.py` 已编写，分别生成 `selfcheck_v*.txt` 与 `result.md`（尚未运行，文件生成后以其中数字为准）。一键运行见 `core/README.md` 的“核验”一节。
 - 第 2 天：生成 `answer.csv`、`answer_tx.csv`（seed 42）；新增 `demo_accounts.md`；`verify_injected_chains.py` 加入允许读取本目录的名单。
+- 2026-10-30：`demo_accounts.md` 改为实测；新增 `baseline.md`、`assets_manifest.csv`、`graphs/`（4 张）。`export_graph.py`、`export_assets_manifest.py` 向本目录写文件但不读答案，已登记进防泄题白名单（CHANGELOG 1.0.3）。
