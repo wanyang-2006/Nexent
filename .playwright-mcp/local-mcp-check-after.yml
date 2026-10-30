@@ -1,0 +1,6 @@
+- generic [ref=e1]:
+  - heading "Local browser check" [level=1] [ref=e2]
+  - text: Check input
+  - textbox "Check input" [ref=e3]: MCP_OK_20261030
+  - button "Apply" [active] [ref=e4]
+  - status [ref=e5]: "Verified: MCP_OK_20261030"
