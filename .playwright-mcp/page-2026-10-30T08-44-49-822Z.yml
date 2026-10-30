@@ -1,0 +1,224 @@
+- generic [ref=f4e1]:
+  - alert [ref=f4e2]
+  - generic: "* *"
+  - generic: "* * * *"
+  - generic [ref=f4e4]:
+    - banner [ref=f4e5]:
+      - banner [ref=f4e6]:
+        - generic [ref=f4e7]:
+          - link "logo Nexent" [ref=f4e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f4e10]:
+              - img "logo" [ref=f4e201]
+              - generic [ref=f4e11]: Nexent
+          - generic [ref=f4e19]:
+            - link "Github" [ref=f4e20] [cursor=pointer]:
+              - /url: https://github.com/ModelEngine-Group/nexent
+            - link "ModelEngine" [ref=f4e24] [cursor=pointer]:
+              - /url: http://modelengine-ai.net
+            - generic [ref=f4e25] [cursor=pointer]: 简体中文
+            - button "通知" [ref=f4e33] [cursor=pointer]
+            - generic [ref=f4e38]:
+              - generic [ref=f4e39]: 1932169224@qq.com
+              - generic [ref=f4e40] [cursor=pointer]
+    - generic [ref=f4e44]:
+      - complementary [ref=f4e45]:
+        - generic [ref=f4e46]:
+          - menu [ref=f4e51]:
+            - menuitem "首页" [ref=f4e52] [cursor=pointer]
+            - menuitem "开始问答" [ref=f4e57] [cursor=pointer]
+            - menuitem "自动任务" [ref=f4e62] [cursor=pointer]
+            - menuitem "智能体开发" [ref=f4e68] [cursor=pointer]
+            - menuitem "资源仓库" [ref=f4e73] [cursor=pointer]
+            - menuitem "资源管理" [ref=f4e78] [cursor=pointer]
+          - button [ref=f4e84] [cursor=pointer]
+      - main [ref=f4e88]:
+        - generic [ref=f4e271]:
+          - generic [ref=f4e738]:
+            - generic [ref=f4e740]:
+              - button "新对话" [ref=f4e741]
+              - button "Toggle Sidebar" [ref=f4e743] [cursor=pointer]
+            - generic [ref=f4e746]:
+              - generic [ref=f4e747]:
+                - generic [ref=f4e748]: 今天
+                - generic [ref=f4e1089]:
+                  - button "账户A0209研判工单" [ref=f4e1090]
+                  - button [ref=f4e1093]
+                - generic [ref=f4e1098]:
+                  - button "账户A0176研判工单" [ref=f4e1099]
+                  - button [ref=f4e1102]
+                - generic [ref=f4e1107]:
+                  - button "账户A0209研判工单" [ref=f4e1108]
+                  - button [ref=f4e1111]
+                - generic [ref=f4e1116]:
+                  - button "账户A0209研判工单" [ref=f4e1117]
+                  - button [ref=f4e1120]
+                - generic [ref=f4e1125]:
+                  - button "A0209账户研判工单" [ref=f4e1126]
+                  - button [ref=f4e1129]
+                - generic [ref=f4e1134]:
+                  - button "账户A0209研判" [ref=f4e1135]
+                  - button [ref=f4e1138]
+                - generic [ref=f4e1143]:
+                  - button "A0209账户研判工单" [ref=f4e1144]
+                  - button [ref=f4e1147]
+                - generic [ref=f4e1152]:
+                  - button "A9999账户研判建单" [ref=f4e1153]
+                  - button [ref=f4e1156]
+                - generic [ref=f4e1161]:
+                  - button "账户A0105研判工单" [ref=f4e1162]
+                  - button [ref=f4e1165]
+                - generic [ref=f4e1170]:
+                  - button "A0176工单研判" [ref=f4e1171]
+                  - button [ref=f4e1174]
+                - generic [ref=f4e1179]:
+                  - button "A0074账户研判工单" [ref=f4e1180]
+                  - button [ref=f4e1183]
+                - generic [ref=f4e1188]:
+                  - button "A0105账户v1研判" [ref=f4e1189]
+                  - button [ref=f4e1192]
+                - generic [ref=f4e1197]:
+                  - button "新对话" [ref=f4e1198]
+                  - button [ref=f4e1201]
+                - generic [ref=f4e1206]:
+                  - button "A0105账户研判工单" [ref=f4e1207]
+                  - button [ref=f4e1210]
+                - generic [ref=f4e1215]:
+                  - button "A0044账户研判工单" [ref=f4e1216]
+                  - button [ref=f4e1219]
+                - generic [ref=f4e1224]:
+                  - button "v1/v2覆盖变化对比" [ref=f4e1225]
+                  - button [ref=f4e1228]
+                - generic [ref=f4e1233]:
+                  - button "v1/v2研判对比分析" [ref=f4e1234]
+                  - button [ref=f4e1237]
+                - generic [ref=f4e1242]:
+                  - button "A0209工单研判" [ref=f4e1243]
+                  - button [ref=f4e1246]
+                - generic [ref=f4e1251]:
+                  - button "v1研判A0209工单" [ref=f4e1252]
+                  - button [ref=f4e1255]
+                - generic [ref=f4e911]: 最近 7 天
+                - generic [ref=f4e1260]:
+                  - button "A0044交易明细查询" [ref=f4e1261]
+                  - button [ref=f4e1264]
+                - generic [ref=f4e1269]:
+                  - button "查询A0044账户画像" [ref=f4e1270]
+                  - button [ref=f4e1273]
+                - generic [ref=f4e1278]:
+                  - button "v1/v2重判状态变化" [ref=f4e1279]
+                  - button [ref=f4e1282]
+                - generic [ref=f4e1287]:
+                  - button "查看A0087 v1工单" [ref=f4e1288]
+                  - button [ref=f4e1291]
+                - generic [ref=f4e1296]:
+                  - button "账户A0087研判" [ref=f4e1297]
+                  - button [ref=f4e1300]
+                - generic [ref=f4e1305]:
+                  - button "账户A0087研判" [ref=f4e1306]
+                  - button [ref=f4e1309]
+                - generic [ref=f4e1314]:
+                  - button "账户A0087研判" [ref=f4e1315]
+                  - button [ref=f4e1318]
+                - generic [ref=f4e1323]:
+                  - button "可审查账户研判" [ref=f4e1324]
+                  - button [ref=f4e1327]
+                - generic [ref=f4e1332]:
+                  - button "A0087资金链规则命中" [ref=f4e1333]
+                  - button [ref=f4e1336]
+                - generic [ref=f4e1341]:
+                  - button "研判账户A0087" [ref=f4e1342]
+                  - button [ref=f4e1345]
+              - button "已加载全部会话" [disabled] [ref=f4e1002]
+            - generic [ref=f4e1005]:
+              - button "批量管理" [ref=f4e1006]
+              - button "切换旧版" [ref=f4e1010]
+          - generic [ref=f4e1044]:
+            - generic [ref=f4e1045]:
+              - button [ref=f4e1046] [cursor=pointer]
+              - generic [ref=f4e1047]:
+                - generic [ref=f4e1048]: 账户A0209研判工单
+                - generic [ref=f4e1350]: 涉诈资金链路研判助手
+              - button "分享对话" [disabled]
+            - generic [ref=f4e1049]:
+              - generic [ref=f4e1352]: 请按 v1 研判账户 A0209，结合规则知识库生成工单
+              - generic [ref=f4e1483]:
+                - generic [ref=f4e1484]:
+                  - generic [ref=f4e1485]: 涉诈资金链路研判助手
+                  - generic [ref=f4e1492]:
+                    - generic [ref=f4e1494]:
+                      - button "Reasoning" [expanded] [ref=f4e1495] [cursor=pointer]
+                      - generic [ref=f4e1512]:
+                        - paragraph [ref=f4e1513]:
+                          - strong [ref=f4e1514]: 步骤 1
+                          - text: 先加载资金链路研判技能。
+                        - text: <code> skill = read_skill_md("fund-chain-investigation") print(skill) </code>
+                    - generic [ref=f4e1516]:
+                      - button "Executed code python" [expanded] [ref=f4e1517]:
+                        - generic [ref=f4e1520]: Executed code
+                        - generic [ref=f4e1521]: python
+                      - code [ref=f4e1527]:
+                        - generic [ref=f4e1528]: skill = read_skill_md("fund-chain-investigation")
+                        - generic [ref=f4e1529]: print(skill)
+                    - button "1 tool call" [ref=f4e1531]
+                    - generic [ref=f4e1536]:
+                      - button "Reasoning" [expanded] [ref=f4e1537] [cursor=pointer]
+                      - paragraph [ref=f4e1555]:
+                        - strong [ref=f4e1556]: 步骤 2
+                        - text: <code> account = get_account(acct_id="A0209") print(account) </code>
+                    - generic [ref=f4e1558]:
+                      - button "Executed code python" [expanded] [ref=f4e1559]:
+                        - generic [ref=f4e1562]: Executed code
+                        - generic [ref=f4e1563]: python
+                      - code [ref=f4e1569]:
+                        - generic [ref=f4e1570]: account = get_account(acct_id="A0209")
+                        - generic [ref=f4e1571]: print(account)
+                    - button "1 tool call" [ref=f4e1573]
+                    - generic [ref=f4e1578]:
+                      - button "Reasoning" [expanded] [ref=f4e1579] [cursor=pointer]
+                      - paragraph [ref=f4e1597]:
+                        - strong [ref=f4e1598]: 步骤 3
+                        - text: <code> txs = get_transactions(acct_id="A0209", limit=100) print(txs) </code>
+                    - generic [ref=f4e1600]:
+                      - button "Executed code python" [expanded] [ref=f4e1601]:
+                        - generic [ref=f4e1604]: Executed code
+                        - generic [ref=f4e1605]: python
+                      - code [ref=f4e1611]:
+                        - generic [ref=f4e1612]: txs = get_transactions(acct_id="A0209", limit=100)
+                        - generic [ref=f4e1613]: print(txs)
+                    - button "1 tool call" [ref=f4e1615]
+                    - generic [ref=f4e1620]:
+                      - button "Reasoning (Thinking...)" [expanded] [ref=f4e1621] [cursor=pointer]:
+                        - generic [ref=f4e1632]: Reasoning
+                        - generic [ref=f4e1633]: (Thinking...)
+                      - paragraph [ref=f4e1641]:
+                        - strong [ref=f4e1642]: 步骤 4
+                - generic [ref=f4e1644]:
+                  - button "上一个分支" [ref=f4e1645]
+                  - generic [ref=f4e1648]: 2 / 2
+                  - button "下一个分支" [disabled] [ref=f4e1649]
+            - generic [ref=f4e1068]:
+              - button "滚动到底部" [disabled]
+              - group [ref=f4e1070]:
+                - generic [ref=f4e1072]:
+                  - button "规划" [ref=f4e1073] [cursor=pointer]
+                  - button "执行" [ref=f4e1074] [cursor=pointer]
+                - generic [ref=f4e1075]:
+                  - textbox "发送消息..." [active] [ref=f4e1077]
+                  - generic [ref=f4e1078]:
+                    - generic [ref=f4e1079]:
+                      - combobox [ref=f4e1080] [cursor=pointer]:
+                        - generic [ref=f4e1081]: deepseek-ai/DeepSeek-V4.1-Flash
+                      - button "知识库：跟随智能体默认" [disabled]
+                    - generic [ref=f4e1085]:
+                      - button "添加附件" [ref=f4e1086] [cursor=pointer]
+                      - generic [ref=f4e1088]:
+                        - button [disabled]
+                      - button "停止生成" [ref=f4e1652] [cursor=pointer]
+    - contentinfo [ref=f4e194]:
+      - generic [ref=f4e195]:
+        - generic [ref=f4e197]:
+          - text: Nexent © 2026
+          - generic [ref=f4e198]: · v2.7.0
+        - link "使用条款" [ref=f4e200] [cursor=pointer]:
+          - /url: https://github.com/nexent-hub/nexent?tab=License-1-ov-file#readme

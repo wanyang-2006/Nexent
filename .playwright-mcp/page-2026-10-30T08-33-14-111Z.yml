@@ -1,0 +1,131 @@
+- generic [ref=f2e2]:
+  - alert [ref=f2e1]: 知识库
+  - generic: "* *"
+  - generic: "* * * *"
+  - generic [ref=f2e4]:
+    - banner [ref=f2e5]:
+      - banner [ref=f2e6]:
+        - generic [ref=f2e7]:
+          - link "logo Nexent" [ref=f2e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f2e10]:
+              - img "logo" [ref=f2e11]
+              - generic [ref=f2e12]: Nexent
+          - generic [ref=f2e13]:
+            - link "Github" [ref=f2e14] [cursor=pointer]:
+              - /url: https://github.com/ModelEngine-Group/nexent
+            - link "ModelEngine" [ref=f2e18] [cursor=pointer]:
+              - /url: http://modelengine-ai.net
+            - generic [ref=f2e19] [cursor=pointer]: 简体中文
+            - button "通知" [ref=f2e27] [cursor=pointer]
+            - generic [ref=f2e32]:
+              - generic [ref=f2e33]: 1932169224@qq.com
+              - generic [ref=f2e34] [cursor=pointer]
+    - generic [ref=f2e38]:
+      - complementary [ref=f2e39]:
+        - generic [ref=f2e40]:
+          - menu [ref=f2e45]:
+            - menuitem "首页" [ref=f2e46] [cursor=pointer]
+            - menuitem "开始问答" [ref=f2e51] [cursor=pointer]
+            - menuitem "自动任务" [ref=f2e56] [cursor=pointer]
+            - menuitem "智能体开发" [expanded] [ref=f2e62] [cursor=pointer]
+            - menu [ref=f2e192]:
+              - menuitem "模型配置" [ref=f2e193] [cursor=pointer]
+              - menuitem "知识库配置" [active] [ref=f2e198] [cursor=pointer]
+              - menuitem "智能体配置" [ref=f2e202] [cursor=pointer]
+              - menuitem "记忆配置" [ref=f2e207] [cursor=pointer]
+              - menuitem "智能体评估" [ref=f2e213] [cursor=pointer]
+            - menuitem "资源仓库" [ref=f2e67] [cursor=pointer]
+            - menuitem "资源管理" [ref=f2e72] [cursor=pointer]
+          - button [ref=f2e78] [cursor=pointer]
+      - main [ref=f2e82]:
+        - generic [ref=f2e1189]:
+          - generic [ref=f2e1190]:
+            - generic [ref=f2e1191]:
+              - generic [ref=f2e1196]:
+                - heading "知识库" [level=1] [ref=f2e1197]
+                - paragraph [ref=f2e1198]: 创建、管理并维护团队的知识资产
+              - generic [ref=f2e1199]:
+                - button "plus 创建" [ref=f2e1200] [cursor=pointer]:
+                  - img "plus" [ref=f2e1202]
+                  - generic [ref=f2e1206]: 创建
+                - button "同步" [ref=f2e1207] [cursor=pointer]:
+                  - img "sync" [ref=f2e1209]
+                - button "标签管理" [ref=f2e1212] [cursor=pointer]
+            - generic [ref=f2e1217]:
+              - heading "全部知识库共 2 个" [level=2] [ref=f2e1218]
+              - generic [ref=f2e1219]:
+                - generic [ref=f2e1220]:
+                  - img "search" [ref=f2e1222]
+                  - textbox "搜索知识库名称" [ref=f2e1225]
+                - button "filter 筛选" [ref=f2e1227] [cursor=pointer]:
+                  - img "filter" [ref=f2e1229]
+                  - generic [ref=f2e1232]: 筛选
+          - generic [ref=f2e1234]:
+            - button "+ 新建知识库 上传文档，构建专属知识资产" [ref=f2e1235]:
+              - generic [ref=f2e1236]: +
+              - generic [ref=f2e1237]: 新建知识库
+              - generic [ref=f2e1238]: 上传文档，构建专属知识资产
+            - button "涉诈案例库 来自nexent 编辑标签 编辑 删除 通过文档上传创建的知识库 5 文档 5 分块 Qwen/Qwen3-Embedding-4B Default Group 同组可编辑 存储容量 可用容量 无限制 总容量 无限制 更新于2026-10-30 nexent" [ref=f2e1239] [cursor=pointer]:
+              - generic [ref=f2e1240]:
+                - generic [ref=f2e1245]:
+                  - heading "涉诈案例库" [level=3] [ref=f2e1246]
+                  - generic [ref=f2e1247]: 来自nexent
+                - generic [ref=f2e1248]:
+                  - button "编辑标签" [ref=f2e1249]
+                  - button "编辑" [ref=f2e1254]
+                  - button "删除" [ref=f2e1259]
+              - paragraph [ref=f2e1264]: 通过文档上传创建的知识库
+              - generic [ref=f2e1265]:
+                - generic [ref=f2e1266]: 5 文档
+                - generic [ref=f2e1267]: 5 分块
+                - generic "Qwen/Qwen3-Embedding-4B" [ref=f2e1268]
+                - generic "Default Group" [ref=f2e1269]
+                - generic [ref=f2e1270]: 同组可编辑
+              - generic [ref=f2e1278]:
+                - generic [ref=f2e1279]: 存储容量
+                - generic [ref=f2e1281]:
+                  - generic [ref=f2e1282]:
+                    - generic [ref=f2e1283]: 可用容量
+                    - generic [ref=f2e1284]: 无限制
+                  - generic [ref=f2e1285]:
+                    - generic [ref=f2e1286]: 总容量
+                    - generic [ref=f2e1287]: 无限制
+              - generic [ref=f2e1288]:
+                - generic [ref=f2e1289]: 更新于2026-10-30
+                - generic [ref=f2e1290]: nexent
+            - button "涉诈规则库 来自nexent 编辑标签 编辑 删除 通过文档上传创建的知识库 3 文档 7 分块 Qwen/Qwen3-Embedding-4B Default Group 同组可编辑 存储容量 可用容量 无限制 总容量 无限制 更新于2026-10-30 nexent" [ref=f2e1291] [cursor=pointer]:
+              - generic [ref=f2e1292]:
+                - generic [ref=f2e1297]:
+                  - heading "涉诈规则库" [level=3] [ref=f2e1298]
+                  - generic [ref=f2e1299]: 来自nexent
+                - generic [ref=f2e1300]:
+                  - button "编辑标签" [ref=f2e1301]
+                  - button "编辑" [ref=f2e1306]
+                  - button "删除" [ref=f2e1311]
+              - paragraph [ref=f2e1316]: 通过文档上传创建的知识库
+              - generic [ref=f2e1317]:
+                - generic [ref=f2e1318]: 3 文档
+                - generic [ref=f2e1319]: 7 分块
+                - generic "Qwen/Qwen3-Embedding-4B" [ref=f2e1320]
+                - generic "Default Group" [ref=f2e1321]
+                - generic [ref=f2e1322]: 同组可编辑
+              - generic [ref=f2e1330]:
+                - generic [ref=f2e1331]: 存储容量
+                - generic [ref=f2e1333]:
+                  - generic [ref=f2e1334]:
+                    - generic [ref=f2e1335]: 可用容量
+                    - generic [ref=f2e1336]: 无限制
+                  - generic [ref=f2e1337]:
+                    - generic [ref=f2e1338]: 总容量
+                    - generic [ref=f2e1339]: 无限制
+              - generic [ref=f2e1340]:
+                - generic [ref=f2e1341]: 更新于2026-10-30
+                - generic [ref=f2e1342]: nexent
+    - contentinfo [ref=f2e185]:
+      - generic [ref=f2e186]:
+        - generic [ref=f2e188]:
+          - text: Nexent © 2026
+          - generic [ref=f2e189]: · v2.7.0
+        - link "使用条款" [ref=f2e191] [cursor=pointer]:
+          - /url: https://github.com/nexent-hub/nexent?tab=License-1-ov-file#readme
