@@ -685,7 +685,8 @@ LEAK = re.compile(r"""(["'/\\]eval["'/\\]|answer(_tx)?\.csv|EVAL_DIR)""")
 
 def check_leak(dirs):
     R.start("防泄题扫描")
-    allowed = {"evaluate.py", "selfcheck.py", "gen_data.py", "import_amlsim.py", "verify_injected_chains.py"}
+    allowed = {"evaluate.py", "selfcheck.py", "gen_data.py", "import_amlsim.py", "verify_injected_chains.py",
+               "export_graph.py", "export_assets_manifest.py"}   # 后两个只往 eval/ 写产出，不读答案
     n = 0
     for d in dirs:
         for p in Path(d).rglob("*.py"):

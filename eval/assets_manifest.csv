@@ -1,0 +1,14 @@
+﻿asset_id,asset_type,title,source,version,sha256,is_synthetic
+D01,数据,仿真账户表（accounts.csv）,core/gen_data.py 生成，数据集 sim-gen_profile_v1-seed42,1.0.0,bcc91394c0f89b4f1e11c7e47835c3f4dea959edaea3d0828a598c103aca9911,是
+D02,数据,仿真交易表（transactions.csv）,core/gen_data.py 生成，数据集 sim-gen_profile_v1-seed42,1.0.0,51a1b0e3f3cac58756a69b0e57c086852f15ec8bca4bae6ebc0c2916b69f3120,是
+R01,规则,规则集 v1（仿真内部规则）,Data and Rules/rules/rules_v1.yaml,v1,f5c54fc322f4d91f5bc65e7d1f0c4217073356d513c31f89ae33720db666ae5a,是
+R02,规则,规则集 v2（仿真内部规则）,Data and Rules/rules/rules_v2.yaml,v2,7c6799b0d33fe67c8c9af0f7ece497e79c505df7bccd145e02bc501a84a69c8c,是
+K01,知识库文档,规则说明文档 v1（由 core/export_rules_md.py 生成）,kb/rules_v1.md,v1,9718343c7274566dc19b151448d2e9c007b8fc579785e8b53aa2c86a6752bc51,是
+K02,知识库文档,规则说明文档 v2（由 core/export_rules_md.py 生成）,kb/rules_v2.md,v2,a68d284d8ccc8629a14d2c1b682a2d79fe60ed74b0365ec5f58d42860020814c,是
+K03,知识库文档,规则差异说明 v1→v2（由 core/export_rules_md.py 生成）,kb/rules_diff_v1_v2.md,v1→v2,1584484b166a303157652bed99d1d96336f19f515faf4ea33e71924804954633,是
+C01,案例,“两高一部”发布依法惩治帮助信息网络犯罪活动及相关犯罪典型案例（最高检，2025-07-28）（摘要为本作品改写）,https://www.spp.gov.cn/xwfbh/wsfbt/202507/t20250728_702377.shtml,访问日期 2026-10-30,5dd9855c334d12ea87d15feab832aa113768f1a86bf6b5bd3f4fd05dc880edfb,否
+C02,案例,涉案50亿 内蒙古警方侦破一起利用“跑分”平台洗钱案（中新网，2020-12-10，原始页面）（摘要为本作品改写）,https://www.chinanews.com.cn/sh/2020/12-10/9358918.shtml,访问日期 2026-10-30,8747148d95f03eff83f8c46bb7954581bd1184ba7bf8b3ecc62abb7b46bf99c6,否
+C03,案例,最高检央行联合发布惩治洗钱犯罪典型案例（最高检，2021-03-19）（摘要为本作品改写）,https://www.spp.gov.cn/spp/xwfbh/wsfbt/202103/t20210319_513155.shtml,访问日期 2026-10-30,bb69ffa8068727cb90968f5c7474bcb0bd157e931292704cd83b70f99fbe5e39,否
+C04,案例,浙江义乌：全链条打击犯罪追赃挽损（法治日报稿件，最高检网站，2025-12-10）（摘要为本作品改写）,https://www.spp.gov.cn/spp/zdgz/202512/t20251210_713230.shtml,访问日期 2026-10-30,8448913d781a2c1bdbda8ff6f0a4bd9c1645b1a2a08028f84838eff20b231cd3,否
+C05,案例,收款码竟成洗钱工具？小心成电诈分子“跑分”洗钱的“帮凶”（央视新闻，央视网，2025-04-08，原始页面）（摘要为本作品改写）,https://news.cctv.cn/2025/04/08/ARTIydPVfQAEglEcsbxYTXdR250408.shtml,访问日期 2026-10-30,bc440156d7fe4ccf23540e7f148308ec66f4c2a4c28997544256c60740edaa9c,否
+O01,本体,领域本体 TBox v1,ontology/tbox_v1.yaml,v1,7312f06a1491588fbcde59da80730e716581217f4028bd323988218ae58e4226,是

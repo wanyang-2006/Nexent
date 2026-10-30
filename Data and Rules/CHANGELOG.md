@@ -2,6 +2,11 @@
 
 格式：每个版本按"新增 / 变更 / 修复"列出，并注明影响方（甲 = 数据与算法，乙 = Nexent 与工具接入，文档 = 开发指南与任务书）。
 
+## 1.0.3 — 2026-10-30（只调整防泄题白名单，函数契约与字段不变）
+
+- `validate_spec.py --check-leak` 的白名单新增 `export_graph.py`、`export_assets_manifest.py`：两者只把链路图、资产登记表写入 `eval/`，不读答案文件。`01_数据规范.md`、`README.md` 同步说明。工具代码（`api`、`trace`、`rules`、`ticket`、`rejudge`、`mcp_server/`）的限制不变。（甲）
+- `core/evaluate.py` 在写 `eval/result.md` 的同时写 `eval/baseline.md`（对照基线）；`result.md` 的内容与口径不变。（甲）
+
 ## 1.0.2 — 2026-10-29（四个算法函数的实现细则，字段不变）
 
 `core/trace.py`、`rules.py`、`ticket.py`、`rejudge.py` 实现时对 02、03 规范未写明处的取舍，乙的 `server.py` 与提示词按此对接（代码尚未在本机运行，以运行结果为准）：
@@ -22,7 +27,7 @@
 - `start`/`end` 为 `None` 或空串表示不限；非 `YYYY-MM-DD HH:MM` 或不是真实时间返回 `BAD_TIME_FORMAT`；`start` 晚于 `end` 返回 `BAD_PARAM`。返回对象里的 `start`、`end` 为规范化后的值或 `null`。（甲、乙）
 - `limit` 为 `None` 时取默认 50；非整数（含布尔、字符串）或不在 1 至 200 返回 `BAD_PARAM`。（甲、乙）
 - 范围内无交易不是错误，返回 `total=0, count=0, truncated=false, transactions=[]`。（甲、乙）
-- 接口确认记录：甲、乙两人已按本文件与 `03_判定与输出规范.md` 第 1、2 节对齐（待两人在群内回复“确认”后补日期与签名）。（甲、乙）
+- 接口确认记录：2026-10-30，甲、乙两人已按本文件与 `03_判定与输出规范.md` 第 1、2 节对齐，接口、枚举、版本口径确认无异议。（甲、乙）
 
 ## 1.0.0 — 2026-10-29
 
