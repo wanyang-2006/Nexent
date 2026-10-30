@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "title": "涉诈资金链路研判 · 甲乙进度与交接（对话压缩 第3版，增量）",
+    "exported_on": "2026-10-30",
+    "builds_on": "对话压缩_甲乙进度交接_v2.json（2026-10-30，含第1-2天进度、算法实测结果、演示账户、第3-4天任务）。本文件只记录 v2 之后的新增内容；与 v2 冲突时以本文件为准。",
+    "how_to_use": "在新会话中把 v2 和 v3 两份一起载入。用户是队伍中的开发“甲”（数据与算法）。工作区 D:\\NexentFile 是仓库根目录，权威规范在 Data and Rules/。本文件只是摘要，细节以仓库文件为准；若与仓库冲突，以仓库为准。",
+    "language": "中文回复；少用列表和加粗，除非用户要求；解释进度时用最简单的话，不要用文件里的长术语"
+  },
+  "session_summary": [
+    "1. 读两份 v1、v2 交接 JSON，用大白话说明了甲、乙在第3-4天还要做什么（见 v2 的 next_steps，没有变化）。",
+    "2. 在本机安装并注册 @playwright/mcp，让 Claude 以后能在浏览器里操作 Nexent 网页（见 playwright_mcp 一节）。注册已成功，但还没有在新会话里实际测试过。",
+    "3. 把 kb/cases/ 的 5 篇仿真案例替换成 5 篇真实公开案例，并把案例 02、04、05 的来源改成原始网站、对照原文核对（见 real_cases 一节）。新文件已写好，旧的仿真文件还没删。"
+  ],
+  "playwright_mcp": {
+    "goal": "让 Claude 通过浏览器查看和操作服务器上的 Nexent 网页",
+    "nexent_web_url": "http://60.205.124.241:3000/（本机 curl 返回 HTTP 307，网络通）",
+    "installed": "@playwright/mcp@0.0.83，npx 启动检查正常；浏览器用本机 Chrome；Node v24.19.0",
+    "registered_how": "用 claude.cmd mcp add playwright --scope user ... 注册，写入 C:\\Users\\yang\\.claude.json。用户在自己的 PowerShell 里执行，claude.cmd mcp get playwright 显示 Connected，Args 以 /c npx 开头",
+    "args": "cmd /c npx -y @playwright/mcp@0.0.83 --browser chrome --user-data-dir C:/Users/yang/AppData/Local/playwright-mcp-profile --allowed-origins http://60.205.124.241:3000；环境变量 npm_config_cache=C:/Users/yang/AppData/Local/npm-cache-playwright",
+    "pitfalls": [
+      "claude_desktop_config.json（C:\\Users\\yang\\AppData\\Local\\Claude-3p\\）只管桌面端聊天/Cowork，Code 标签页读的是 C:\\Users\\yang\\.claude.json，必须用 claude mcp add --scope user 注册",
+      "在 Git Bash 里执行注册会把参数 /c 改成 C:/，导致连接超时；要加 MSYS_NO_PATHCONV=1",
+      "在 PowerShell 里 claude 实际运行 claude.ps1，会吞掉命令中间的 --，报 unknown option '-y'；要写 claude.cmd",
+      "MCP 工具只在会话启动时加载，注册后必须新开 Code 会话才能用",
+      "--allowed-origins 不是安全边界，只能减少误访问",
+      "本机设了代理 127.0.0.1:7897，访问 .gov.cn 网站会 TLS 握手失败，curl 要加 --noproxy \"*\""
+    ],
+    "login_note": "第一次用时弹出 Chrome 窗口，由用户自己登录 Nexent，账号密码不进对话；登录状态保存在 playwright-mcp-profile 目录（在仓库外，不要提交 git）",
+    "status": "待验证：在新 Code 会话里让 Claude 用 playwright 打开 Nexent，截图并检查智能体配置、工具列表、知识库；还没做过",
+    "files": "playwright_mcp/README.md、playwright_mcp/setup_playwright_mcp.ps1（早先写的安装脚本，本次最终没用它，改用 claude mcp add）",
+    "denied_actions": "auto 模式分类器拦下了：用 Bash 重新注册 MCP、用 run_in_terminal 执行 claude.cmd mcp add、用 Bash rm 删除旧案例文件。被拦后都改由用户自己运行"
+  },
+  "real_cases": {
+    "location": "D:\\NexentFile\\kb\\cases\\",
+    "why": "原先 5 篇是仿真示例案例，不得称为真实案例。现换成带来源链接、发布日期、访问日期（2026-10-30）的真实公开案例摘要。",
+    "files": [
+      {
+        "file": "case01_快进快出_到账即取现转币.md",
+        "pattern": "快进快出",
+        "source": "最高检官网 两高一部典型案例（2025-07-28）案例四 https://www.spp.gov.cn/xwfbh/wsfbt/202507/t20250728_702377.shtml （最高法网站也有 https://www.court.gov.cn/zixun/xiangqing/472111.html）",
+        "facts": "王某等3人，2022年7月起，收购银行卡接收诈骗资金，到账后在黑龙江大庆多家银行取现，抽10%-15%提成，其余买虚拟币转上线；2022-08-05至14日，15名被害人40余万元"
+      },
+      {
+        "file": "case02_分层中转_跑分平台与资金池.md",
+        "pattern": "分层中转",
+        "source": "中新网原文（2020-12-10）https://www.chinanews.com.cn/sh/2020/12-10/9358918.shtml",
+        "facts": "内蒙古通辽“跑分”案，起点是1.8万余元游戏充值诈骗；码商、卡商、码农、车手；24个省市区抓获47人；资金池百余个，流转资金50亿元。上游主要是网络赌博，不是纯电信诈骗"
+      },
+      {
+        "file": "case03_拆分转出_大额款项拆分至多账户.md",
+        "pattern": "拆分转出",
+        "source": "最高检官网 最高检、人民银行惩治洗钱犯罪典型案例（2021-03-19）曾某案 https://www.spp.gov.cn/spp/xwfbh/wsfbt/202103/t20210319_513155.shtml",
+        "facts": "500万元先到公司账户，转侄女账户，再拆分转给多人；共转移3700万元；事后用虚假工程合同伪装。上游是涉黑受贿，不是诈骗，选用是因为资金形态与R03一致"
+      },
+      {
+        "file": "case04_干扰情形_劳务公司账户代发劳务费.md",
+        "pattern": "干扰：工资类",
+        "source": "最高检官网刊登的法治日报稿件（2025-12-10）https://www.spp.gov.cn/spp/zdgz/202512/t20251210_713230.shtml （中国长安网2025-12-19、央广网2025-12-11有转载）",
+        "facts": "义乌空壳劳务公司案：以“发放劳务费”名义，2024-11-12 收200万、次日收220万，立即取现，手续费3%，共420万元；薛某等被判3年缓4年；同一报道提到薛某原劳务公司仍在正常发工资。要点：工资/劳务费名义不能单独当安全依据"
+      },
+      {
+        "file": "case05_干扰情形_商户收款码被借用.md",
+        "pattern": "干扰：商户类",
+        "source": "央视网（央视新闻，2025-04-08）https://news.cctv.cn/2025/04/08/ARTIydPVfQAEglEcsbxYTXdR250408.shtml",
+        "facts": "北京海淀警方打击“跑分”洗钱，团伙诱骗中小企业主、个体商户出借收款码，诈骗组织把商户收款码发给受害者扫码转钱，警方13批次赴多地抓捕。原文没有金额，文件中据手法推断的部分已单独标明"
+      }
+    ],
+    "caveats": [
+      "公开报道都没有逐笔流水，“与本作品规则的对应”是本作品的解读，不能用来证明阈值",
+      "案例 02、03 的上游不是纯电信诈骗，对外不要称为“电信诈骗案例”",
+      "文件中不放账户号和交易号",
+      "2026-10-30 对照原文改了三处：案例02去掉转载页才有的“拆分转移”一句；案例04抓获经过改为与原文一致（5名核心成员是后来全部归案，不是同月抓获）；案例05发布日期改为04-08并标明推断部分",
+      "只核对了网页正文，没核对页面图片",
+      "案例 02 的 5 篇里有两条来源是转载页之前用过，现已全部换成原始或最高检官网页面"
+    ],
+    "old_simulated_files_to_delete": [
+      "case01_快进快出_冒充客服退款.md",
+      "case02_分层中转_多级账户转移.md",
+      "case03_拆分转出_大额拆小额.md",
+      "case04_干扰情形_企业代发工资.md",
+      "case05_干扰情形_高频商户.md"
+    ],
+    "delete_status": "未删除。Bash 的 rm 被 auto 模式拦下，需用户在 PowerShell 里用 Remove-Item 删除。截至最后一次 ls，kb/cases/ 里 10 个文件新旧并存",
+    "updated_docs": ["kb/README.md（案例表、使用限制、核对说明）", "agent/开发乙工作清单.md 第12行"],
+    "docs_still_mentioning_simulated_cases": [
+      "第3-4天任务书_甲乙.md 第 304、385、461 行（仍写“仿真示例案例”）",
+      "对话压缩_甲乙进度交接.json、对话压缩_甲乙进度交接_v2.json（历史记录，未改）",
+      "kb/README.md 里的“删除旧文件”提示，旧文件删掉后可去掉"
+    ],
+    "next_for_yi": "把新 5 个文件上传到 Nexent 的“涉诈案例库”（名称只能中文或小写字母），删除库里旧的仿真文件，在智能体配置里勾选并发布，再核查知识库引用并截图交丙；这一步在 Nexent 网页做，仓库文件不会自动同步"
+  },
+  "open_items": {
+    "立即": [
+      "用户在 PowerShell 里删除 5 个旧仿真案例文件",
+      "新开 Code 会话，让 Claude 用 playwright 打开 Nexent 并登录一次，验证能操作",
+      "通知乙上传新案例并删除旧案例"
+    ],
+    "仍未做（来自 v2，没有变化）": [
+      "甲：推送到私有远程并确认乙的协作者权限；与乙确认接口并补 CHANGELOG 1.0.1 的确认记录；数据说明交丙；勾选第1-2天任务书第8节；demo_accounts.md 改为实测（补 C06 的 A0039、A0261 与 A0177→A0186 交易号）",
+      "甲第3天：core/export_graph.py 链路图（v1 的 L-T01908、L-T01001，v2 的 L-T01338、L-T01454，matplotlib 要设中文字体）；联调支持与检查点1（Nexent 研判 A0209 返回 L-T01908）",
+      "甲第4天：core/export_assets_manifest.py、core/baseline_compare.py（B1 单笔≥10000告警，B2 不看时间窗与守恒的追链）、eval/baseline.md、可选多种子 43/44（不得覆盖 data/）、根目录 README 一键流程",
+      "乙第3天：云端 git pull 与 pytest（云端不放 eval/）→ 改 server.py 6 项并切 real → systemd 重启验收 → 刷新工具、改描述与提示词账户号 → 5 个账户对话测试 → 规则库换脚本版",
+      "乙第4天：7 个业务工具全部绑定并测试 → 提示词定稿（连续5次稳定）→ agent/check_ids.py → 案例库与核查截图 → 发布 v1.0",
+      "每次改 core 后：python core/run_checks_jia.py 全部通过再推送，并让乙在云端删旧工单、重启"
+    ],
+    "仓库状态": "git 状态在会话开始时：playwright_mcp/ 和 对话压缩_甲乙进度交接_v2.json 为未跟踪文件；本会话又新增 kb/cases 新文件和本 v3 文件，均未提交"
+  },
+  "environment_reminders": {
+    "local_python": "D:\\python\\python.exe 3.14.2；在 Windows 上的 python 不认 /tmp 这类 Git Bash 路径，要用相对路径或 Windows 路径；读 UTF-8 文件要设 PYTHONUTF8=1，否则 stdout 乱码",
+    "sandbox": "Claude 的 Linux 沙箱不可用；代码由 Claude 用文件工具编写，用户在本机运行并贴回输出",
+    "webfetch": "WebFetch 报 Socket is closed，改用 curl --noproxy \"*\" 下载网页再解析",
+    "nexent": "v2.7.0 在阿里云 ECS；MCP 内网地址 http://172.19.25.141:8900/sse（只给 Nexent 后端用，不要用浏览器访问）；云端仍为 fixture 模式",
+    "boundaries": "数据全部为仿真；只输出辅助研判工单，建议动作仅限建议人工复核、建议关注后续交易、建议补充材料；工具代码不得读取 eval/；规则阈值是仿真内部规则不是官方要求"
+  },
+  "user_preferences": [
+    "全程中文",
+    "每个文件夹内的更改必须写入该文件夹的 README.md",
+    "检查/辅助脚本放 core/，文件名要有辨识度",
+    "要求直接在对话中输出时不要生成文件；要求导出文件时才生成",
+    "未经运行验证的结论必须明说，不把设计预期当实测",
+    "希望核验步骤尽量简化成一条命令",
+    "解释进度用最简单的语言，不用文件里的大量术语"
+  ]
+}
