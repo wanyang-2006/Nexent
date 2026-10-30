@@ -1,5 +1,9 @@
 # mcp_server/
 
+2026-10-30：甲已交付完整算法，最新升级步骤以 [UPGRADE_REAL.md](UPGRADE_REAL.md) 为准。云端目前验收的是 hybrid；本地全算法测试通过后仍需上传并显式以 `MCP_MODE=real` 安装。下文为早期 fixture/hybrid 操作记录，不能用于判断当前后端是否缺失。
+
+2026-10-30：甲已交付完整算法，最新升级步骤以 [UPGRADE_REAL.md](UPGRADE_REAL.md) 为准。云端目前验收的是 hybrid；本地全算法测试通过后仍需上传并显式以 `MCP_MODE=real` 安装。下文为早期 fixture/hybrid 操作记录，不能用于判断当前后端是否缺失。
+
 MCP 服务目录，由乙维护。把甲的 6 个核心函数加上 `get_ticket` 包装成 MCP 工具，供 Nexent 智能体调用。
 
 更新日期：2026-10-29。本文是中文配置入口；当前代码默认运行固定仿真样例模式。

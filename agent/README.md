@@ -13,7 +13,40 @@
 | 导出的 ZIP 与 JSON | Nexent 导出的智能体配置 | 第 5 天以后 |
 | 提示词文本 | 职责、约束、示例三块提示词 | 第 2 天起 |
 
-## 当前环境记录（2026-10-29）
+## 当前环境记录（2026-10-30）
+
+- 云端用户回传两轮 `PASS: 8 tools; 19 MCP calls; real algorithms on synthetic dataset`，systemd enabled、active。当前 `MCP_MODE=real`，算法处理300账户、2973笔合成交易，不是真实银行记录。
+- Nexent `fundtrace_agent` 已绑定七个业务工具（增加 get_ticket、rejudge），以及 fund-chain-investigation Skill；最大步数15。
+- 模型：`deepseek-ai/DeepSeek-V4.1-Flash`。两知识库的向量模型均为 `Qwen/Qwen3-Embedding-4B`。
+- 已关联涉诈规则库（rules_v1、rules_v2、rules_diff_v1_v2，3文档/7分块）和涉诈案例库（5篇公开报道摘要，5分块）。规则引用来源面板已实测可打开。
+- 已同步新版 Skill、使用要求、示例和会话引导。提示词归档：[prompt_real.md](prompt_real.md)。
+- 用户明确授权后已关闭Nexent基础设置的记忆能力；独立普通会话原始日志确认不再自动调用search_memory。此为Nexent设置，与Codex自身记忆无关。
+- 最新发布Nexent V5，名称 `fundtrace-全算法合成数据-20261030-r2`，补充Python工具执行协议。A0074、A0105、A0176/v1重试和A9999回归已完成；A0105成功轮开启会话深度思考。A0209五个默认参数独立会话完整答复仅3/5通过，两轮分别出现正文截断、DSML调用文本代替执行；当前仍为联调版，稳定性未验收通过。详情及证据见test_log.md。
+- 同环境配置备份恢复已通过：独立测试智能体2和Skill副本已导入，A0209/v1、A0176/v2、只读工单、版本比较及异常账户检查通过，原智能体1保留V5。配置ZIP及导入说明见exports/README.md；异环境迁移尚未验收。
+- 通用编号核验脚本check_ids.py已完成：5项测试通过，5个演示回复与5次重复回复均完成编号存在性检查。该检查不替代答复完整性和工具执行检查，旧稳定性结果仍为3/5。
+- 服务地址、SSE端口、systemd管理命令沿用下方历史记录。不要重新启动 nohup。服务器恢复证据和五次稳定性仍待完成；不要将基础联调通过写成所有开发任务完成。
+
+## 编号核验
+
+交接材料与截图索引：[handoff/README.md](handoff/README.md)。已归档当前配置、工具与Skill、知识库就绪状态、运行策略和记忆关闭截图，完整截图清单尚未完成。
+
+在仓库根目录使用已安装项目依赖的Python执行：
+
+```bash
+python agent/check_ids.py answer.md --rule-version v1
+python agent/check_ids.py answer.md --rule-version v2 --json
+python agent/check_ids.py session-stream.txt --sse-final --rule-version v1
+```
+
+省略文件名或使用`-`时读取标准输入。普通文件必须只包含待核验答复；SSE日志必须使用`--sse-final`，仅提取final_answer事件，排除提示词、Skill和工具日志。文件按UTF-8读取，兼容BOM。默认规则版本v1；检查v2答复必须传v2。跨版本比较答复可分别用两个版本运行，并人工判断每条链所属版本。
+
+脚本从Data and Rules/enums.yaml读取可变长度编号格式，通过core.store读取数据表（支持FUNDTRACE_DATA_DIR），通过core.api.trace_chain检查指定版本下的链。链编号内部的种子交易号不重复算作交易引用；工单编号内部的账户号会核验，但不检查工单文件是否存在。全程只读，不生成工单。
+
+退出码：0=提取到的编号全部存在；1=存在未知编号；2=未提取到编号、输入错误或无法核验。A9999等故意查询的不存在账户也会返回1，应人工确认是否为正确的拒答，不能直接记为模型编造。
+
+**PASS仅代表编号存在**，不证明编号与当前账户有关，也不核验金额、时间、方向、规则命中、知识库引用、真实工具执行或答复完整性。DSML文本和截断回复可能通过编号检查，仍应按业务验收判失败。测试与历史答复核验结果见test_log.md。
+
+## 历史环境记录（2026-10-29）
 
 - 工作进度：[开发乙工作清单.md](开发乙工作清单.md)。
 - 测试记录：[test_log.md](test_log.md)。

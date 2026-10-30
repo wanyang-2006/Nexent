@@ -1,5 +1,7 @@
 # MCP 开机自启与进程守护
 
+2026-10-30：完整算法已交付，升级步骤见 [UPGRADE_REAL.md](UPGRADE_REAL.md)。安装脚本默认 hybrid，可显式执行 `MCP_MODE=real bash mcp_server/install_systemd.sh`，安装前请上传新版完整包并安装 `mcp_server/requirements.txt`。
+
 适用：Linux 云服务器，systemd 已运行，项目在 `/home/Liu/fundtrace-mcp`，虚拟环境及 hybrid 部署文件已安装。
 安装结果：服务名 `fundtrace-mcp.service`，以当前普通用户运行，开机启动、进程退出后5秒自动重启；日志写入 journal。
 该机制恢复进程退出，不检测进程仍存活但无法响应的情况。手动 systemctl stop 后不会自动重启。

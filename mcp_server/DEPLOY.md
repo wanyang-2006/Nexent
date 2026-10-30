@@ -1,5 +1,7 @@
 # Fundtrace MCP deployment
 
+2026-10-30 update: all six core APIs are now implemented. Use [UPGRADE_REAL.md](UPGRADE_REAL.md) for the complete runtime files, dependencies, explicit real-mode installation and current acceptance checks. Earlier backend-unavailable statements below describe the previous revision only.
+
 As of 2026-10-29. Python >= 3.10; tested with Python 3.12 and FastMCP 4.1.4.
 
 ## Current status

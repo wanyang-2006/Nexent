@@ -7,8 +7,10 @@ SERVICE="fundtrace-mcp.service"
 PYTHON="$ROOT/.venv/bin/python"
 RUN_USER="$(id -un)"
 RUN_GROUP="$(id -gn)"
+MODE="${MCP_MODE:-hybrid}"
 
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
+[[ "$MODE" == fixture || "$MODE" == hybrid || "$MODE" == real ]] || fail "MCP_MODE must be fixture, hybrid, or real."
 
 [[ "$(uname -s)" == Linux ]] || fail "This installer requires Linux."
 [[ "$EUID" -ne 0 ]] || fail "Run without sudo as the project owner. The script requests sudo only for systemd installation."
@@ -32,7 +34,7 @@ if ss -H -ltn 'sport = :8900' | grep -q .; then
 fi
 
 PYTHONDONTWRITEBYTECODE=1 "$PYTHON" -c 'import fastmcp; print("FastMCP:", fastmcp.__version__)'
-MCP_MODE=hybrid PYTHONDONTWRITEBYTECODE=1 "$PYTHON" "$ROOT/mcp_server/selftest.py" --in-process
+MCP_MODE="$MODE" PYTHONDONTWRITEBYTECODE=1 "$PYTHON" "$ROOT/mcp_server/selftest.py" --in-process
 
 UNIT="$(mktemp --suffix=.service)"
 trap 'rm -f -- "$UNIT"' EXIT
@@ -48,7 +50,7 @@ Type=simple
 User=$RUN_USER
 Group=$RUN_GROUP
 WorkingDirectory=$ROOT
-Environment=MCP_MODE=hybrid
+Environment=MCP_MODE=$MODE
 Environment=MCP_HOST=0.0.0.0
 Environment=MCP_PORT=8900
 Environment=MCP_TRANSPORT=sse
@@ -77,7 +79,7 @@ sudo systemctl restart "$SERVICE"
 
 SUCCEEDED=0
 for attempt in {1..15}; do
-    if MCP_MODE=hybrid "$PYTHON" "$ROOT/mcp_server/selftest.py" http://127.0.0.1:8900/sse; then
+    if MCP_MODE="$MODE" "$PYTHON" "$ROOT/mcp_server/selftest.py" http://127.0.0.1:8900/sse; then
         SUCCEEDED=1
         break
     fi

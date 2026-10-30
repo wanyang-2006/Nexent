@@ -31,6 +31,9 @@ mcp = FastMCP(
         "rejudge remain fixed A0087/v1 or v1-to-v2 fixtures. Never combine a hybrid query for one "
         "account with the A0087 fixture chain, rules, or ticket as if they were one analysis. "
         "These are synthetic data, not live bank data."
+        " In real mode ALL business tools run core.api over the generated dataset; v1 and v2 "
+        "are supported, rejudge covers all accounts, and fixture examples must never be used "
+        "as expected results. Real means computed algorithms, NOT real bank records."
     ),
 )
 
@@ -111,7 +114,9 @@ def _fixture(name: str, params: dict[str, Any]) -> dict[str, Any]:
 def _real(name: str, params: dict[str, Any]) -> dict[str, Any]:
     api = importlib.import_module("core.api")
     if name == "get_ticket":
-        path = ROOT / "tickets" / params["rule_version"] / f"{params['acct_id']}.json"
+        from core.ticket import ticket_dir
+
+        path = ticket_dir() / params["rule_version"] / f"{params['acct_id']}.json"
         result = _read_object(path) if path.is_file() else api.make_ticket(**params)
     else:
         result = getattr(api, name)(**params)
@@ -120,7 +125,25 @@ def _real(name: str, params: dict[str, Any]) -> dict[str, Any]:
     if name == "get_ticket" and "error" not in result:
         if result.get("acct_id") != params["acct_id"] or result.get("rule_version") != params["rule_version"]:
             raise ValueError("Ticket account or rule version mismatch")
+    if "error" not in result:
+        result = dict(result, _demo=_dataset_marker())
     return result
+
+
+def _dataset_marker() -> dict[str, Any]:
+    from core.store import get_store
+
+    return {
+        "mode": "synthetic_dataset",
+        "dataset_id": get_store().dataset_id,
+        "backend_mode": MODE,
+        "source": "configured dataset" if os.getenv("FUNDTRACE_DATA_DIR") else "data/accounts.csv and data/transactions.csv",
+        "notice": (
+            "基于完整合成数据集及指定规则版本计算，不是真实银行数据，不是固定样例。"
+            if MODE == "real" else
+            "基于完整合成数据集计算，不是真实银行数据；其他分析工具仍返回固定样例，不可拼接为同一账户研判。"
+        ),
+    }
 
 
 def _hybrid(name: str, params: dict[str, Any]) -> dict[str, Any]:
@@ -131,14 +154,7 @@ def _hybrid(name: str, params: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(result, dict):
         raise ValueError("core.api must return a JSON object as specified")
     if "error" not in result:
-        from core.store import get_store
-
-        result["_demo"] = {
-            "mode": "synthetic_dataset",
-            "dataset_id": get_store().dataset_id,
-            "source": "data/accounts.csv and data/transactions.csv",
-            "notice": "基于完整合成数据集计算，不是真实银行数据；其他分析工具仍返回固定样例，不可拼接为同一账户研判。",
-        }
+        result["_demo"] = _dataset_marker()
     return result
 
 
@@ -177,17 +193,17 @@ def get_transactions(acct_id: str, start: str | None = None, end: str | None = N
     return _call("get_transactions", acct_id=acct_id, start=start, end=end, limit=limit)
 
 
-@mcp.tool(description="资金链追踪。当前仅提供A0087、v1、max_hops=4固定样例；hybrid不代表追链算法已接入。")
+@mcp.tool(description="资金链追踪。real模式按合成数据及v1/v2规则计算，max_hops为1至10；fixture/hybrid仅A0087、v1、深度4固定样例。")
 def trace_chain(acct_id: str, max_hops: int = 4, rule_version: str = "v1") -> dict[str, Any]:
     return _call("trace_chain", acct_id=acct_id, max_hops=max_hops, rule_version=rule_version)
 
 
-@mcp.tool(description="规则命中与反向证据。当前仅提供A0087、v1固定样例；hybrid不代表规则算法已接入。")
+@mcp.tool(description="规则命中与反向证据。real模式按合成数据及v1/v2计算；fixture/hybrid仅A0087/v1固定样例。")
 def check_rules(acct_id: str, rule_version: str = "v1") -> dict[str, Any]:
     return _call("check_rules", acct_id=acct_id, rule_version=rule_version)
 
 
-@mcp.tool(description="生成研判工单。当前仅生成A0087/v1固定样例，hybrid不代表工单算法已接入。")
+@mcp.tool(description="生成并保存研判工单。real模式按指定账户、v1/v2计算；fixture/hybrid仅A0087/v1固定样例。")
 def make_ticket(acct_id: str, rule_version: str = "v1") -> dict[str, Any]:
     return _call("make_ticket", acct_id=acct_id, rule_version=rule_version)
 
@@ -197,7 +213,7 @@ def get_ticket(acct_id: str, rule_version: str = "v1") -> dict[str, Any]:
     return _call("get_ticket", acct_id=acct_id, rule_version=rule_version)
 
 
-@mcp.tool(description="比较规则版本重判结果。fixture/hybrid仅返回v1到v2的10账户固定样例，非全量真实重判。")
+@mcp.tool(description="比较规则版本重判结果。real模式对合成数据全部账户按old/new计算；fixture/hybrid仅v1到v2的10账户固定样例。")
 def rejudge(old: str = "v1", new: str = "v2") -> dict[str, Any]:
     return _call("rejudge", old=old, new=new)
 
@@ -210,15 +226,28 @@ if __name__ == "__main__":
             _read_object(FIXTURES / f"{tool_name}.json")
     if MODE in ("hybrid", "real") and importlib.util.find_spec("core.api") is None:
         raise SystemExit("core/api.py is missing; use MCP_MODE=fixture until the backend is ready")
-    if MODE == "hybrid":
+    if MODE in ("hybrid", "real"):
         try:
             from core.store import get_store
 
             store = get_store()
             if not store.accounts or not store.transactions or not store.dataset_id:
                 raise ValueError("synthetic dataset has no accounts or transactions")
+            api = importlib.import_module("core.api")
+            required = HYBRID_API_TOOLS if MODE == "hybrid" else (
+                "get_account", "get_transactions", "trace_chain", "check_rules", "make_ticket", "rejudge"
+            )
+            for name in required:
+                if not callable(getattr(api, name, None)):
+                    raise ValueError(f"core.api.{name} is missing")
+            if MODE == "real":
+                from core.ruleset import load_enums, load_ruleset
+
+                load_enums()
+                for version in ("v1", "v2"):
+                    load_ruleset(version)
         except Exception as exc:
-            raise SystemExit(f"hybrid dataset preflight failed: {exc}") from exc
+            raise SystemExit(f"{MODE} backend preflight failed: {exc}") from exc
     transport = os.getenv("MCP_TRANSPORT", "sse")
     if transport not in ("sse", "streamable-http"):
         raise SystemExit(f"MCP_TRANSPORT 只能是 sse 或 streamable-http，当前为 {transport!r}")

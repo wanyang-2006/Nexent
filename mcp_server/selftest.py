@@ -8,7 +8,62 @@ from pathlib import Path
 from fastmcp import Client
 
 
+async def check_real(target) -> None:
+    async with Client(target) as client:
+        names = {tool.name for tool in await client.list_tools()}
+        assert names == {"hello", "get_account", "get_transactions", "trace_chain", "check_rules", "make_ticket", "get_ticket", "rejudge"}
+        checks = 0
+
+        async def call(name, params, code=None):
+            nonlocal checks
+            response = await client.call_tool(name, params)
+            assert not response.is_error and isinstance(response.data, dict), response
+            result = response.data
+            if code:
+                assert result.get("code") == code, result
+            else:
+                assert "error" not in result, result
+                assert result["_demo"]["mode"] == "synthetic_dataset", result
+                assert result["_demo"]["backend_mode"] == "real", result
+                assert result["_demo"]["dataset_id"]
+            checks += 1
+            return result
+
+        assert (await client.call_tool("hello", {"name": "world"})).data == "hello world"
+        checks += 1
+        await call("get_account", {"acct_id": "A0044"})
+        txs = await call("get_transactions", {"acct_id": "A0044", "start": "2026-03-01 11:00", "end": "2026-03-02 00:00", "limit": 5})
+        assert [t["tx_id"] for t in txs["transactions"]] == ["T00121", "T00224", "T00365"]
+        assert (txs["total"], txs["count"], txs["truncated"]) == (3, 3, False)
+        for version in ("v1", "v2"):
+            params = {"acct_id": "A0176", "rule_version": version}
+            chain = await call("trace_chain", dict(params, max_hops=4))
+            assert bool(chain["chains"]) == (version == "v2")
+            await call("check_rules", params)
+            ticket = await call("make_ticket", params)
+            assert ticket["status_code"] == ("RISK_SIGNAL" if version == "v1" else "REVIEW")
+            assert await call("get_ticket", params) == ticket
+        result = await call("rejudge", {"old": "v1", "new": "v2"})
+        assert result["summary"]["total"] == 300
+        assert result["summary"]["changed"] == len(result["changed"]) > 0
+        assert "A0176" in {row["acct_id"] for row in result["changed"]}
+        for name, params, code in (
+            ("get_account", {"acct_id": "A9999"}, "ACCOUNT_NOT_FOUND"),
+            ("get_ticket", {"acct_id": "A9999"}, "ACCOUNT_NOT_FOUND"),
+            ("get_account", {"acct_id": "../other"}, "BAD_PARAM"),
+            ("get_transactions", {"acct_id": "A0044", "limit": 201}, "BAD_PARAM"),
+            ("get_transactions", {"acct_id": "A0044", "start": "2026-02-30 12:00"}, "BAD_TIME_FORMAT"),
+            ("check_rules", {"acct_id": "A0176", "rule_version": "v99"}, "BAD_RULE_VERSION"),
+            ("trace_chain", {"acct_id": "A0176", "max_hops": 11}, "BAD_PARAM"),
+        ):
+            await call(name, params, code)
+        print(f"PASS: 8 tools; {checks} MCP calls; real algorithms on synthetic dataset")
+
+
 async def check(target, mode: str = "fixture") -> None:
+    if mode == "real":
+        await check_real(target)
+        return
     async with Client(target) as c:
         names = [t.name for t in await c.list_tools()]
         expected = {"hello", "get_account", "get_transactions", "trace_chain", "check_rules", "make_ticket", "get_ticket", "rejudge"}
@@ -69,6 +124,7 @@ def main() -> int:
             import server
             with tempfile.TemporaryDirectory() as directory:
                 server.DEMO_TICKETS = Path(directory)
+                os.environ["FUNDTRACE_TICKET_DIR"] = directory
                 asyncio.run(check(server.mcp, server.MODE))
         else:
             asyncio.run(check(target, os.getenv("MCP_MODE", "fixture")))

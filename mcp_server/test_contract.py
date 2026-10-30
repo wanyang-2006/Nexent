@@ -1,5 +1,6 @@
 """Contract, fixture integrity, and backend handoff checks without network."""
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -93,7 +94,7 @@ class ContractTests(unittest.TestCase):
 
         api.make_ticket = make_ticket
         api.get_account = lambda **params: dict(params, marker="real")
-        with patch.object(server, "MODE", "real"), patch.object(server, "ROOT", self.root), patch.dict(sys.modules, {"core.api": api}):
+        with patch.object(server, "MODE", "real"), patch.dict(os.environ, {"FUNDTRACE_TICKET_DIR": str(self.root / "tickets")}), patch.dict(sys.modules, {"core.api": api}):
             self.assertEqual(server._call("get_account", acct_id="A0087")["marker"], "real")
             result = server._call("get_ticket", acct_id="A0087", rule_version="v1")
             self.assertEqual(len(calls), 1)
@@ -131,6 +132,26 @@ class ContractTests(unittest.TestCase):
         with patch.object(server, "MODE", "hybrid"), patch.dict(sys.modules, {"core.api": api}), patch.object(server, "_fixture", side_effect=AssertionError("must not fall back")):
             result = server._call("get_account", acct_id="A9999")
         self.assertEqual(result["code"], "ACCOUNT_NOT_FOUND")
+
+    def test_real_algorithm_ticket_roundtrip_and_rejudge(self):
+        with patch.object(server, "MODE", "real"), patch.dict(os.environ, {"FUNDTRACE_TICKET_DIR": str(self.root / "tickets")}), patch.object(server, "_fixture", side_effect=AssertionError("no fixtures")):
+            for version in ("v1", "v2"):
+                ticket = server._call("make_ticket", acct_id="A0176", rule_version=version)
+                self.assertNotIn("error", ticket)
+                self.assertEqual(ticket["_demo"]["backend_mode"], "real")
+                self.assertEqual(server._call("get_ticket", acct_id="A0176", rule_version=version), ticket)
+                path = self.root / "tickets" / version / "A0176.json"
+                self.assertNotIn("_demo", json.loads(path.read_text(encoding="utf-8")))
+            result = server._call("rejudge", old="v1", new="v2")
+            self.assertEqual(result["summary"]["total"], 300)
+            self.assertEqual(result["summary"]["changed"], len(result["changed"]))
+            for name in ("get_account", "trace_chain", "check_rules", "make_ticket", "get_ticket"):
+                params = {"acct_id": "A9999"}
+                if name != "get_account":
+                    params["rule_version"] = "v1"
+                if name == "trace_chain":
+                    params["max_hops"] = 4
+                self.assertEqual(server._call(name, **params)["code"], "ACCOUNT_NOT_FOUND")
 
 
 if __name__ == "__main__":

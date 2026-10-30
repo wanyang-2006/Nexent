@@ -8,13 +8,13 @@ import tempfile
 import time
 
 def main():
-    for mode in ("fixture", "hybrid"):
+    for mode in ("fixture", "hybrid", "real"):
         for transport, endpoint in (("sse", "sse"), ("streamable-http", "mcp")):
             with tempfile.TemporaryDirectory() as directory:
                 with socket.socket() as sock:
                     sock.bind(("127.0.0.1", 0))
                     port = sock.getsockname()[1]
-                env = dict(os.environ, MCP_MODE=mode, MCP_HOST="127.0.0.1", MCP_PORT=str(port), MCP_TRANSPORT=transport, MCP_DEMO_TICKETS_DIR=directory, PYTHONDONTWRITEBYTECODE="1")
+                env = dict(os.environ, MCP_MODE=mode, MCP_HOST="127.0.0.1", MCP_PORT=str(port), MCP_TRANSPORT=transport, MCP_DEMO_TICKETS_DIR=directory, FUNDTRACE_TICKET_DIR=directory, PYTHONDONTWRITEBYTECODE="1")
                 with tempfile.TemporaryFile(mode="w+b") as log:
                     proc = subprocess.Popen([sys.executable, str(Path(__file__).with_name("server.py"))], env=env, stdout=log, stderr=log)
                     try:
@@ -38,7 +38,7 @@ def main():
                         if client.returncode:
                             raise RuntimeError(f"Client selftest failed:\n{client.stdout}\n{client.stderr}")
                         print(client.stdout.strip())
-                        path = Path(directory) / "v1" / "A0087.json"
+                        path = Path(directory) / "v1" / ("A0176.json" if mode == "real" else "A0087.json")
                         if not path.is_file():
                             raise RuntimeError("Ticket was not persisted")
                         print(f"PASS: {mode} mode, {transport} network transport and ticket persistence")

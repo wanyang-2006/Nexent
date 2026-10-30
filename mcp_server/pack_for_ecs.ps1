@@ -10,7 +10,7 @@ param(
   [string]$FastmcpVersion = "4.1.4",
   [string]$PythonExe
 )
-$ErrorActionPreference = "Continue"
+$ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 function Say($m) { Write-Host "`n== $m" -ForegroundColor Cyan }
 function Fail($m) { Write-Host "`n[失败] $m" -ForegroundColor Red; exit 1 }
@@ -21,6 +21,7 @@ if (-not (Test-Path $Vpy)) { Fail "没有找到 Python：$Vpy。用 -PythonExe �
 if ($LASTEXITCODE -ne 0) { Fail "无法运行 $Vpy；请用 -PythonExe 指定一个可运行的 Python 3 环境" }
 $Dist = Join-Path $PSScriptRoot "dist"
 $Stage = Join-Path $Dist "fundtrace"
+if ([IO.Path]::GetFullPath($Stage) -ne [IO.Path]::GetFullPath((Join-Path $Root 'mcp_server\dist\fundtrace'))) { Fail 'Unexpected staging path' }
 if (Test-Path $Stage) { Remove-Item $Stage -Recurse -Force -ErrorAction Stop }
 New-Item -ItemType Directory -Force -Path (Join-Path $Stage "mcp_server") -ErrorAction Stop | Out-Null
 New-Item -ItemType Directory -Force -Path (Join-Path $Stage "core\fixtures"), (Join-Path $Stage "data") -ErrorAction Stop | Out-Null
@@ -36,12 +37,21 @@ $files = @(
   @{ Src = "mcp_server\README.md"; Dst = "mcp_server\README.md" },
   @{ Src = "mcp_server\DEPLOY.md"; Dst = "mcp_server\DEPLOY.md" },
   @{ Src = "mcp_server\SYSTEMD.md"; Dst = "mcp_server\SYSTEMD.md" },
+  @{ Src = "mcp_server\UPGRADE_REAL.md"; Dst = "mcp_server\UPGRADE_REAL.md" },
   @{ Src = "mcp_server\install.sh";  Dst = "mcp_server\install.sh" },
   @{ Src = "mcp_server\install_systemd.sh"; Dst = "mcp_server\install_systemd.sh" },
   @{ Src = "mcp_server\requirements.txt"; Dst = "mcp_server\requirements.txt" },
   @{ Src = "core\__init__.py"; Dst = "core\__init__.py" },
   @{ Src = "core\api.py"; Dst = "core\api.py" },
   @{ Src = "core\store.py"; Dst = "core\store.py" },
+  @{ Src = "core\trace.py"; Dst = "core\trace.py" },
+  @{ Src = "core\rules.py"; Dst = "core\rules.py" },
+  @{ Src = "core\ruleset.py"; Dst = "core\ruleset.py" },
+  @{ Src = "core\ticket.py"; Dst = "core\ticket.py" },
+  @{ Src = "core\rejudge.py"; Dst = "core\rejudge.py" },
+  @{ Src = "Data and Rules\enums.yaml"; Dst = "Data and Rules\enums.yaml" },
+  @{ Src = "Data and Rules\rules\rules_v1.yaml"; Dst = "Data and Rules\rules\rules_v1.yaml" },
+  @{ Src = "Data and Rules\rules\rules_v2.yaml"; Dst = "Data and Rules\rules\rules_v2.yaml" },
   @{ Src = "requirements.txt";       Dst = "requirements.txt" }
 )
 foreach ($f in $files) {
@@ -73,5 +83,7 @@ Write-Host @"
   scp mcp_server\dist\fundtrace_mcp.tar.gz <SSH连接名>:~/fundtrace_mcp.tar.gz
   ssh <SSH连接名>
   tar -xzf ~/fundtrace_mcp.tar.gz --strip-components=1 -C ~/fundtrace-mcp
-  cd ~/fundtrace-mcp && bash mcp_server/install_systemd.sh
+  cd ~/fundtrace-mcp
+  .venv/bin/python -m pip install -r mcp_server/requirements.txt
+  MCP_MODE=real bash mcp_server/install_systemd.sh
 "@
