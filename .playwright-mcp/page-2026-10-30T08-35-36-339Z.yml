@@ -1,0 +1,5 @@
+- generic [active] [ref=f3e1]:
+  - alert [ref=f3e2]
+  - generic: "* *"
+  - generic: "* * * *"
+  - paragraph [ref=f3e8]: 加载中

@@ -1,0 +1,101 @@
+- generic [active] [ref=f4e1]:
+  - alert [ref=f4e2]
+  - generic: "* *"
+  - generic: "* * * *"
+  - generic [ref=f4e4]:
+    - banner [ref=f4e5]:
+      - banner [ref=f4e6]:
+        - generic [ref=f4e7]:
+          - generic [ref=f4e8]:
+            - link "logo Nexent" [ref=f4e9] [cursor=pointer]:
+              - /url: /
+              - generic [ref=f4e10]:
+                - img "logo" [ref=f4e201]
+                - generic [ref=f4e11]: Nexent
+            - generic [ref=f4e15] [cursor=pointer]:
+              - img "Nexent" [ref=f4e17]
+              - generic [ref=f4e18]: Nexent
+          - generic [ref=f4e19]:
+            - link "Github" [ref=f4e20] [cursor=pointer]:
+              - /url: https://github.com/ModelEngine-Group/nexent
+            - link "ModelEngine" [ref=f4e24] [cursor=pointer]:
+              - /url: http://modelengine-ai.net
+            - generic [ref=f4e25] [cursor=pointer]: 简体中文
+            - button "通知" [ref=f4e33] [cursor=pointer]
+            - generic [ref=f4e38]:
+              - generic [ref=f4e39]: 1932169224@qq.com
+              - generic [ref=f4e40] [cursor=pointer]
+    - generic [ref=f4e44]:
+      - complementary [ref=f4e45]:
+        - generic [ref=f4e46]:
+          - menu [ref=f4e51]:
+            - menuitem "首页" [ref=f4e52] [cursor=pointer]
+            - menuitem "开始问答" [ref=f4e57] [cursor=pointer]
+            - menuitem "自动任务" [ref=f4e62] [cursor=pointer]
+            - menuitem "智能体开发" [ref=f4e68] [cursor=pointer]
+            - menuitem "资源仓库" [ref=f4e73] [cursor=pointer]
+            - menuitem "资源管理" [ref=f4e78] [cursor=pointer]
+          - button [ref=f4e84] [cursor=pointer]
+      - main [ref=f4e88]:
+        - generic [ref=f4e90]:
+          - complementary [ref=f4e91]:
+            - generic [ref=f4e93]:
+              - generic [ref=f4e95]:
+                - button "新对话" [ref=f4e96] [cursor=pointer]
+                - button [ref=f4e99] [cursor=pointer]
+              - generic [ref=f4e202]:
+                - paragraph [ref=f4e203]: 最近7天
+                - generic [ref=f4e204]:
+                  - generic [ref=f4e205]: A0087资金链规则命中
+                  - button [ref=f4e209] [cursor=pointer]
+                - generic [ref=f4e214]:
+                  - generic [ref=f4e215]: 账户A0087研判
+                  - button [ref=f4e219] [cursor=pointer]
+              - button "切换新版" [ref=f4e114] [cursor=pointer]
+          - generic [ref=f4e122]:
+            - generic [ref=f4e123]:
+              - generic [ref=f4e125]:
+                - heading "新对话" [level=1] [ref=f4e127] [cursor=pointer]
+                - button [ref=f4e129] [cursor=pointer]
+              - generic [ref=f4e144]:
+                - generic [ref=f4e145]:
+                  - generic [ref=f4e146]:
+                    - img "Nexent" [ref=f4e148]
+                    - paragraph [ref=f4e244]: 你好，我是涉诈资金链路研判助手。可查询合成数据中的账户与交易，按 v1 或 v2 追踪资金链、整理规则证据和工单，并比较规则版本。所有结果均用于仿真演示，不是真实银行账户分析。
+                  - generic [ref=f4e245]:
+                    - button "1. 请按 v1 研判账户 A0209，结合规则知识库生成工单" [ref=f4e246]:
+                      - generic [ref=f4e247]: "1."
+                      - generic [ref=f4e248]: 请按 v1 研判账户 A0209，结合规则知识库生成工单
+                    - button "2. 请按 v2 研判账户 A0176，列出反向证据和缺失证据" [ref=f4e249]:
+                      - generic [ref=f4e250]: "2."
+                      - generic [ref=f4e251]: 请按 v2 研判账户 A0176，列出反向证据和缺失证据
+                    - button "3. 比较 v1 与 v2 的研判结果，列出变化账户" [ref=f4e252]:
+                      - generic [ref=f4e253]: "3."
+                      - generic [ref=f4e254]: 比较 v1 与 v2 的研判结果，列出变化账户
+                  - generic [ref=f4e151]:
+                    - textbox "给 Nexent 发送消息" [ref=f4e153]
+                    - generic [ref=f4e154]:
+                      - generic [ref=f4e155]:
+                        - generic [ref=f4e156]: 涉诈资金链路研判助手
+                        - generic [ref=f4e261]: deepseek-ai/DeepSeek-V4.1-Flash
+                      - generic [ref=f4e165]:
+                        - button [ref=f4e169] [cursor=pointer]
+                        - button [ref=f4e174] [cursor=pointer]
+                        - button "发送" [disabled] [ref=f4e270]
+                - generic [ref=f4e179]: 内容由 AI 生成，请仔细甄别
+            - generic [ref=f4e181]:
+              - generic [ref=f4e182]:
+                - heading "网页 · 知识库搜索" [level=3] [ref=f4e184]
+                - button "关闭侧边栏" [ref=f4e185] [cursor=pointer]
+              - generic:
+                - generic:
+                  - button "来源" [ref=f4e189] [cursor=pointer]
+                  - button "图片" [ref=f4e191] [cursor=pointer]
+                - generic: 暂无搜索结果
+    - contentinfo [ref=f4e194]:
+      - generic [ref=f4e195]:
+        - generic [ref=f4e197]:
+          - text: Nexent © 2026
+          - generic [ref=f4e198]: · v2.7.0
+        - link "使用条款" [ref=f4e200] [cursor=pointer]:
+          - /url: https://github.com/nexent-hub/nexent?tab=License-1-ov-file#readme

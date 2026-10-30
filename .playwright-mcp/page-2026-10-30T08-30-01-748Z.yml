@@ -1,0 +1,177 @@
+- generic [ref=f2e2]:
+  - alert [ref=f2e1]: 你好，我是智能体生成助手
+  - generic: "* *"
+  - generic: "* * * *"
+  - generic [ref=f2e4]:
+    - banner [ref=f2e5]:
+      - banner [ref=f2e6]:
+        - generic [ref=f2e7]:
+          - link "logo Nexent" [ref=f2e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f2e10]:
+              - img "logo" [ref=f2e11]
+              - generic [ref=f2e12]: Nexent
+          - generic [ref=f2e13]:
+            - link "Github" [ref=f2e14] [cursor=pointer]:
+              - /url: https://github.com/ModelEngine-Group/nexent
+            - link "ModelEngine" [ref=f2e18] [cursor=pointer]:
+              - /url: http://modelengine-ai.net
+            - generic [ref=f2e19] [cursor=pointer]: 简体中文
+            - button "通知" [ref=f2e27] [cursor=pointer]
+            - generic [ref=f2e32]:
+              - generic [ref=f2e33]: 1932169224@qq.com
+              - generic [ref=f2e34] [cursor=pointer]
+    - generic [ref=f2e38]:
+      - complementary [ref=f2e39]:
+        - generic [ref=f2e40]:
+          - menu [ref=f2e45]:
+            - menuitem "首页" [ref=f2e46] [cursor=pointer]
+            - menuitem "开始问答" [ref=f2e51] [cursor=pointer]
+            - menuitem "自动任务" [ref=f2e56] [cursor=pointer]
+            - menuitem "智能体开发" [expanded] [ref=f2e62] [cursor=pointer]
+            - menu [ref=f2e192]:
+              - menuitem "模型配置" [ref=f2e193] [cursor=pointer]
+              - menuitem "知识库配置" [ref=f2e198] [cursor=pointer]
+              - menuitem "智能体配置" [ref=f2e202] [cursor=pointer]
+              - menuitem "记忆配置" [ref=f2e207] [cursor=pointer]
+              - menuitem "智能体评估" [ref=f2e213] [cursor=pointer]
+            - menuitem "资源仓库" [ref=f2e67] [cursor=pointer]
+            - menuitem "资源管理" [ref=f2e72] [cursor=pointer]
+          - button [ref=f2e78] [cursor=pointer]
+      - main [ref=f2e82]:
+        - generic [ref=f2e274]:
+          - generic [ref=f2e275]:
+            - button "返回" [ref=f2e276] [cursor=pointer]
+            - button "版本管理" [ref=f2e281] [cursor=pointer]
+          - main [ref=f2e290]:
+            - generic [ref=f2e291]:
+              - generic [ref=f2e292]:
+                - generic [ref=f2e293]:
+                  - heading "智能生成" [level=3] [ref=f2e295]
+                  - button "关闭智能生成" [ref=f2e296]
+                - generic [ref=f2e303]:
+                  - generic [ref=f2e307]:
+                    - generic [ref=f2e311]:
+                      - heading "你好，我是智能体生成助手" [level=1] [ref=f2e312]
+                      - paragraph [ref=f2e313]: 请描述你希望如何配置当前智能体，我会搜索已安装资源并生成 Prompt 字段。
+                    - generic [ref=f2e314]:
+                      - button "生成提示词 根据已选工具与技能生成" [ref=f2e315]:
+                        - generic [ref=f2e319]:
+                          - generic [ref=f2e320]: 生成提示词
+                          - generic [ref=f2e321]: 根据已选工具与技能生成
+                      - button "推荐可用工具 根据当前角色推荐工具" [ref=f2e322]:
+                        - generic [ref=f2e326]:
+                          - generic [ref=f2e327]: 推荐可用工具
+                          - generic [ref=f2e328]: 根据当前角色推荐工具
+                      - button "推荐可用技能 根据当前角色推荐技能" [ref=f2e329]:
+                        - generic [ref=f2e333]:
+                          - generic [ref=f2e334]: 推荐可用技能
+                          - generic [ref=f2e335]: 根据当前角色推荐技能
+                      - button "生成会话引导 生成开场白与示例问题" [ref=f2e336]:
+                        - generic [ref=f2e340]:
+                          - generic [ref=f2e341]: 生成会话引导
+                          - generic [ref=f2e342]: 生成开场白与示例问题
+                  - generic [ref=f2e343]:
+                    - button "滚动到底部" [disabled]
+                    - group [ref=f2e345]:
+                      - generic [ref=f2e346]:
+                        - textbox "发送消息..." [ref=f2e347]
+                        - generic [ref=f2e349]:
+                          - button "发送" [disabled]
+              - generic [ref=f2e350]:
+                - generic [ref=f2e351]:
+                  - generic [ref=f2e352]:
+                    - heading "配置" [level=3] [ref=f2e353]
+                    - generic [ref=f2e354]: 草稿
+                  - generic [ref=f2e360]:
+                    - generic [ref=f2e361]:
+                      - text: "当前发布版本:"
+                      - generic [ref=f2e366] [cursor=pointer]: fundtrace-全算法合成数据-20261030-r2
+                      - generic [ref=f2e367]: / 共 5 个版本
+                    - button "智能生成" [ref=f2e368] [cursor=pointer]
+                - generic [ref=f2e374]:
+                  - generic [ref=f2e375]:
+                    - tablist [ref=f2e376]:
+                      - tab "基本设置" [ref=f2e377]
+                      - tab "工具与技能" [ref=f2e378]
+                      - tab "高级设置" [selected] [ref=f2e379]
+                    - tabpanel "高级设置" [ref=f2e795]:
+                      - generic [ref=f2e798]:
+                        - button "协作智能体 添加内部或外部智能体，并配置协作关系" [ref=f2e799] [cursor=pointer]:
+                          - generic [ref=f2e800]:
+                            - generic [ref=f2e803]: 协作智能体
+                            - paragraph [ref=f2e808]: 添加内部或外部智能体，并配置协作关系
+                        - generic [ref=f2e809]:
+                          - button "A2A发现" [ref=f2e810] [cursor=pointer]
+                          - button "选择智能体" [ref=f2e816] [cursor=pointer]
+                      - generic [ref=f2e821]:
+                        - button "运行策略 配置最大运行步数、输出预留、结果自验证和运行摘要" [expanded] [active] [ref=f2e823] [cursor=pointer]:
+                          - generic [ref=f2e824]:
+                            - generic [ref=f2e827]: 运行策略
+                            - paragraph [ref=f2e831]: 配置最大运行步数、输出预留、结果自验证和运行摘要
+                        - generic [ref=f2e863]:
+                          - generic [ref=f2e864]:
+                            - generic [ref=f2e867]:
+                              - generic "最大步数" [ref=f2e869]
+                              - generic [ref=f2e872]:
+                                - generic [ref=f2e873]:
+                                  - spinbutton [ref=f2e874]: "15"
+                                  - generic:
+                                    - button "Increase Value" [ref=f2e875] [cursor=pointer]:
+                                      - img "up" [ref=f2e876]
+                                    - button "Decrease Value" [ref=f2e879] [cursor=pointer]:
+                                      - img "down" [ref=f2e880]
+                                - generic [ref=f2e883]: 步
+                            - generic [ref=f2e886]:
+                              - generic "输出预留" [ref=f2e888]
+                              - generic [ref=f2e891]:
+                                - generic [ref=f2e892]:
+                                  - spinbutton [ref=f2e893]: "4096"
+                                  - generic:
+                                    - button "Increase Value" [ref=f2e894] [cursor=pointer]:
+                                      - img "up" [ref=f2e895]
+                                    - button "Decrease Value" [ref=f2e898] [cursor=pointer]:
+                                      - img "down" [ref=f2e899]
+                                - text: tokens
+                          - generic [ref=f2e902]:
+                            - generic [ref=f2e905]:
+                              - generic "提供运行摘要" [ref=f2e907]
+                              - switch [ref=f2e911] [cursor=pointer]
+                            - generic [ref=f2e916]:
+                              - generic "允许对话 Metadata" [ref=f2e918]:
+                                - text: 允许对话 Metadata
+                                - img "question-circle" [ref=f2e920]
+                              - switch [ref=f2e927] [cursor=pointer]
+                            - generic [ref=f2e932]:
+                              - generic "严格输出协议与静默修复" [ref=f2e934]:
+                                - text: 严格输出协议与静默修复
+                                - img "question-circle" [ref=f2e936]
+                              - switch [ref=f2e943] [cursor=pointer]
+                            - generic [ref=f2e948]:
+                              - generic "自验证" [ref=f2e950]:
+                                - text: 自验证
+                                - img "question-circle" [ref=f2e952]
+                              - switch [ref=f2e959] [cursor=pointer]
+                      - button "发布属性 配置用户组、组内权限、设为主智能体和 A2A 发布" [ref=f2e835] [cursor=pointer]:
+                        - generic [ref=f2e836]:
+                          - generic [ref=f2e839]: 发布属性
+                          - paragraph [ref=f2e844]: 配置用户组、组内权限、设为主智能体和 A2A 发布
+                      - generic [ref=f2e847]:
+                        - button "安全护栏 配置内容匹配规则、处理动作和规则测试" [ref=f2e848] [cursor=pointer]:
+                          - generic [ref=f2e849]:
+                            - generic [ref=f2e852]: 安全护栏
+                            - paragraph [ref=f2e857]: 配置内容匹配规则、处理动作和规则测试
+                        - switch [ref=f2e859] [cursor=pointer]
+                  - generic [ref=f2e574]:
+                    - button "停止当前生成并解除编辑锁定" [disabled] [ref=f2e575]:
+                      - generic: 解除锁定
+                    - generic [ref=f2e576]:
+                      - button "调试" [ref=f2e577] [cursor=pointer]
+                      - button "发布" [ref=f2e589] [cursor=pointer]
+    - contentinfo [ref=f2e185]:
+      - generic [ref=f2e186]:
+        - generic [ref=f2e188]:
+          - text: Nexent © 2026
+          - generic [ref=f2e189]: · v2.7.0
+        - link "使用条款" [ref=f2e191] [cursor=pointer]:
+          - /url: https://github.com/nexent-hub/nexent?tab=License-1-ov-file#readme

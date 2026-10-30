@@ -1,0 +1,151 @@
+- generic [active] [ref=f4e1]:
+  - alert [ref=f4e2]
+  - generic: "* *"
+  - generic: "* * * *"
+  - generic [ref=f4e4]:
+    - banner [ref=f4e5]:
+      - banner [ref=f4e6]:
+        - generic [ref=f4e7]:
+          - link "logo Nexent" [ref=f4e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f4e10]:
+              - img "logo" [ref=f4e201]
+              - generic [ref=f4e11]: Nexent
+          - generic [ref=f4e19]:
+            - link "Github" [ref=f4e20] [cursor=pointer]:
+              - /url: https://github.com/ModelEngine-Group/nexent
+            - link "ModelEngine" [ref=f4e24] [cursor=pointer]:
+              - /url: http://modelengine-ai.net
+            - generic [ref=f4e25] [cursor=pointer]: 简体中文
+            - button "通知" [ref=f4e33] [cursor=pointer]
+            - generic [ref=f4e38]:
+              - generic [ref=f4e39]: 1932169224@qq.com
+              - generic [ref=f4e40] [cursor=pointer]
+    - generic [ref=f4e44]:
+      - complementary [ref=f4e45]:
+        - generic [ref=f4e46]:
+          - menu [ref=f4e51]:
+            - menuitem "首页" [ref=f4e52] [cursor=pointer]
+            - menuitem "开始问答" [ref=f4e57] [cursor=pointer]
+            - menuitem "自动任务" [ref=f4e62] [cursor=pointer]
+            - menuitem "智能体开发" [ref=f4e68] [cursor=pointer]
+            - menuitem "资源仓库" [ref=f4e73] [cursor=pointer]
+            - menuitem "资源管理" [ref=f4e78] [cursor=pointer]
+          - button [ref=f4e84] [cursor=pointer]
+      - main [ref=f4e88]:
+        - generic [ref=f4e271]:
+          - generic [ref=f4e738]:
+            - generic [ref=f4e740]:
+              - button "新对话" [ref=f4e741]
+              - button "Toggle Sidebar" [ref=f4e743] [cursor=pointer]
+            - generic [ref=f4e746]:
+              - generic [ref=f4e747]:
+                - generic [ref=f4e748]: 今天
+                - generic [ref=f4e749]:
+                  - button "账户A0176研判工单" [ref=f4e750]
+                  - button [ref=f4e753]
+                - generic [ref=f4e758]:
+                  - button "账户A0209研判工单" [ref=f4e759]
+                  - button [ref=f4e762]
+                - generic [ref=f4e767]:
+                  - button "账户A0209研判工单" [ref=f4e768]
+                  - button [ref=f4e771]
+                - generic [ref=f4e776]:
+                  - button "A0209账户研判工单" [ref=f4e777]
+                  - button [ref=f4e780]
+                - generic [ref=f4e785]:
+                  - button "账户A0209研判" [ref=f4e786]
+                  - button [ref=f4e789]
+                - generic [ref=f4e794]:
+                  - button "A0209账户研判工单" [ref=f4e795]
+                  - button [ref=f4e798]
+                - generic [ref=f4e803]:
+                  - button "A9999账户研判建单" [ref=f4e804]
+                  - button [ref=f4e807]
+                - generic [ref=f4e812]:
+                  - button "账户A0105研判工单" [ref=f4e813]
+                  - button [ref=f4e816]
+                - generic [ref=f4e821]:
+                  - button "A0176工单研判" [ref=f4e822]
+                  - button [ref=f4e825]
+                - generic [ref=f4e830]:
+                  - button "A0074账户研判工单" [ref=f4e831]
+                  - button [ref=f4e834]
+                - generic [ref=f4e839]:
+                  - button "A0105账户v1研判" [ref=f4e840]
+                  - button [ref=f4e843]
+                - generic [ref=f4e848]:
+                  - button "新对话" [ref=f4e849]
+                  - button [ref=f4e852]
+                - generic [ref=f4e857]:
+                  - button "A0105账户研判工单" [ref=f4e858]
+                  - button [ref=f4e861]
+                - generic [ref=f4e866]:
+                  - button "A0044账户研判工单" [ref=f4e867]
+                  - button [ref=f4e870]
+                - generic [ref=f4e875]:
+                  - button "v1/v2覆盖变化对比" [ref=f4e876]
+                  - button [ref=f4e879]
+                - generic [ref=f4e884]:
+                  - button "v1/v2研判对比分析" [ref=f4e885]
+                  - button [ref=f4e888]
+                - generic [ref=f4e893]:
+                  - button "A0209工单研判" [ref=f4e894]
+                  - button [ref=f4e897]
+                - generic [ref=f4e902]:
+                  - button "v1研判A0209工单" [ref=f4e903]
+                  - button [ref=f4e906]
+                - generic [ref=f4e911]: 最近 7 天
+                - generic [ref=f4e912]:
+                  - button "A0044交易明细查询" [ref=f4e913]
+                  - button [ref=f4e916]
+                - generic [ref=f4e921]:
+                  - button "查询A0044账户画像" [ref=f4e922]
+                  - button [ref=f4e925]
+                - generic [ref=f4e930]:
+                  - button "v1/v2重判状态变化" [ref=f4e931]
+                  - button [ref=f4e934]
+                - generic [ref=f4e939]:
+                  - button "查看A0087 v1工单" [ref=f4e940]
+                  - button [ref=f4e943]
+                - generic [ref=f4e948]:
+                  - button "账户A0087研判" [ref=f4e949]
+                  - button [ref=f4e952]
+                - generic [ref=f4e957]:
+                  - button "账户A0087研判" [ref=f4e958]
+                  - button [ref=f4e961]
+                - generic [ref=f4e966]:
+                  - button "账户A0087研判" [ref=f4e967]
+                  - button [ref=f4e970]
+                - generic [ref=f4e975]:
+                  - button "可审查账户研判" [ref=f4e976]
+                  - button [ref=f4e979]
+                - generic [ref=f4e984]:
+                  - button "A0087资金链规则命中" [ref=f4e985]
+                  - button [ref=f4e988]
+                - generic [ref=f4e993]:
+                  - button "研判账户A0087" [ref=f4e994]
+                  - button [ref=f4e997]
+              - button "已加载全部会话" [disabled] [ref=f4e1002]
+            - generic [ref=f4e1005]:
+              - button "批量管理" [ref=f4e1006]
+              - button "切换旧版" [ref=f4e1010]
+          - generic [ref=f4e1021]:
+            - generic [ref=f4e1022]:
+              - heading "选择一个智能体开始对话" [level=1] [ref=f4e1023]
+              - paragraph [ref=f4e1024]: 每个智能体擅长不同的任务，选择合适的智能体可以获得更好的回答。
+            - textbox "搜索智能体..." [ref=f4e1030]
+            - generic [ref=f4e1031]:
+              - generic [ref=f4e1032]: 全部智能体
+              - button [ref=f4e1034]:
+                - generic [ref=f4e1039]:
+                  - paragraph [ref=f4e1040]: 涉诈资金链路研判助手
+                  - paragraph [ref=f4e1041]: 基于账户交易、资金链追踪和规则命中结果，整理仿真数据中的研判证据。
+            - paragraph [ref=f4e1042]: 共 1 个智能体
+    - contentinfo [ref=f4e194]:
+      - generic [ref=f4e195]:
+        - generic [ref=f4e197]:
+          - text: Nexent © 2026
+          - generic [ref=f4e198]: · v2.7.0
+        - link "使用条款" [ref=f4e200] [cursor=pointer]:
+          - /url: https://github.com/nexent-hub/nexent?tab=License-1-ov-file#readme

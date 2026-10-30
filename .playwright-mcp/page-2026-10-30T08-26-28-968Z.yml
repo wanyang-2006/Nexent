@@ -1,0 +1,80 @@
+- generic [ref=f2e2]:
+  - alert [ref=f2e1]
+  - generic: "* *"
+  - generic: "* * * *"
+  - generic [ref=f2e4]:
+    - banner [ref=f2e5]:
+      - banner [ref=f2e6]:
+        - generic [ref=f2e7]:
+          - link "logo Nexent" [ref=f2e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f2e10]:
+              - img "logo" [ref=f2e11]
+              - generic [ref=f2e12]: Nexent
+          - generic [ref=f2e13]:
+            - link "Github" [ref=f2e14] [cursor=pointer]:
+              - /url: https://github.com/ModelEngine-Group/nexent
+            - link "ModelEngine" [ref=f2e18] [cursor=pointer]:
+              - /url: http://modelengine-ai.net
+            - generic [ref=f2e19] [cursor=pointer]: 简体中文
+            - button "通知" [ref=f2e27] [cursor=pointer]
+            - generic [ref=f2e32]:
+              - generic [ref=f2e33]: 1932169224@qq.com
+              - generic [ref=f2e34] [cursor=pointer]
+    - generic [ref=f2e38]:
+      - complementary [ref=f2e39]:
+        - generic [ref=f2e40]:
+          - menu [ref=f2e45]:
+            - menuitem "首页" [ref=f2e46] [cursor=pointer]
+            - menuitem "开始问答" [ref=f2e51] [cursor=pointer]
+            - menuitem "自动任务" [ref=f2e56] [cursor=pointer]
+            - menuitem "智能体开发" [expanded] [active] [ref=f2e62] [cursor=pointer]
+            - menu [ref=f2e192]:
+              - menuitem "模型配置" [ref=f2e193] [cursor=pointer]
+              - menuitem "知识库配置" [ref=f2e198] [cursor=pointer]
+              - menuitem "智能体配置" [ref=f2e202] [cursor=pointer]
+              - menuitem "记忆配置" [ref=f2e207] [cursor=pointer]
+              - menuitem "智能体评估" [ref=f2e213] [cursor=pointer]
+            - menuitem "资源仓库" [ref=f2e67] [cursor=pointer]
+            - menuitem "资源管理" [ref=f2e72] [cursor=pointer]
+          - button [ref=f2e78] [cursor=pointer]
+      - main [ref=f2e82]:
+        - generic [ref=f2e83]:
+          - generic [ref=f2e84]:
+            - heading "Nexent 一个提示词，无限种可能" [level=2] [ref=f2e86]:
+              - text: Nexent
+              - generic [ref=f2e87]: 一个提示词，无限种可能
+            - paragraph [ref=f2e88]: 无需编排，无需复杂拖拉拽，将数据、模型和工具整合到一个智能中心中。
+            - generic [ref=f2e90]:
+              - button "开始问答" [ref=f2e93] [cursor=pointer]
+              - button "快速配置" [ref=f2e100] [cursor=pointer]
+              - button "智能体仓库" [ref=f2e106] [cursor=pointer]
+            - generic [ref=f2e111]: 免费试用环境不做数据留存，数据可能随更新丢失，请注意
+          - generic [ref=f2e115]:
+            - heading "核心功能" [level=3] [ref=f2e116]
+            - generic [ref=f2e117]:
+              - generic [ref=f2e126]:
+                - heading "多智能体自主业务决策" [level=4] [ref=f2e127]
+                - paragraph [ref=f2e128]: 利用ReAct框架实现多智能体间的自主思考、任务规划、决策和执行，自动化MCP生态下的模型、数据与工具集。
+              - generic [ref=f2e135]:
+                - heading "智能体自动生成" [level=4] [ref=f2e136]
+                - paragraph [ref=f2e137]: 基于自然语言智能生成智能体核心提示词，在4-5个工具内运行准确度>70%，可追加优化。
+              - generic [ref=f2e145]:
+                - heading "高效数据准备" [level=4] [ref=f2e146]
+                - paragraph [ref=f2e147]: 企业级别的 Scalable 处理、切片、向量化数据框架，支撑构建基于不同文件格式、数据来源的高质量多模态知识库。
+              - generic [ref=f2e156]:
+                - heading "多源知识获取与溯源" [level=4] [ref=f2e157]
+                - paragraph [ref=f2e158]: 多种知识库、互联网等数据来源连接的MCP工具，基于业务决策数据获取方式，同时具备完整的多模态知识溯源与解释能力。
+              - generic [ref=f2e171]:
+                - heading "MCP工具支持" [level=4] [ref=f2e172]
+                - paragraph [ref=f2e173]: 支持MCP工具接入与调用，基于生态提供的各类工具，快速帮助实现更复杂的业务逻辑。
+              - generic [ref=f2e182]:
+                - heading "多模态对话" [level=4] [ref=f2e183]
+                - paragraph [ref=f2e184]: 基于多模态知识库、数据处理能力，提供多模态的智能体服务，支持文本、图像、音频等多种数据类型的输入输出。
+    - contentinfo [ref=f2e185]:
+      - generic [ref=f2e186]:
+        - generic [ref=f2e188]:
+          - text: Nexent © 2026
+          - generic [ref=f2e189]: · v2.7.0
+        - link "使用条款" [ref=f2e191] [cursor=pointer]:
+          - /url: https://github.com/nexent-hub/nexent?tab=License-1-ov-file#readme
