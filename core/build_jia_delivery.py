@@ -93,7 +93,8 @@ def main() -> int:
             data = data.replace(b"\r\n", b"\n")
         content[path.relative_to(ROOT).as_posix()] = data
     full = write_archive("fundtrace-jia-code-data-20261031", content, scanner)
-    prefixes = ("eval/", "ontology/", "kb/", "data/README.md", "agent/handoff/DEMO.md")
+    prefixes = ("eval/", "ontology/", "kb/", "data/README.md", "agent/handoff/DEMO.md",
+                "agent/handoff/丙_校赛PPT制作说明.md")
     materials = {p: b for p, b in content.items() if p.startswith(prefixes)
                  and p not in {"eval/answer.csv", "eval/answer_tx.csv"}}
     materials["README.md"] = content["eval/handoff/README.md"]

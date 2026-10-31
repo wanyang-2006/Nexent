@@ -15,10 +15,11 @@
 | 本体 | ontology/tbox_v1.yaml | 概念和关系，不是个人真实画像 |
 | 资产登记 | eval/assets_manifest.csv | 13 项，案例注明出处和改写 |
 | 演示与失败边界 | agent/handoff/DEMO.md、eval/handoff/REVIEW.md | V9 不等于规则 v9；业务规则仅 v1、v2 |
+| PPT制作说明 | agent/handoff/丙_校赛PPT制作说明.md | 14页建议结构、演示串联和审稿清单 |
 
 ## 可复现交付
 
-在仓库根目录运行 `python core/build_jia_delivery.py`。`dist/` 生成代码数据包和给丙的材料包，各有 SHA256、文件清单和验证结果；材料包不含答案 CSV。代码包保留 eval 供离线评测，但部署 MCP 时不得复制 eval。
+在仓库根目录运行 `python core/build_jia_delivery.py`。`dist/` 生成代码数据包和给丙的材料包，各有 SHA256、文件清单和验证结果；材料包包含 `agent/handoff/丙_校赛PPT制作说明.md`，不含答案 CSV。代码包保留 eval 供离线评测，但部署 MCP 时不得复制 eval。
 
 ## 对外表述
 
