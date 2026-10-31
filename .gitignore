@@ -20,3 +20,6 @@ _tmp*/
 
 # 浏览器自动化产物（含登录后页面快照，不得提交）
 .playwright-mcp/
+
+# Rebuildable internal delivery archives
+/dist/

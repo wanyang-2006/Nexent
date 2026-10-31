@@ -1,8 +1,8 @@
 # mcp_server/
 
-2026-10-30：甲已交付完整算法，最新升级步骤以 [UPGRADE_REAL.md](UPGRADE_REAL.md) 为准。云端目前验收的是 hybrid；本地全算法测试通过后仍需上传并显式以 `MCP_MODE=real` 安装。下文为早期 fixture/hybrid 操作记录，不能用于判断当前后端是否缺失。
+2026-10-31：云端已验收 `MCP_MODE=real`，8工具/19次协议调用通过，systemd开机恢复及异常退出恢复均已有实测记录。七个业务工具执行完整算法，数据为300账户、2973笔合成交易，不是真实银行数据。当前V9交接与验收边界见 [交接首页](../agent/handoff/README.md)。部署升级见 [UPGRADE_REAL.md](UPGRADE_REAL.md)，服务管理见 [SYSTEMD.md](SYSTEMD.md)。
 
-2026-10-30：甲已交付完整算法，最新升级步骤以 [UPGRADE_REAL.md](UPGRADE_REAL.md) 为准。云端目前验收的是 hybrid；本地全算法测试通过后仍需上传并显式以 `MCP_MODE=real` 安装。下文为早期 fixture/hybrid 操作记录，不能用于判断当前后端是否缺失。
+以下保留早期fixture/hybrid操作记录；其中模式状态不代表当前已部署状态。新部署必须显式选择real并使用升级文档的完整文件清单。
 
 MCP 服务目录，由乙维护。把甲的 6 个核心函数加上 `get_ticket` 包装成 MCP 工具，供 Nexent 智能体调用。
 
