@@ -85,6 +85,25 @@ MCP_MODE=real MCP_HOST=0.0.0.0 MCP_PORT=8900 MCP_TRANSPORT=sse python mcp_server
 
 所有数字以脚本生成的 `eval/result.md`、`eval/baseline.md` 为准，文档和演示中不要手写与之不一致的数字。演示账户与预期结果见 `eval/demo_accounts.md`。
 
+## 第 5–7 日交付与独立审校（2026-10-31）
+
+甲方材料入口：`eval/handoff/README.md`，含方法、代码摘录、数字表和审校记录。乙方当前基线为平台 V9 `fundtrace-v1.2-三技能-20261031`；规则仍为 v1/v2。评测题目有实际原五题与甲方短题两个版本，不能混用成绩。
+
+```powershell
+python core/review_yi_delivery.py
+python core/build_jia_delivery.py
+```
+
+前者独立核对留档答复的编号并重计调用记录，不能代替原始返回值复放。后者在 `dist/` 生成代码数据包及给丙的材料包，包含逐文件 SHA256，解压后验证哈希、冻结 CSV、源码编译及常见凭据模式。`dist/` 不提交 Git。代码包包含离线评测资料，生产部署按乙方说明排除 `eval/`。
+
+干净检出时保留冻结数据 LF 字节，避免 Windows 自动转换 CSV 换行破坏冻结哈希：
+
+```powershell
+git -c core.autocrlf=false clone <仓库地址> fundtrace-clean
+```
+
+进入新目录后执行上述创建环境、安装依赖与完整一键核验步骤。Windows 明确使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\python.exe -m pip` 可避免误用全局环境。不要用重新生成 data 来修复换行问题。
+
 ## 注意
 
 - `data/` 已冻结，`python -m core.gen_data --force` 会使账户号失效，需同步更新演示账户并通知乙。

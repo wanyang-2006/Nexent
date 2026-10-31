@@ -20,4 +20,6 @@ python -m pytest tests -q
 
 ## 变更记录
 
+- 2026-10-31：新增 `test_ticket_evidence_direction.py`，确保工单中的非目标账户转账明确写实际付款方与收款方，避免模型误归属。
+
 - 2026-10-29：新增 `test_engine.py`；`conftest.py` 增加自动夹具 `_tickets_to_tmp`；`test_api_queries.py` 的防泄题检查扩大到全部工具模块。尚未在本机运行。

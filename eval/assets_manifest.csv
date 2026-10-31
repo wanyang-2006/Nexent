@@ -5,7 +5,7 @@ R01,规则,规则集 v1（仿真内部规则）,Data and Rules/rules/rules_v1.ya
 R02,规则,规则集 v2（仿真内部规则）,Data and Rules/rules/rules_v2.yaml,v2,7c6799b0d33fe67c8c9af0f7ece497e79c505df7bccd145e02bc501a84a69c8c,是
 K01,知识库文档,规则说明文档 v1（由 core/export_rules_md.py 生成）,kb/rules_v1.md,v1,9718343c7274566dc19b151448d2e9c007b8fc579785e8b53aa2c86a6752bc51,是
 K02,知识库文档,规则说明文档 v2（由 core/export_rules_md.py 生成）,kb/rules_v2.md,v2,a68d284d8ccc8629a14d2c1b682a2d79fe60ed74b0365ec5f58d42860020814c,是
-K03,知识库文档,规则差异说明 v1→v2（由 core/export_rules_md.py 生成）,kb/rules_diff_v1_v2.md,v1→v2,1584484b166a303157652bed99d1d96336f19f515faf4ea33e71924804954633,是
+K03,知识库文档,规则差异说明 v1→v2（由 core/export_rules_md.py 生成）,kb/rules_diff_v1_v2.md,v1→v2,0c7ce4b23b4a513dc7ad5168fe3bad4545216b10b762ea8dc195350d40d12a4c,是
 C01,案例,“两高一部”发布依法惩治帮助信息网络犯罪活动及相关犯罪典型案例（最高检，2025-07-28）（摘要为本作品改写）,https://www.spp.gov.cn/xwfbh/wsfbt/202507/t20250728_702377.shtml,访问日期 2026-10-30,5dd9855c334d12ea87d15feab832aa113768f1a86bf6b5bd3f4fd05dc880edfb,否
 C02,案例,涉案50亿 内蒙古警方侦破一起利用“跑分”平台洗钱案（中新网，2020-12-10，原始页面）（摘要为本作品改写）,https://www.chinanews.com.cn/sh/2020/12-10/9358918.shtml,访问日期 2026-10-30,8747148d95f03eff83f8c46bb7954581bd1184ba7bf8b3ecc62abb7b46bf99c6,否
 C03,案例,最高检央行联合发布惩治洗钱犯罪典型案例（最高检，2021-03-19）（摘要为本作品改写）,https://www.spp.gov.cn/spp/xwfbh/wsfbt/202103/t20210319_513155.shtml,访问日期 2026-10-30,bb69ffa8068727cb90968f5c7474bcb0bd157e931292704cd83b70f99fbe5e39,否

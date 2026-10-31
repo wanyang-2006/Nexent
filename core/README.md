@@ -4,6 +4,8 @@
 
 ## 文件
 
+2026-10-31 第 5–7 日收尾新增：`review_yi_delivery.py` 独立回查 V9 答复编号并统计留档调用；`build_jia_delivery.py` 生成可验证代码数据包和给丙材料包。二者不供 MCP 导入。完整一键核验现为 12 步（下方历史 10 步说明保留）；本次 86 项测试及 12 步实测通过。交付记录见 `eval/handoff/README.md`。
+
 | 文件 | 作用 | 可否读 `eval/` | 状态 |
 |---|---|---|---|
 | `__init__.py` | 空文件，使 `python -m core.xxx` 可用 | — | 第 1 天 |
@@ -186,6 +188,8 @@ python -m pytest tests -q
 `tests/test_engine.py` 包含：样例数据下 `trace_chain`、`rejudge` 与 fixtures 完全相等，`check_rules`、`make_ticket` 除 `detail`/`conclusion` 措辞外相等；正式数据下 v1、v2 的全部链与参考实现 `reference_chains` 逐条一致（设计值 v1 10 条、v2 13 条＝12 条埋入链 + D3）；300 个账户 × 两个版本全部通过 schema 和工单语义检查；`max_hops` 只裁剪边；`rejudge` 汇总自洽；03 规范典型结果的几个设计预期；错误参数；工具模块不 import 答案脚本。
 
 ## 变更记录
+
+- 2026-10-31：修复工单支持证据引用非目标账户交易时省略付款方的问题；明确实际双方并标注链上其他账户交易。字段、规则、金额、角色、状态均不变。需乙更新云端、备份旧工单后重新生成并复测。
 
 - 2026-10-29（第 3 至 5 天内容提前）：新增 `ruleset.py`、`trace.py`、`rules.py`、`ticket.py`、`rejudge.py`、`export_rules_md.py`、`selfcheck.py`、`evaluate.py`、`run_checks_jia.py`；`api.py` 导出其余四个函数；`store.py` 增加 `cached()` 与 `start_date`；新增 `tests/test_engine.py`。**编写时所在环境无法运行 Python，以上代码只做过静态核对，以本机运行 `python core/run_checks_jia.py` 的结果为准。**
 - 第 3 天（提前）：新增 `store.py`、`api.py`（`get_account`、`get_transactions`）与 `tests/test_api_queries.py`。

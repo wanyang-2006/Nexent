@@ -61,6 +61,8 @@ def _tx_desc(t: dict, acct_id: str, first_cp: set) -> str:
     if t["to_acct"] == "CASH":
         return f"{t['time']} 提现 {amt} 元（现金出口 CASH）"
     kind = "转出" if t["tx_type"] == "转账" else f"{t['tx_type']}转出"
+    if t["from_acct"] != acct_id:
+        return f"{t['time']} {t['from_acct']} 向 {t['to_acct']} {kind} {amt} 元（链上其他账户交易）"
     return f"{t['time']} 向 {t['to_acct']} {kind} {amt} 元"
 
 

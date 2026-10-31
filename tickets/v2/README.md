@@ -1,5 +1,7 @@
 # tickets/v2/
 
+2026-10-31：按 CHANGELOG 1.0.4 重新生成演示工单，第三方交易描述明确付款方。
+
 规则 v2（`Data and Rules/rules/rules_v2.yaml`）生成的工单，由 `make_ticket(acct_id, "v2")` 或 `rejudge` 写入。
 
 - 文件名：`<账户号>.json`，如 `A0087.json`。
