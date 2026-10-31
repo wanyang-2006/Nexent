@@ -1,0 +1,1220 @@
+{
+  "version": "final-release-skills-20261031",
+  "status": "finished",
+  "completed": 15,
+  "runs": [
+    {
+      "round": 1,
+      "question": 1,
+      "started": "2026-10-31T02:35:31.882Z",
+      "finished": "2026-10-31T02:36:02.588Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0209"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0209",
+            "limit": 200
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0209",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0209",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0209",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0044",
+            "A0177",
+            "A0186",
+            "A0209",
+            "A0283",
+            "A0287"
+          ],
+          "transactions": [
+            "T01908",
+            "T01913",
+            "T01932",
+            "T01938",
+            "T01942"
+          ],
+          "chains": [
+            "L-T01908"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 数据性质声明\n\n本次结果基于 `synthetic_dataset`、`backend_mode=real` 的**完整合成数据集**按 v1 规则版本计算，**不是真实银行数据**，也不是固定样例。以下结果为辅助研判，不构成违法或诈骗认定；所有阈值为仿真内部规则参数，非监管标准。\n\n## 一、工具事实（来源：funtrace MCP 工具）\n\n### 1. 账户与工单（来源：get_account、make_ticket）\n\n| 项目 | 内容 |\n|---|---|\n| 账户 | A0209（个人，用户0171，开户日 2020-02-18） |\n| 规则版本 | v1 |\n| 工单编号 | TK-v1-A0209 |\n| 状态 | 建议人工复核（status_code=REVIEW） |\n| 角色 | 中转端 |\n| 链编号 | L-T01908 |\n| 工单结论 | 该账户在资金链 L-T01908 中表现为中转端，命中 4 条风险规则（R01、R04、R07、R08），建议人工复核 |\n\n账户画像字段：转入 6 笔/75241 元，转出 9 笔/72356 元，交易对手 14 个，交易时间区间 2026-03-01 09:14 至 2026-03-07 21:54。\n\n### 2. 流水核对（来源：get_transactions）\n\ntotal=15，count=15，truncated=false，即本数据窗口内返回 15 笔为完整流水，无截断。\n\n### 3. 支持证据（来源：trace_chain、check_rules、make_ticket）\n\n资金链 L-T01908，4 跳，工单 total_amount=71769 元，duration_minutes=52 分钟，按 edges 逐笔如下：\n\n| 时间 | 付款方 | 收款方 | 金额（元） | 交易编号 |\n|---|---|---|---|---|\n| 2026-03-05 14:28 | A0044 | A0283 | 35710 | T01908 |\n| 2026-03-05 14:33 | A0287 | A0283 | 36059 | T01913 |\n| 2026-03-05 15:04 | A0283 | A0209 | 70850 | T01932 |\n| 2026-03-05 15:14 | A0209 | A0177 | 70396 | T01938 |\n| 2026-03-05 15:20 | A0177 | A0186 | 70093 | T01942 |\n\n说明：A0044、A0287 为两条并行的汇入分支，均指向 A0283，不是 A0044→A0287 的连续转账；accounts 集合不能串成路径。\n\n链内角色：A0044 疑似受骗付款端、A0287 疑似受骗付款端、A0283 一级收款端、A0209 中转端、A0177 中转端、A0186 末端。本数据窗口、当前追踪深度（max_hops=4）内可见的末端为 A0186，不保证现实最终去向。\n\n命中风险规则（来源：check_rules，v1）：\n- **R01 快进快出（高）**：证据 T01932、T01938；2026-03-05 15:04 起 60 分钟内转入 70850 元、转出 70396 元（99.4%）。\n- **R04 余额清零（中）**：证据 T01932、T01938；当日转入 70850 元、转出 70396 元（99.4%）。\n- **R07 多层链路（高）**：证据 T01908、T01913、T01932、T01938、T01942；位于资金链 L-T01908，最长路径 4 跳。\n- **R08 首次对手大额转入（中）**：证据 T01932；首次交易的对手 A0283 转入 70850 元。\n\n### 4. 反向证据（来源：check_rules、make_ticket）\n\ncounter 为空数组，工单 counter_evidence 为空，即当前 v1 规则下未命中反向规则。这不等于风险已排除。\n\n### 5. 缺失证据（来源：make_ticket，原样保留）\n\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n- GAP_HISTORY：数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断）\n\n### 6. 建议动作（来源：make_ticket，原样）\n\n建议人工复核。\n\n## 二、规则定义与来源（来源：涉诈规则库检索）\n\n规则集版本 v1，为仿真内部规则设定，阈值非监管标准[[a1]]。\n\n- **R01 快进快出**（风险规则，高）：收到转入后 60 分钟内转出金额达该时段转入合计的 90% 至 110%，且转入合计不少于 10000 元；参数 window_min 60、ratio_min 0.9、ratio_max 1.1、min_amount 10000[[a1]]。\n- **R04 余额清零**（风险规则，中）：同一自然日内转入不少于 10000 元，且当日转出达转入的 95% 至 110%，以流入流出比近似余额清零；仿真数据不含账户余额[[a2]]。\n- **R07 多层链路**（风险规则，高）：账户位于已识别资金链上，且该链最长路径不少于 3 跳（min_hops 3）[[a2]]。\n- **R08 首次对手大额转入**（风险规则，中）：收到单笔超过 20000 元的转入，且本数据时间范围内此前与该对手无任何交易；“首次”仅在本数据窗口内判断，窗口前历史属缺失证据[[a2]][[a3]]。\n- 反向规则 R09 稳定工资收入、R10 商户经营特征：反向规则不单独推翻风险规则，只用于列出反向证据[[a2]]。\n\n追链参数：时间窗取自 R01 的 window_min（v1 为 60 分钟），链边限转账类交易、单笔不少于 3000 元、链内至少一笔不少于 10000 元[[a1]]。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 1,
+      "question": 2,
+      "started": "2026-10-31T02:36:02.588Z",
+      "finished": "2026-10-31T02:36:47.329Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0044"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0044",
+            "limit": 200
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0044",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0044",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0044",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0044",
+            "A0098",
+            "A0177",
+            "A0186",
+            "A0209",
+            "A0271",
+            "A0283",
+            "A0287"
+          ],
+          "transactions": [
+            "T01156",
+            "T01220",
+            "T01908",
+            "T01913",
+            "T01932",
+            "T01938",
+            "T01942"
+          ],
+          "chains": [
+            "L-T01908"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "\n## 数据来源说明\n本结果基于完整合成数据集（synthetic_dataset，backend_mode=real）按规则版本 v1 计算，**不是真实银行数据**，也不是固定样例。结果为辅助研判，不构成违法或诈骗认定；规则阈值为仿真内部规则，非监管标准。\n\n## 一、工具事实（来源：get_account / get_transactions / trace_chain / check_rules / make_ticket）\n\n### 1. 账户与工单\n| 项目 | 内容 |\n| --- | --- |\n| 账户 | A0044（用户0035，个人，开户 2021-07-19） |\n| 规则版本 | v1 |\n| 工单编号 | TK-v1-A0044 |\n| 工单状态 | 存在风险信号（status_code=RISK_SIGNAL，按工单原样保留） |\n| 角色 | 疑似受骗付款端 |\n| 链编号 | L-T01908 |\n\n### 2. 资金去向与链路证据（trace_chain，max_hops=4，v1，window_min=60）\n在本数据窗口、当前追踪深度（4 跳）内，可见链路 L-T01908 共 5 条边、最长路径 4 跳，链路金额（工具 total_amount）71769 元，整链跨度 duration_minutes=52 分钟；仅按 edges 描述方向：\n\n| 交易编号 | 时间 | 付款方 → 收款方 | 金额（元） |\n| --- | --- | --- | --- |\n| T01908 | 2026-03-05 14:28 | A0044 → A0283 | 35710 |\n| T01913 | 2026-03-05 14:33 | A0287 → A0283 | 36059 |\n| T01932 | 2026-03-05 15:04 | A0283 → A0209 | 70850 |\n| T01938 | 2026-03-05 15:14 | A0209 → A0177 | 70396 |\n| T01942 | 2026-03-05 15:20 | A0177 → A0186 | 70093 |\n\n链路角色（工具 roles）：A0044 疑似受骗付款端、A0287 疑似受骗付款端、A0283 一级收款端、A0209 中转端、A0177 中转端、A0186 末端。\n\n**并行汇入分支**：A0287 于 14:33 向 A0283 转入 36059 元（T01913），与 A0044 的 14:28 转出（T01908）为两条并行汇入 A0283 的分支；不存在 A0044 与 A0287 之间的边。\n\n**资金去向结论**：本数据窗口、当前追踪深度内可见的末端为 **A0186**（T01942，2026-03-05 15:20，A0177→A0186 70093 元）。该结论仅表示当前窗口与深度内可见末端，不保证现实最终去向。\n\n### 3. 账户流水概况（get_transactions，total=22，count=22，truncated=false，未截断）\n- 窗口内转入 13 笔合计 14067 元，转出 9 笔合计 39941 元，对手方 20 个，首笔 2026-03-01 11:45、末笔 2026-03-07 21:55。\n- 上述 A0044 转出中，链内仅 T01908（35710 元）被识别入链；其余转出（如 T01156→A0098 1990 元、T01220→A0271 799 元、小额消费等）未成链。\n\n### 4. 支持证据（check_rules v1 hits）\n- R07 多层链路（风险，高）：evidence_tx_ids = T01908、T01913、T01932、T01938、T01942；metrics：chain_id=L-T01908，hops=4（不少于 3 跳）。\n\n### 5. 反向证据（counter）\n工具返回 counter 为空数组，即本版本未命中反向规则；此处仅为“未命中反向规则”的事实，不代表无正常业务。\n\n### 6. 缺失证据（工单 missing_evidence 原样）\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n\n### 7. 建议动作（工单 suggested_actions 原样）\n- 建议关注后续交易\n\n## 二、规则定义与来源（来源：涉诈规则库检索）\n\n- 规则集版本 v1，来源为仿真内部规则（非官方要求），阈值均为仿真场景设定参数 [[a1]]。\n- R07 多层链路：类型风险规则、等级高；条件为账户位于已识别的资金链上，且该链最长路径不少于 3 跳，参数 min_hops=3；跳数指链内最长路径包含的交易笔数，资金链按本版本追链参数识别 [[a3]]。\n- v1 追链参数：时间窗取 R01 的 window_min，v1 为 60 分钟；链边限转账类交易，单笔不少于 3000 元，链内至少有一笔不少于 10000 元，节点守恒比例 0.5 [[a1]]。\n- v2 中 R01 时间窗为 120 分钟，与 v1 的 60 分钟不同 [[a2]]；本次研判按用户要求使用 v1。\n\n> 未命中风险规则之外的情形不在此展开；未命中反向规则亦不等于无风险。以上结论为辅助研判，不构成违法或诈骗认定。\n",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 1,
+      "question": 3,
+      "started": "2026-10-31T02:36:47.329Z",
+      "finished": "2026-10-31T02:37:11.172Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0105"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0105",
+            "limit": 200
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0105",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0105",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0105",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0105",
+            "A0162"
+          ],
+          "transactions": [
+            "T01736"
+          ],
+          "chains": []
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 数据来源声明\n\n基于完整合成数据集与指定规则版本计算（`mode=synthetic_dataset`，`backend_mode=real`，数据集 `sim-gen_profile_v1-seed42`），**不是真实银行数据，不是固定样例**。以下结果为辅助研判，不构成违法或诈骗认定；规则阈值为仿真内部规则，非监管标准。\n\n# 一、工具事实\n\n## 1. 结论与工单\n\n来源工具：`get_account`、`get_transactions`、`trace_chain`、`check_rules`、`make_ticket`\n\n| 字段 | 取值 |\n|---|---|\n| 账户 | A0105（个人，开户 2023-06-25） |\n| 规则版本 | v1 |\n| 工单编号 | TK-v1-A0105 |\n| 状态 | 未见异常（status_code=CLEAR） |\n| 角色 | 无 |\n| 链编号 | null |\n| 工单结论 | 在本数据范围内未发现风险规则命中，也不在已识别的资金链上 |\n\n账户画像（`get_account`）：转入 5 笔共 11421 元，转出 14 笔共 7671 元，对手方 17 个，交易时间跨度 2026-03-01 09:01 至 2026-03-07 16:14。\n\n## 2. 支持证据（风险规则命中）\n\n`check_rules`（v1）返回 **hits 为空**，即本数据窗口内未命中任何风险规则。\n\n`trace_chain`（v1，max_hops=4，窗口 60 分钟）返回 **chains 为空**，即当前版本未识别到以 A0105 为起点的资金链。无链路仅表示当前版本未识别到链路，不等同于无风险。\n\n## 3. 反向证据\n\n| 规则 | 名称 | 交易 | 明细 |\n|---|---|---|---|\n| R09 | 稳定工资收入 | T01736（2026-03-05 09:12 A0162→A0105 8094 元，工资） | 有 1 笔工资入账（A0162，8094 元） |\n\n说明：counter 为空仅表示未命中反向规则；此处命中 1 条反向规则。本数据窗口仅 7 天，单笔工资证据偏弱，且一笔工资不足以证明长期稳定收入。\n\n## 4. 缺失证据\n\n按工单 `missing_evidence` 原样保留：\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_BIZ：反向证据的业务背景核实（工资发放单位、商户经营资质）\n\n## 5. 建议动作\n\n工单 `suggested_actions` 为**空**，未追加处置动作。\n\n# 二、规则定义与来源\n\n来源：涉诈规则库检索（rules_v1.md / rules_v2.md 返回条目）。\n\n- **R09 稳定工资收入**：类型为反向规则，等级低；条件为有不少于 1 笔工资入账，统计范围“转入统计 工资”，参数 min_count 1；依据来源“仿真内部规则v1#R09”。说明指出：工资入账是反向证据，但不能单独说明账户没有风险，工单中应同时说明需要核实工资发放单位[[a1]]。\n- 规则库中 R04（余额清零，以当日流入流出比近似，ratio_min 0.95、ratio_max 1.1、min_amount 10000）、R05（新开账户大额转入）、R06（夜间大额）、R07（多层链路，min_hops 3）、R08（首次对手大额转入，单笔超 20000 元）等风险规则定义见 rules_v1.md[[a1]]；“首次对手”只在数据窗口内判断，窗口之前的历史交易属于缺失证据[[a1]]。\n- 本账户工单 `rule_basis` 仅列 R09，对齐“仿真内部规则v1#R09”。\n\n# 三、总结回答\n\n按 v1 判定，A0105 在本数据窗口内**未命中风险规则、未识别到资金链**，工单状态为“未见异常（CLEAR）”，角色为“无”。唯一可核验的反向证据是 T01736 一笔 8094 元工资入账（A0162），但窗口仅 7 天、仅 1 笔，证明力偏弱。证据缺口在于对手方开户实名信息与工资发放单位等业务背景未核实，因此“未见异常”应理解为在本数据与当前规则下的辅助研判结果，而非风险已被排除的最终认定。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 1,
+      "question": 4,
+      "started": "2026-10-31T02:37:11.172Z",
+      "finished": "2026-10-31T02:37:24.002Z",
+      "http_status": 200,
+      "calls": [
+        "knowledge_base_search",
+        "knowledge_base_search"
+      ],
+      "tool_checks": [],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "NO_IDS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 规则定义与来源\n\n**来源：涉诈规则库（rules_v1.md、rules_v2.md、rules_diff_v1_v2_1.md）；仿真内部规则，非官方要求，以下阈值均为仿真参数，不是监管标准。**[[a3]][[a2]][[a1]]\n\n### R01 快进快出（v1）\n\n| 项目 | 内容 |\n|---|---|\n| 规则编号与名称 | R01 快进快出[[a3]] |\n| 类型与等级 | 风险规则，等级：高[[a3]] |\n| 判断条件 | 收到转入后 60 分钟内，转出金额达到这段时间转入合计的 90% 至 110%，且转入合计不少于 10000 元[[a3]] |\n| 统计范围 | 转入统计“转账”；转出统计“转账”[[a3]] |\n| 参数 | window_min 60、ratio_min 0.9、ratio_max 1.1、min_amount 10000[[a3]] |\n| 依据来源 | 仿真内部规则v1#R01[[a3]] |\n| 说明 | 与其他规则共同命中并位于资金链上时，建议人工复核[[a3]] |\n\n### 与 v2 的区别\n\n| 规则 | 字段 | v1 | v2 |[[a1]]\n|---|---|---|---|\n| R01 快进快出 | params.window_min | 60 | 120 |[[a1]]\n\n也就是说，v2 把 R01 的时间窗由 60 分钟放宽到 120 分钟，其余比例区间（90%–110%）与金额门槛（转入合计不少于 10000 元）保持不变[[a1]][[a2]]。因此 v2 中 R01 的条件为：收到转入后 120 分钟内转出金额达到该段时间转入合计的 90% 至 110%，且转入合计不少于 10000 元[[a2]]。\n\n**连带影响——追链参数**：资金链追踪的时间窗取自 R01 的 window_min，v1 为 60 分钟、v2 为 120 分钟[[a3]][[a2]][[a1]]。时间窗放宽后，部分原先超出 v1 时间窗、但满足 v2 时间窗及其他追链条件的交易，可能被纳入新识别的资金链；但识别还取决于交易类型、金额门槛、节点守恒和链接条件，不能仅凭账户停留时间判断是否成链[[a1]]。\n\n**v2 另有一项与 R01 无直接关系的变化**：新增 R11“多个首次对手集中转入”（风险，中），条件为 24 小时内有不少于 2 个首次交易的对手各转入超过 10000 元；删除规则无[[a1]]。\n\n### 补充说明\n\n- 规则放宽也可能使普通转发场景进入待核查范围；工资入账等反向证据应保留并核实业务背景，不能仅凭一条反向证据推导最终状态[[a1]]。\n- 本系统输出为辅助研判结论，不构成违法或诈骗认定；处置建议只限于建议人工复核、建议关注后续交易、建议补充材料三种[[a1]]。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 1,
+      "question": 5,
+      "started": "2026-10-31T02:37:24.002Z",
+      "finished": "2026-10-31T02:37:46.951Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "rejudge",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "rejudge",
+          "arguments": {
+            "old": "v1",
+            "new": "v2"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0176",
+            "rule_version": "v2"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v2",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0015",
+            "A0039",
+            "A0082",
+            "A0104",
+            "A0127",
+            "A0146",
+            "A0168",
+            "A0176",
+            "A0261"
+          ],
+          "transactions": [
+            "T01338",
+            "T01349",
+            "T01381"
+          ],
+          "chains": [
+            "L-T00197",
+            "L-T01338",
+            "L-T01454"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 一、工具事实（来源：rejudge、make_ticket）\n\n**数据性质**：`_demo.mode = synthetic_dataset`、`backend_mode = real`，基于完整合成数据集（dataset_id: sim-gen_profile_v1-seed42）算法计算，**不是真实银行数据**，也不代表固定样例。以下为辅助研判结果，不构成违法或诈骗认定。\n\n### 1. 重判汇总（来源：rejudge(old=v1, new=v2)）\n\n| 字段 | 值 |\n|---|---|\n| old / new | v1 / v2 |\n| total | 300 |\n| changed | 8 |\n| upgraded | 8 |\n| downgraded | 0 |\n| by_transition | 存在风险信号→建议人工复核：2；未见异常→存在风险信号：5；未见异常→证据不足：1 |\n\n### 2. 全部结论变化账户（来源：rejudge.changed）\n\n| 账户 | 旧状态 | 新状态 | 方向 | 旧角色 | 新角色 | 旧链号 | 新链号 | 规则变化（新增/移除） | 原因 |\n|---|---|---|---|---|---|---|---|---|---|\n| A0015 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | null | L-T01338 | 新增：无；移除：无 | 进入资金链 L-T01338（疑似受骗付款端） |\n| A0039 | 存在风险信号 | 建议人工复核 | 升级 | 无 | 一级收款端 | null | L-T00197 | 新增：R01；移除：无 | 新命中 R01（快进快出，window_min 60→120）；进入资金链 L-T00197（一级收款端） |\n| A0104 | 未见异常 | 证据不足 | 升级 | 无 | 一级收款端 | null | L-T01454 | 新增：R01；移除：无 | 新命中 R01（快进快出，window_min 60→120）；进入资金链 L-T01454（一级收款端） |\n| A0127 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | null | L-T01454 | 新增：无；移除：无 | 进入资金链 L-T01454（疑似受骗付款端） |\n| A0146 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | null | L-T01338 | 新增：无；移除：无 | 进入资金链 L-T01338（疑似受骗付款端） |\n| A0168 | 未见异常 | 存在风险信号 | 升级 | 无 | 末端 | null | L-T01454 | 新增：无；移除：无 | 进入资金链 L-T01454（末端） |\n| A0176 | 存在风险信号 | 建议人工复核 | 升级 | 无 | 一级收款端 | null | L-T01338 | 新增：R01、R11；移除：无 | 新命中 R01（快进快出，window_min 60→120）；新命中 R11（多个首次对手集中转入，v2 新增规则）；进入资金链 L-T01338（一级收款端） |\n| A0261 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | null | L-T00197 | 新增：无；移除：无 | 进入资金链 L-T00197（疑似受骗付款端） |\n\n说明：变化来自规则口径差异（同一合成数据集），不代表账户行为发生变化；升级不等于犯罪确认。\n\n### 3. A0176 / v2 工单（来源：make_ticket(acct_id=A0176, rule_version=v2)）\n\n| 字段 | 值 |\n|---|---|\n| ticket_id | TK-v2-A0176 |\n| spec_version | 1.0.0 |\n| acct_id | A0176 |\n| rule_version | v2 |\n| status / status_code | 建议人工复核 / REVIEW |\n| role | 一级收款端 |\n| chain_id | L-T01338 |\n| conclusion | 该账户在资金链 L-T01338 中表现为一级收款端，命中 5 条风险规则（R01、R04、R05、R08、R11），建议人工复核。 |\n\n**支持证据**：\n- T01338（2026-03-04 10:18 收到 A0146 转入 46061 元，首次交易对手）\n- T01349（2026-03-04 10:26 收到 A0015 转入 39044 元，首次交易对手）\n- T01381（2026-03-04 11:37 向 A0082 转出 82445 元）\n\n**反向证据**：为空（工具返回空列表）。\n\n**缺失证据**：\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n- GAP_HISTORY：数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断）\n\n**建议动作**（照工单原样）：建议人工复核。\n\n**规则依据**（工单 rule_basis 原样）：R01 快进快出（仿真内部规则v2#R01）、R04 余额清零（仿真内部规则v2#R04）、R05 新开账户大额转入（仿真内部规则v2#R05）、R08 首次对手大额转入（仿真内部规则v2#R08）、R11 多个首次对手集中转入（仿真内部规则v2#R11）。\n\n## 二、规则定义与来源（来源：涉诈规则库检索）\n\nv1→v2 的版本差异：新增 R11「多个首次对手集中转入」（风险规则，中等级；24 小时内有不少于 2 个首次交易的对手各转入超过 10000 元，统计转账；\"首次\"只在本数据窗口内判断）[[a1]][[a3]]；删除规则无[[a1]]；参数变化为 R01 快进快出 `params.window_min` 由 60 变为 120[[a1]]；追链时间窗 W 取自 R01.window_min，由 60 分钟变为 120 分钟[[a1]]。\n\nR01 快进快出（v2）：收到转入后 120 分钟内转出金额达到该时段转入合计的 90% 至 110%，且转入合计不少于 10000 元[[a2]]。时间窗放宽后，部分原先超出 v1 时间窗但满足 v2 条件的交易可能被纳入新识别的资金链，识别仍取决于交易类型、金额门槛、节点守恒和链接条件；新增 R11 使满足其条件的账户多一个风险信号[[a1]]。\n\n规则阈值均为仿真内部规则参数，不是监管标准；以上结论为辅助研判，不构成违法或诈骗认定。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 2,
+      "question": 1,
+      "started": "2026-10-31T02:37:46.951Z",
+      "finished": "2026-10-31T02:38:16.121Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0209"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0209",
+            "start": null,
+            "end": null,
+            "limit": 200
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0209",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0209",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0209",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0044",
+            "A0177",
+            "A0186",
+            "A0209",
+            "A0283",
+            "A0287"
+          ],
+          "transactions": [
+            "T01908",
+            "T01913",
+            "T01932",
+            "T01938",
+            "T01942"
+          ],
+          "chains": [
+            "L-T01908"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "# 账户 A0209 研判结果（规则版本 v1）\n\n**数据来源声明**：基于完整合成数据集（synthetic_dataset，backend_mode=real）及 v1 规则版本计算，不是真实银行数据，也不是固定样例。以下结果为辅助研判，不构成违法或诈骗认定；规则阈值为仿真内部参数，非监管标准。\n\n---\n\n## 一、工具事实\n\n### 1. 结论与工单（来源：make_ticket、get_account、trace_chain）\n\n| 项目 | 内容 |\n|---|---|\n| 账户 | A0209（用户0171，个人账户，开户日 2020-02-18） |\n| 规则版本 | v1 |\n| 工单编号 | TK-v1-A0209 |\n| 工单状态 | 建议人工复核（REVIEW） |\n| 角色 | 中转端 |\n| 链编号 | L-T01908 |\n| 工单结论 | 该账户在资金链 L-T01908 中表现为中转端，命中 4 条风险规则（R01、R04、R07、R08），建议人工复核 |\n\n账户画像（get_account）：转入 6 笔、合计 75241 元；转出 9 笔、合计 72356 元；对手方 14 个；交易时间跨度 2026-03-01 09:14 至 2026-03-07 21:54。\n\n### 2. 资金链（来源：trace_chain，max_hops=4，v1）\n\n链 L-T01908：4 跳，链路金额 total_amount 71769 元，整链跨度 duration_minutes 52 分钟，truncated=false。按 edges 逐笔：\n\n| 交易编号 | 时间 | 付款方 → 收款方 | 金额（元） |\n|---|---|---|---|\n| T01908 | 2026-03-05 14:28 | A0044 → A0283 | 35710 |\n| T01913 | 2026-03-05 14:33 | A0287 → A0283 | 36059 |\n| T01932 | 2026-03-05 15:04 | A0283 → A0209 | 70850 |\n| T01938 | 2026-03-05 15:14 | A0209 → A0177 | 70396 |\n| T01942 | 2026-03-05 15:20 | A0177 → A0186 | 70093 |\n\n链内角色：A0044、A0287 为疑似受骗付款端，A0283 为一级收款端，A0209 与 A0177 为中转端，A0186 为末端。注意 A0044 与 A0287 为**并行汇入** A0283 的两条分支，二者之间不存在直接转账边。\n\n资金去向结论：在本数据窗口、当前追踪深度（4 跳）内可见的末端为 A0186（T01942，2026-03-05 15:20，70093 元）；这不保证现实中的最终去向。\n\n### 3. 支持证据（来源：check_rules、get_transactions、make_ticket）\n\n命中规则与证据交易：\n\n- **R01 快进快出（高）**：证据 T01932（2026-03-05 15:04 A0283→A0209 70850 元）、T01938（2026-03-05 15:14 A0209→A0177 70396 元）；detail 记述 60 分钟内转入 70850 元、转出 70396 元，占比 99.4%。\n- **R04 余额清零（中）**：证据同上两笔，detail 记述当日转入 70850 元、转出 70396 元，占比 99.4%（该值为流入流出比近似）。\n- **R07 多层链路（高）**：证据 T01908、T01913、T01932、T01938、T01942；链 L-T01908 最长路径 4 跳（不少于 3 跳）。\n- **R08 首次对手大额转入（中）**：证据 T01932；首次交易的对手 A0283 转入 70850 元（“首次”仅限本数据窗口内）。\n\n工单 supporting_evidence 原样列示：\n\n| 交易编号 | 工具描述 |\n|---|---|\n| T01908 | 2026-03-05 14:28 向 A0283 转出 35710 元 |\n| T01913 | 2026-03-05 14:33 向 A0283 转出 36059 元 |\n| T01932 | 2026-03-05 15:04 收到 A0283 转入 70850 元（首次交易对手） |\n| T01938 | 2026-03-05 15:14 向 A0177 转出 70396 元 |\n| T01942 | 2026-03-05 15:20 向 A0186 转出 70093 元 |\n\n交易数据核对（get_transactions）：total=15，count=15，truncated=false，为完整流水。\n\n### 4. 反向证据（来源：check_rules）\n\ncounter 结果为空数组，即当前 v1 规则下未命中反向规则。counter 为空仅表示未命中反向规则，不代表风险已被排除。\n\n### 5. 缺失证据（来源：make_ticket 原样）\n\n| 代码 | 描述 |\n|---|---|\n| GAP_KYC | 对手方账户的开户与实名信息 |\n| GAP_MEMO_DEVICE | 转账附言与登录设备信息 |\n| GAP_CALLBACK | 付款方的回访或报案记录 |\n| GAP_HISTORY | 数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断） |\n\n上述外部调查项尚未完成，本研判未包含实名核验、回访或报案核查结果。\n\n### 6. 建议动作（来源：make_ticket 原样）\n\n- 建议人工复核\n\n---\n\n## 二、规则定义与来源\n\n规则版本 v1，来源为仿真内部规则 v1（非官方要求，阈值为仿真场景设定参数）。[[a1]]\n\n- **R01 快进快出**（风险规则，高）：收到转入后 60 分钟内转出金额达到该时段转入合计的 90% 至 110%，且转入合计不少于 10000 元；参数 window_min 60、ratio_min 0.9、ratio_max 1.1、min_amount 10000；转入、转出均统计转账。[[a1]]\n- **R04 余额清零**（风险规则，中）：同一自然日内转入不少于 10000 元，且当日转出达到转入的 95% 至 110%；参数 ratio_min 0.95、ratio_max 1.1、min_amount 10000；以流入流出比近似余额清零，按自然日统计。[[a1]][[a2]]\n- **R07 多层链路**（风险规则，高）：账户位于已识别的资金链上，且该链最长路径不少于 3 跳；参数 min_hops 3；跳数指链内最长路径包含的交易笔数，链按本版本追链参数识别。[[a2]]\n- **R08 首次对手大额转入**（风险规则，中）：收到单笔超过 20000 元的转入，且在本数据时间范围内此前与该对手无任何交易；参数 amount 20000；“首次”只在本数据窗口内判断，窗口之前的历史交易属于缺失证据。[[a2]]\n\n补充说明：v1 追链时间窗取自 R01 的 window_min，即 60 分钟；链边限转账类交易，单笔不少于 3000 元，链内至少有一笔不少于 10000 元。[[a1]] 反向规则命中不单独推翻风险规则；本次检索中 R09（稳定工资收入）、R10（商户经营特征）为反向规则定义，但其是否为该账户证据须以 check_rules 结果为准。[[a2]]\n\n---\n\n**说明**：本结果为合成数据上的辅助研判，工单状态“建议人工复核”按工具返回保留；未命中反向规则不等于不存在正常业务，命中风险规则也不等于违法或诈骗认定。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 2,
+      "question": 2,
+      "started": "2026-10-31T02:38:16.121Z",
+      "finished": "2026-10-31T02:38:44.972Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0044"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0044",
+            "start": null,
+            "end": null,
+            "limit": 200
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0044",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0044",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0044",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0044",
+            "A0098",
+            "A0177",
+            "A0186",
+            "A0209",
+            "A0271",
+            "A0283",
+            "A0287"
+          ],
+          "transactions": [
+            "T01156",
+            "T01220",
+            "T01908",
+            "T01913",
+            "T01932",
+            "T01938",
+            "T01942"
+          ],
+          "chains": [
+            "L-T01908"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 工具事实\n\n**数据性质**（来源：get_account / get_transactions / trace_chain / check_rules / make_ticket 的 `_demo`）：`mode=synthetic_dataset`、`backend_mode=real`，基于完整合成数据集与 v1 规则版本计算，**不是真实银行数据**，也不是固定样例。以下为辅助研判，不构成违法或诈骗认定。\n\n### 1. 账户与工单（来源：get_account、make_ticket）\n| 项目 | 内容 |\n|---|---|\n| 账户 | A0044（用户0035，个人，开户 2021-07-19） |\n| 规则版本 | v1 |\n| 工单编号 | TK-v1-A0044 |\n| 状态 / 状态码 | 存在风险信号 / RISK_SIGNAL |\n| 角色 | 疑似受骗付款端 |\n| 链编号 | L-T01908 |\n| 建议动作 | 建议关注后续交易 |\n\n画像计数：转入 13 笔、转入合计 14067 元；转出 9 笔、转出合计 39941 元；对手方 20 个；交易时间窗 2026-03-01 11:45 至 2026-03-07 21:55。\n\n### 2. 资金去向与链路证据（来源：trace_chain，window_min=60，max_hops=4，truncated=false）\n链 L-T01908：hops=4，total_amount=71769 元，duration_minutes=52。按 edges 逐笔：\n\n| 交易编号 | 时间 | 付款方 | 收款方 | 金额（元） |\n|---|---|---|---|---|\n| T01908 | 2026-03-05 14:28 | A0044 | A0283 | 35710 |\n| T01913 | 2026-03-05 14:33 | A0287 | A0283 | 36059 |\n| T01932 | 2026-03-05 15:04 | A0283 | A0209 | 70850 |\n| T01938 | 2026-03-05 15:14 | A0209 | A0177 | 70396 |\n| T01942 | 2026-03-05 15:20 | A0177 | A0186 | 70093 |\n\n角色（工具 roles 字段）：A0044 疑似受骗付款端、A0287 疑似受骗付款端、A0283 一级收款端、A0209 中转端、A0177 中转端、A0186 末端。\n\n**去向结论**：A0044 在 T01908 向一级收款端 A0283 转出 35710 元；同窗口内 A0287 也向 A0283 转入 36059 元，为**并行汇入分支**（A0287 与 A0044 之间无直接边，属两个独立付款端汇入同一收款端）。此后资金经 A0209、A0177 逐跳转出，**本数据窗口、当前追踪深度（4 跳）内可见的末端为 A0186**（T01942 入账 70093 元）。这不代表现实中的最终去向，超出深度或窗口的资金流向未纳入。total_amount 为工具定义的链路金额，非各边简单累加；duration_minutes 为整链跨度，不等于单账户停留时间。\n\n### 3. 支持证据（来源：check_rules、make_ticket）\n- 命中 R07 多层链路（风险，高），metrics：chain_id=L-T01908，hops=4，evidence_tx_ids：T01908、T01913、T01932、T01938、T01942。\n- 工单 supporting_evidence 逐条：T01908（2026-03-05 14:28 向 A0283 转出 35710 元）、T01913（14:33 向 A0283 转出 36059 元）、T01932（15:04 向 A0209 转出 70850 元）、T01938（15:14 向 A0177 转出 70396 元）、T01942（15:20 向 A0186 转出 70093 元）。\n- 账户流水（来源：get_transactions，total=22，count=22，truncated=false）：另有 T01156（2026-03-03 18:17 A0044→A0098 1990 元）、T01220（2026-03-03 20:24 A0044→A0271 799 元）等转出，未被链边纳入。\n\n### 4. 反向证据（来源：check_rules / make_ticket）\ncounter 为空数组，工单 counter_evidence 为空——仅表示本版本未命中反向规则，不表示风险已排除。\n\n### 5. 缺失证据（来源：make_ticket，原样保留）\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n\n## 规则定义与来源\n\n以下为本次知识库检索（涉诈规则库，rules_v1.md）返回的平台引用，仅解释规则条文，不含账户证据。\n\n- **规则集版本**：v1（基于：无），来源为仿真内部规则，非官方要求；文件中全部阈值为仿真场景设定参数，不是任何监管机构的标准 [[a2]]。\n- **追链参数（v1）**：时间窗取自 R01 的 window_min，v1 为 60 分钟；链边限转账类交易，单笔不少于 3000 元，链内至少有一笔不少于 10000 元；节点守恒比例 0.5 [[a2]]。\n- **R07 多层链路**：类型为风险规则，等级高；条件为账户位于已识别的资金链上，且该链最长路径不少于 3 跳；参数 min_hops=3；依据来源 仿真内部规则v1#R07；说明中跳数指链内最长路径包含的交易笔数，资金链按本版本追链参数识别 [[a1]]。\n- 规则类型说明：风险规则命中表示出现某种需要关注的资金特征；反向规则命中表示存在可能说明账户行为正常的证据，反向规则不单独推翻风险规则 [[a2]]。\n- v2 规则库中 R07 的条件、参数与说明与 v1 表述一致 [[a3]]；本次研判未使用 v2。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 2,
+      "question": 3,
+      "started": "2026-10-31T02:38:44.972Z",
+      "finished": "2026-10-31T02:39:11.135Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0105"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0105",
+            "start": null,
+            "end": null,
+            "limit": 50
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0105",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0105",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0105",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0105",
+            "A0162"
+          ],
+          "transactions": [
+            "T01418",
+            "T01736",
+            "T02378",
+            "T02750",
+            "T02800"
+          ],
+          "chains": []
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [
+        "account facts in rule definitions"
+      ],
+      "automatic_status": "FAIL",
+      "final_answer": "## 数据来源声明\n\n本结果为**基于完整合成数据集与规则版本 v1 计算**的算法输出（`synthetic_dataset` / `backend_mode=real`，数据集 sim-gen_profile_v1-seed42），**不是真实银行数据，也不是固定样例**。以下内容为辅助研判，不构成违法或诈骗认定；文中阈值均为仿真内部规则参数，非监管标准。\n\n---\n\n## 一、工具事实\n\n### 1. 结论与工单（来源：make_ticket、get_account）\n\n| 项目 | 值 |\n|---|---|\n| 账户 | A0105（用户0084，个人，开户日 2023-06-25） |\n| 规则版本 | v1 |\n| 工单编号 | TK-v1-A0105 |\n| 状态 / 状态码 | 未见异常 / CLEAR |\n| 角色 | 无 |\n| 链编号 | 无（null） |\n| 工单结论 | 在本数据范围内未发现风险规则命中，也不在已识别的资金链上 |\n\n回答用户问题：**按 v1 规则，本工具返回未命中风险规则，工单状态为“未见异常”。** 但“未命中风险规则”不等于绝无风险，详见缺失证据部分。\n\n### 2. 支持证据（来源：check_rules，hits）\n\n- check_rules（v1）返回 `hits` 为空列表：未命中任何风险规则。\n- make_ticket 返回的 `supporting_evidence` 为空列表。\n\n### 3. 反向证据（来源：check_rules 的 counter，及 get_transactions 原始流水）\n\n- R09 稳定工资收入：有 1 笔工资入账 T01736（2026-03-05 09:12，A0162→A0105，8094 元）。\n- 流水核对：get_transactions 返回 total=19、count=19、truncated=false，即本次返回为该账户在本数据窗口内的全部 19 笔交易，未被截断。\n- 流水结构：5 笔转入合计 11421 元（T01418 1722 元、T01736 工资 8094 元、T02378 1126 元、T02750 75 元、T02800 404 元）；14 笔转出合计 7671 元，多为小额消费与转账。\n- 资金链（来源：trace_chain，v1，max_hops=4，window_min=60）：`chains` 为空，未识别到资金链。\n\n关于工资证据的边界：R09 在 7 天数据窗口内仅需 1 笔即为反向证据，但**一笔工资不足以证明长期稳定收入**；“首次对手”与工资发放单位的真实性均只在样本范围内成立。\n\n### 4. 缺失证据（来源：make_ticket 的 missing_evidence，原样保留）\n\n- GAP_KYC：对手方账户的开户与实名信息。\n- GAP_BIZ：反向证据的业务背景核实（工资发放单位、商户经营资质）。\n\n补充说明（不改变工单状态）：工资发放单位 A0162 的性质未经核实；数据窗口仅为 2026-03-01 至 2026-03-07，窗口之前的历史交易未纳入。\n\n### 5. 建议动作（来源：make_ticket）\n\n`suggested_actions` 为空（无建议动作追加）。\n\n---\n\n## 二、规则定义与来源\n\n以下仅说明规则条文，不含账户事实。\n\n- R09 稳定工资收入（反向规则，低等级）：条件为有不少于 1 笔工资入账；统计范围仅“工资”类转入；参数 min_count=1；条文说明 7 天数据内该证据偏弱，90 天数据时应提高到 3 笔，且工资入账不能单独说明账户没有风险，应同时核实工资发放单位 [[a1]]。\n- 规则类型说明：风险规则命中表示出现需要关注的资金特征；反向规则命中表示存在可能说明账户行为正常的证据，反向规则不单独推翻风险规则，只用于列出反向证据 [[a3]]。\n- 追链参数（v1）：时间窗 60 分钟，链边限转账类交易、单笔不少于 3000 元、链内至少一笔不少于 10000 元 [[a3]]。本账户工单链编号为空，仅表示 v1 当前参数下未识别到链路。\n- 全部阈值均为仿真内部规则参数，非任何监管机构标准 [[a3]]。\n\n---\n\n**小结**：按 v1，A0105 未命中风险规则、未识别到资金链，工单为 CLEAR / 未见异常；唯一反向证据是一笔 8094 元工资入账（T01736），但仅此一笔不足以证明长期收入稳定，且对手方实名与工资业务背景仍为缺失证据，需人工核查后结论方可更稳固。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Checker includes uncited summary after horizontal rule in rule section; account facts match tools, no KB citation is attached to that summary."
+      }
+    },
+    {
+      "round": 2,
+      "question": 4,
+      "started": "2026-10-31T02:39:11.135Z",
+      "finished": "2026-10-31T02:39:30.206Z",
+      "http_status": 200,
+      "calls": [
+        "knowledge_base_search"
+      ],
+      "tool_checks": [],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "NO_IDS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 规则定义与来源\n\n以下内容来自本次“涉诈规则库”检索结果，均为**仿真内部规则（非官方要求）**，阈值为仿真场景设定参数，不是监管标准。\n\n### 一、v1 中的 R01 快进快出\n\n| 项目 | 内容 |\n|---|---|\n| 规则编号 | R01 |\n| 规则名称 | 快进快出 |\n| 类型与等级 | 风险规则，等级：高 [[a3]] |\n| 判断条件 | 收到转入后 **60 分钟**内转出金额达到这段时间转入合计的 **90% 至 110%**，且转入合计不少于 **10000 元** [[a3]] |\n| 统计范围 | 转入统计“转账”；转出统计“转账” [[a3]] |\n| 参数 | window_min = 60，ratio_min = 0.9，ratio_max = 1.1，min_amount = 10000 [[a3]] |\n| 依据来源 | 仿真内部规则v1#R01 [[a3]] |\n| 说明 | 与其他规则共同命中并位于资金链上时，建议人工复核 [[a3]] |\n\n### 二、与 v2 的区别\n\nv2 中 R01 的名称、类型、等级、统计范围和金额门槛均未改变，**唯一变化是时间窗参数**：\n\n| 规则 | 字段 | v1 | v2 |\n|---|---|---|---|\n| R01 快进快出 | params.window_min | 60 | 120 [[a1]] |\n\n由此带来两点区别：\n\n1. **判断条件的时间窗放宽**：v2 的条件为“收到转入后 **120 分钟**内转出金额达到这段时间转入合计的 90% 至 110%，且转入合计不少于 10000 元”；v2 参数为 window_min 120，ratio_min 0.9，ratio_max 1.1，min_amount 10000，依据来源为仿真内部规则v2#R01 [[a2]]。\n2. **追链时间窗同步变化**：资金链追踪的时间窗取自 R01 的 window_min，v1 为 60 分钟，v2 为 120 分钟 [[a3]][[a2]]；追链时间窗由 60 分钟改为 120 分钟，原因即取自 R01.window_min [[a1]]。\n\n### 三、版本差异的含义\n\n时间窗放宽后，部分原先超出 v1 时间窗、但满足 v2 时间窗及其他追链条件的交易，可能被纳入新识别的资金链；识别还取决于交易类型、金额门槛、节点守恒和链接条件，不能仅凭账户停留时间判断是否成链 [[a1]]。规则放宽也可能使普通转发场景进入待核查范围；工资入账等反向证据应保留并核实业务背景，不能仅凭一条反向证据推导最终状态 [[a1]]。\n\n此外，v2 相比 v1 **新增 R11“多个首次对手集中转入”**（风险规则，中；条件为 24 小时内有不少于 2 个首次交易的对手各转入超过 10000 元），删除规则无 [[a1]]。\n\n说明：以上为仿真内部规则解释，仅为辅助研判依据，不构成违法或诈骗认定；具体账户是否命中及状态，需以单账户核查工具返回为准。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 2,
+      "question": 5,
+      "started": "2026-10-31T02:39:30.206Z",
+      "finished": "2026-10-31T02:39:52.747Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "rejudge",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "rejudge",
+          "arguments": {
+            "old": "v1",
+            "new": "v2"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0176",
+            "rule_version": "v2"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v2",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0015",
+            "A0039",
+            "A0082",
+            "A0104",
+            "A0127",
+            "A0146",
+            "A0168",
+            "A0176",
+            "A0261"
+          ],
+          "transactions": [
+            "T01338",
+            "T01349",
+            "T01381"
+          ],
+          "chains": [
+            "L-T00197",
+            "L-T01338",
+            "L-T01454"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 一、工具事实（来源：rejudge、make_ticket，均为合成数据算法计算）\n\n**数据性质**：`_demo` 显示 mode=synthetic_dataset、backend_mode=real、dataset_id=sim-gen_profile_v1-seed42。基于完整合成数据集的算法计算结果，不是真实银行数据，也不属于固定样例。\n\n**版本比较汇总（rejudge(old=v1, new=v2) 原字段）**：old=v1，new=v2，summary：total=300，changed=8，upgraded=8，downgraded=0，by_transition={存在风险信号→建议人工复核: 2, 未见异常→存在风险信号: 5, 未见异常→证据不足: 1}。\n\n### 全部结论变化账户（changed 完整名单）\n\n| 账户 | 旧状态 | 新状态 | 方向 | 旧角色 | 新角色 | 旧链号 | 新链号 | 规则新增 | 规则移除 | 原因（原字段） |\n|---|---|---|---|---|---|---|---|---|---|---|\n| A0015 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | 无 | L-T01338 | — | — | 进入资金链 L-T01338（疑似受骗付款端） |\n| A0039 | 存在风险信号 | 建议人工复核 | 升级 | 无 | 一级收款端 | 无 | L-T00197 | R01 | — | 新命中 R01（快进快出，window_min 60→120）；进入资金链 L-T00197（一级收款端） |\n| A0104 | 未见异常 | 证据不足 | 升级 | 无 | 一级收款端 | 无 | L-T01454 | R01 | — | 新命中 R01（快进快出，window_min 60→120）；进入资金链 L-T01454（一级收款端） |\n| A0127 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | 无 | L-T01454 | — | — | 进入资金链 L-T01454（疑似受骗付款端） |\n| A0146 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | 无 | L-T01338 | — | — | 进入资金链 L-T01338（疑似受骗付款端） |\n| A0168 | 未见异常 | 存在风险信号 | 升级 | 无 | 末端 | 无 | L-T01454 | — | — | 进入资金链 L-T01454（末端） |\n| A0176 | 存在风险信号 | 建议人工复核 | 升级 | 无 | 一级收款端 | 无 | L-T01338 | R01、R11 | — | 新命中 R01（快进快出，window_min 60→120）；新命中 R11（多个首次对手集中转入，v2 新增规则）；进入资金链 L-T01338（一级收款端） |\n| A0261 | 未见异常 | 存在风险信号 | 升级 | 无 | 疑似受骗付款端 | 无 | L-T00197 | — | — | 进入资金链 L-T00197（疑似受骗付款端） |\n\n以上变化来自规则口径差异（v2 放宽 R01 时间窗、新增 R11），不代表账户行为本身发生变化。\n\n### A0176 v2 工单（make_ticket 返回）\n\n- 工单号：TK-v2-A0176；规则版本：v2；状态：建议人工复核（status_code=REVIEW）\n- 角色：一级收款端；链号：L-T01338\n- 结论（原字段）：该账户在资金链 L-T01338 中表现为一级收款端，命中 5 条风险规则（R01、R04、R05、R08、R11），建议人工复核。\n- 支持证据：\n  - T01338（2026-03-04 10:18 收到 A0146 转入 46061 元，首次交易对手）\n  - T01349（2026-03-04 10:26 收到 A0015 转入 39044 元，首次交易对手）\n  - T01381（2026-03-04 11:37 向 A0082 转出 82445 元）\n- 反向证据：为空（未命中反向规则）\n- 缺失证据：GAP_KYC（对手方账户的开户与实名信息）；GAP_MEMO_DEVICE（转账附言与登录设备信息）；GAP_CALLBACK（付款方的回访或报案记录）；GAP_HISTORY（数据时间范围之外的历史交易，“首次对手”仅在本数据窗口内判断）\n- 规则依据（工单原字段）：R01 快进快出（仿真内部规则v2#R01）、R04 余额清零（v2#R04）、R05 新开账户大额转入（v2#R05）、R08 首次对手大额转入（v2#R08）、R11 多个首次对手集中转入（v2#R11）\n- 建议动作：建议人工复核（照工单原样）\n\n## 二、规则定义与来源（涉诈规则库）\n\n- 版本差异：v2 相比 v1 新增 R11“多个首次对手集中转入”（风险规则，中；24 小时内至少 2 个首次交易对手各转入超过 10000 元）；无删除规则；参数变化为 R01“快进快出”的 window_min 由 60 变为 120，追链时间窗随之由 60 分钟变为 120 分钟[[a1]]。\n- R01 快进快出（v2 定义）：收到转入后 120 分钟内转出金额达到该时段转入合计的 90% 至 110%，且转入合计不少于 10000 元；等级高[[a2]]。\n- R01 快进快出（v1 定义）：同口径但 window_min 为 60 分钟[[a3]]。\n- 说明：时间窗放宽后，原先超出 v1 时间窗但满足 v2 条件的交易可能被纳入新识别资金链；识别仍取决于交易类型、金额门槛、节点守恒和链接条件。规则放宽也可能使普通转发场景进入待核查范围[[a1]]。\n- 规则阈值均为仿真内部规则、非监管标准[[a2]][[a3]]。\n\n本结果为辅助研判，不构成违法或诈骗认定。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 3,
+      "question": 1,
+      "started": "2026-10-31T02:39:52.747Z",
+      "finished": "2026-10-31T02:40:22.418Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0209"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0209",
+            "start": null,
+            "end": null,
+            "limit": 50
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0209",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0209",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0209",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0044",
+            "A0177",
+            "A0186",
+            "A0209",
+            "A0283",
+            "A0287"
+          ],
+          "transactions": [
+            "T01908",
+            "T01913",
+            "T01932",
+            "T01938",
+            "T01942"
+          ],
+          "chains": [
+            "L-T01908"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 数据来源说明\n\n本次结果为**基于完整合成数据集与 v1 规则版本计算**（`_demo: mode=synthetic_dataset, backend_mode=real, dataset_id=sim-gen_profile_v1-seed42`），**不是真实银行数据，不是固定样例**。以下内容为辅助研判，不构成违法或诈骗认定；规则阈值为仿真内部设定，非监管标准。\n\n---\n\n# 一、工具事实\n\n## 1. 结论与工单（来源工具：make_ticket、get_account）\n\n| 项目 | 内容 |\n|---|---|\n| 账户 | A0209（用户0171，个人，开户 2020-02-18） |\n| 规则版本 | v1 |\n| 工单编号 | TK-v1-A0209 |\n| 状态 | 建议人工复核（status_code：REVIEW） |\n| 角色 | 中转端 |\n| 链编号 | L-T01908 |\n| 建议动作 | 建议人工复核 |\n\n工单结论原文：该账户在资金链 L-T01908 中表现为中转端，命中 4 条风险规则（R01、R04、R07、R08），建议人工复核。\n\n账户画像（get_account）：转入 6 笔 / 75241 元，转出 9 笔 / 72356 元，对手方 14 个，交易区间 2026-03-01 09:14 至 2026-03-07 21:54。\n\n## 2. 支持证据（来源工具：make_ticket supporting_evidence、check_rules hits、trace_chain edges）\n\n交易流水（get_transactions）：total=15、count=15、truncated=false，为完整返回，未截断。\n\n工单支持证据逐条：\n\n- T01908（2026-03-05 14:28 A0044→A0283 35710 元）\n- T01913（2026-03-05 14:33 A0287→A0283 36059 元）\n- T01932（2026-03-05 15:04 A0283→A0209 70850 元，首次交易对手）\n- T01938（2026-03-05 15:14 A0209→A0177 70396 元）\n- T01942（2026-03-05 15:20 A0177→A0186 70093 元）\n\n注：工单 supporting_evidence 将 T01908、T01913、T01942 描述为“向 A0283/A0186 转出”，而 trace_chain 的 edges 显示 T01908 为 A0044→A0283、T01913 为 A0287→A0283、T01942 为 A0177→A0186，实际付款方与工单描述不一致，此处以 trace_chain 的 edges 方向为准并保留差异说明。\n\n命中规则（check_rules，v1）：\n\n- **R01 快进快出**（高）：evidence_tx_ids T01932、T01938；detail：2026-03-05 15:04 起 60 分钟内转入 70850 元，转出 70396 元（99.4%）；metrics in=70850、out=70396、ratio=0.994\n- **R04 余额清零**（中）：evidence_tx_ids T01932、T01938；detail：2026-03-05 转入 70850 元，转出 70396 元（99.4%）；metrics in=70850、out=70396、ratio=0.994\n- **R07 多层链路**（高）：evidence_tx_ids T01908、T01913、T01932、T01938、T01942；detail：位于资金链 L-T01908，该链最长路径 4 跳（不少于 3 跳）；metrics chain_id=L-T01908、hops=4\n- **R08 首次对手大额转入**（中）：evidence_tx_ids T01932；detail：首次交易的对手 A0283 转入 70850 元\n\n## 3. 资金链路（来源工具：trace_chain，v1，max_hops=4，window_min=60）\n\n链路 L-T01908：hops=4，total_amount=71769（工具定义的链路金额，非各边累加），duration_minutes=52（整链跨度），truncated=false。\n\n按 edges 分支描述：\n\n- 并行汇入分支 1：T01908（2026-03-05 14:28 A0044→A0283 35710 元）\n- 并行汇入分支 2：T01913（2026-03-05 14:33 A0287→A0283 36059 元）\n- 汇合后：T01932（2026-03-05 15:04 A0283→A0209 70850 元）\n- 续转：T01938（2026-03-05 15:14 A0209→A0177 70396 元）\n- 续转：T01942（2026-03-05 15:20 A0177→A0186 70093 元）\n\n节点角色（工具返回 roles）：A0044 疑似受骗付款端、A0287 疑似受骗付款端、A0283 一级收款端、A0209 中转端、A0177 中转端、A0186 末端。\n\n资金去向结论：在本数据窗口（2026-03-01 至 2026-03-07）、本次追踪深度（4 跳）内，可见末端为 A0186；该结论不保证现实最终去向。\n\n## 4. 反向证据（来源工具：check_rules counter）\n\ncounter 为空 —— 本次 v1 计算未命中任何反向规则。该结果仅表示未命中反向规则，不代表账户不存在正常业务。\n\n## 5. 缺失证据（来源工具：make_ticket missing_evidence，原样保留）\n\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n- GAP_HISTORY：数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断）\n\n上述项目均未完成外部调查，不能视为已核验。\n\n---\n\n# 二、规则定义与来源（来源：涉诈规则库检索，v1）\n\n规则集版本：v1（基于：无）。依据来源为仿真内部规则，阈值全部为仿真场景参数，不是任何监管机构的标准。[[a2]]\n\n- **R01 快进快出**（风险规则，高）：收到转入后 60 分钟内转出金额达到这段时间转入合计的 90% 至 110%，且转入合计不少于 10000 元；参数 window_min=60、ratio_min=0.9、ratio_max=1.1、min_amount=10000。[[a2]]\n- **R04 余额清零**（风险规则，中）：同一自然日内转入不少于 10000 元，且当日转出达到转入的 95% 至 110%，以流入流出比近似余额清零；参数 ratio_min=0.95、ratio_max=1.1、min_amount=10000；仿真数据不含账户余额，按自然日统计。[[a2]][[a1]]\n- **R07 多层链路**（风险规则，高）：账户位于已识别的资金链上，且该链最长路径不少于 3 跳；参数 min_hops=3；跳数指链内最长路径包含的交易笔数。[[a1]]\n- **R08 首次对手大额转入**（风险规则，中）：收到单笔超过 20000 元的转入，且在本数据时间范围内此前与该对手无任何交易；参数 amount=20000；“首次”只在本数据窗口内判断。[[a1]]\n\n规则类型说明：风险规则命中表示出现某种需要关注的资金特征；反向规则命中表示存在可能说明账户行为正常的证据，反向规则不单独推翻风险规则。[[a2]]\n\n追链参数：资金链追踪时间窗取自 R01 的 window_min，v1 为 60 分钟；链边限转账类交易，单笔不少于 3000 元，链内至少有一笔不少于 10000 元。[[a2]]\n\n（说明：知识库检索同时返回了 rules_v2.md 片段，本研判按 v1 执行，v2 内容不作为本次依据。）[[a3]]",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 3,
+      "question": 2,
+      "started": "2026-10-31T02:40:22.418Z",
+      "finished": "2026-10-31T02:40:48.162Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0044"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0044",
+            "limit": 200
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0044",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0044",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0044",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0044",
+            "A0177",
+            "A0186",
+            "A0209",
+            "A0283",
+            "A0287"
+          ],
+          "transactions": [
+            "T01908",
+            "T01913",
+            "T01932",
+            "T01938",
+            "T01942"
+          ],
+          "chains": [
+            "L-T01908"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 数据性质说明\n\n本结果为**基于完整合成数据集（synthetic_dataset，backend_mode=real）及规则版本 v1 的算法计算，不是真实银行数据**。以下内容为辅助研判，不构成违法或诈骗认定；涉及的阈值均为仿真内部规则参数，非监管标准。\n\n# 工具事实\n\n## 1. 结论与工单（来源工具：get_account / trace_chain / check_rules / make_ticket）\n\n| 项目 | 值 |\n|---|---|\n| 账户 | A0044（用户0035，个人，开户 2021-07-19） |\n| 规则版本 | v1 |\n| 画像统计 | 转入 13 笔 / 14067 元；转出 9 笔 / 39941 元；对手方 20 个；交易窗口 2026-03-01 11:45 至 2026-03-07 21:55 |\n| 工单编号 | TK-v1-A0044 |\n| 状态 | 存在风险信号（RISK_SIGNAL） |\n| 角色 | 疑似受骗付款端 |\n| 链编号 | L-T01908（4 跳，链路金额 71769 元，整链跨度 52 分钟） |\n\n**资金去向结论：在本数据窗口、当前追踪深度（max_hops=4）内可见的末端为 A0186。** 该结论不保证现实中的最终去向。\n\n## 2. 链路证据（来源工具：trace_chain，仅按 edges 描述）\n\n| 交易编号 | 时间 | 付款方 | 收款方 | 金额（元） |\n|---|---|---|---|---|\n| T01908 | 2026-03-05 14:28 | A0044 | A0283 | 35710 |\n| T01913 | 2026-03-05 14:33 | A0287 | A0283 | 36059 |\n| T01932 | 2026-03-05 15:04 | A0283 | A0209 | 70850 |\n| T01938 | 2026-03-05 15:14 | A0209 | A0177 | 70396 |\n| T01942 | 2026-03-05 15:20 | A0177 | A0186 | 70093 |\n\n链路角色（工具返回）：A0044 疑似受骗付款端；A0287 疑似受骗付款端；A0283 一级收款端；A0209 中转端；A0177 中转端；A0186 末端。\n\n**并行汇入分支需明确**：T01908（A0044→A0283）与 T01913（A0287→A0283）是两条并行汇入 A0283 的分支，存在两条独立付款边；A0287 不是 A0044 的下游，不能将账户集合视为单一连续路径。A0283 汇聚后向 A0209→A0177→A0186 单向流转至本轮深度可见末端。\n\n## 3. 支持证据（来源工具：check_rules、make_ticket）\n\n- 命中规则 R07 多层链路（等级：高），evidence_tx_ids：T01908、T01913、T01932、T01938、T01942；detail：位于资金链 L-T01908，最长路径 4 跳（不少于 3 跳）。\n- 工单支持证据逐条：\n  - T01908（2026-03-05 14:28 向 A0283 转出 35710 元）\n  - T01913（2026-03-05 14:33 向 A0283 转出 36059 元）\n  - T01932（2026-03-05 15:04 向 A0209 转出 70850 元）\n  - T01938（2026-03-05 15:14 向 A0177 转出 70396 元）\n  - T01942（2026-03-05 15:20 向 A0186 转出 70093 元）\n- 账户流水中共 22 笔、count=22、total=22、truncated=false（未截断）。\n\n## 4. 反向证据（来源工具：check_rules）\n\ncounter 为空（[]）——仅表示本版本未命中反向规则，不代表账户行为的正常性已被确认。\n\n## 5. 缺失证据（工单原样保留）\n\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n\n## 6. 建议动作（工单原样）\n\n- 建议关注后续交易\n\n未命中风险规则不等于无风险；以上结论基于合成数据算法结果，建议结合人工复核与补充材料后再作判断。\n\n# 规则定义与来源\n\n以下规则定义来源于“涉诈规则库”检索结果（rules_v1.md），仅解释规则条文，不含账户交易事实。\n\n- **规则版本**：v1（来源：仿真内部规则，非官方要求；阈值全部为仿真场景设定参数，不是任何监管机构的标准）[[a2]]\n- **R07 多层链路**（类型：风险规则，等级：高）：条件为账户位于已识别的资金链上，且该链最长路径不少于 3 跳；参数 min_hops=3；依据来源标注为仿真内部规则v1#R07；说明指出跳数指链内最长路径包含的交易笔数，资金链按本版本追链参数识别[[a1]][[a2]]\n- **v1 追链参数**（供理解链路口径）：资金链追踪时间窗取自 R01 的 window_min，v1 为 60 分钟；链边限转账类交易，单笔不少于 3000 元，链内至少有一笔不少于 10000 元；节点守恒比例为 0.5[[a2]]\n- **反向规则说明**：反向规则命中表示存在可能说明账户行为正常的证据，不单独推翻风险规则，仅用于列出反向证据[[a2]]\n\n如需按 v2 或其他追踪深度复核，请另行指定。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 3,
+      "question": 3,
+      "started": "2026-10-31T02:40:48.162Z",
+      "finished": "2026-10-31T02:41:10.615Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "get_account",
+          "arguments": {
+            "acct_id": "A0105"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "get_transactions",
+          "arguments": {
+            "acct_id": "A0105",
+            "start": null,
+            "end": null,
+            "limit": 50
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "trace_chain",
+          "arguments": {
+            "acct_id": "A0105",
+            "max_hops": 4,
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "check_rules",
+          "arguments": {
+            "acct_id": "A0105",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0105",
+            "rule_version": "v1"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0105",
+            "A0162"
+          ],
+          "transactions": [
+            "T01736"
+          ],
+          "chains": []
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 数据来源声明\n\n本次结果为 `synthetic_dataset`、`backend_mode=real`：基于**完整合成数据集和 v1 仿真内部规则**计算，不是真实银行数据。以下结论为辅助研判，不构成违法或诈骗认定；规则阈值为仿真内部参数，非监管标准。（来源工具：get_account / check_rules / make_ticket 的 `_demo` 字段）\n\n## 一、工具事实\n\n### 1. 账户与结论\n\n| 项目 | 内容 |\n|---|---|\n| 账户 | A0105（用户0084，个人账户） |\n| 规则版本 | v1 |\n| 风险规则命中 | 无（hits 为空） |\n| 反向规则 | R09 稳定工资收入（低等级） |\n| 资金链 | 未识别到链路（chains 为空，追踪深度 4 跳、窗口 60 分钟） |\n| 工单编号 | TK-v1-A0105 |\n| 工单状态 | 未见异常（CLEAR） |\n| 角色 | 无 |\n| 链编号 | 无 |\n| 工单结论原文 | 在本数据范围内未发现风险规则命中，也不在已识别的资金链上。 |\n| 建议动作 | 为空（工单未给出处置建议） |\n\n来源工具：get_account、check_rules、trace_chain、make_ticket。\n\n### 2. 支持证据\n\n无。check_rules 的 hits 为空列表，工单 supporting_evidence 亦为空。\n\n### 3. 反向证据\n\n- R09 稳定工资收入：T01736（2026-03-05 09:12，A0162→A0105，8094 元，工资，转入）。\n\n来源工具：check_rules 的 counter 字段、make_ticket 的 counter_evidence 字段。需说明：工资入账仅 1 笔，且数据窗口仅为 2026-03-01 至 2026-03-07（7 天），一笔工资不足以证明长期收入稳定；该反向证据不单独推翻风险判断。\n\n### 4. 缺失证据（按工单 missing_evidence 原样保留）\n\n- GAP_KYC：对手方账户的开户与实名信息。\n- GAP_BIZ：反向证据的业务背景核实（工资发放单位、商户经营资质）。\n\n该两项均未完成，未做实名核验或回访等外部调查。\n\n### 5. 流水核对\n\nget_transactions 返回 total=19、count=19、truncated=false，即本窗口 19 笔交易完整返回，无截断。账户画像汇总：转入 5 笔共 11421 元，转出 14 笔共 7671 元，对手方 17 个。资金去向结论仅限**本数据窗口、当前追踪深度 4 跳内可见的末端**，不等于现实最终去向。\n\n## 二、规则定义与来源\n\n规则来源为“涉诈规则库”检索结果 `rules_v1.md`，规则集版本 v1，依据为仿真内部规则（非官方要求），阈值均为仿真设定参数[[a2]]。\n\n- **R09 稳定工资收入**（反向规则，低等级）：条件为有不少于 1 笔工资入账；参数 min_count=1；统计范围为转入中的工资。说明：7 天数据下该规则偏弱，90 天数据时应提高到 3 笔；工资入账属于反向证据，不能单独说明账户没有风险，工单中应同时核实工资发放单位[[a1]]。\n- **R01 快进快出**（风险规则，高等级，v1）：收到转入后 60 分钟内转出金额达该时段转入合计的 90%–110%，且转入合计不少于 10000 元；参数 window_min=60、ratio_min=0.9、ratio_max=1.1、min_amount=10000[[a2]]。\n- **R08 首次对手大额转入**（风险规则，中等级，v1）：收到单笔超过 20000 元转入，且本数据窗口内此前与该对手无任何交易；“首次”仅在本数据窗口内成立[[a1]]。\n- 追链参数（v1）：时间窗 60 分钟，链边限转账类交易、单笔不少于 3000 元，链内至少一笔不少于 10000 元，节点守恒比例 0.5[[a2]]。\n\n说明：未命中风险规则不等于账户绝无风险；counter 仅为 R09 一条，不代表已排除其他情形；上述知识库内容仅解释规则条件与边界，不构成账户交易证据。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 3,
+      "question": 4,
+      "started": "2026-10-31T02:41:10.615Z",
+      "finished": "2026-10-31T02:41:23.240Z",
+      "http_status": 200,
+      "calls": [
+        "knowledge_base_search",
+        "knowledge_base_search"
+      ],
+      "tool_checks": [],
+      "identifier_check": {
+        "rule_version": "v1",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "NO_IDS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 规则定义与来源\n\n来源：涉诈规则库检索结果。以下阈值均为仿真内部规则设定的参数，不是任何监管机构的标准；本部分为纯规则问答，不含账户或交易事实。\n\n### R01 快进快出（v1）\n\n- 规则集版本：v1（基于：无）[[a3]]\n- 类型与等级：风险规则，等级高[[a3]]\n- 判断条件：收到转入后 **60 分钟内**，转出金额达到这段时间转入合计的 **90% 至 110%**，且转入合计 **不少于 10000 元**[[a3]]\n- 统计范围：转入统计“转账”；转出统计“转账”[[a3]]\n- 参数：`window_min 60`、`ratio_min 0.9`、`ratio_max 1.1`、`min_amount 10000`[[a3]]\n- 依据来源：仿真内部规则 v1#R01[[a3]]\n- 说明：与其他规则共同命中并位于资金链上时，建议人工复核[[a3]]\n\n### 与 v2 的区别\n\n| 对比项 | v1 | v2 | 来源 |\n|---|---|---|---|\n| R01 时间窗 `params.window_min` | 60 分钟 | 120 分钟 | [[a6]] |\n| R01 条件中的时间表述 | 收到转入后 60 分钟内 | 收到转入后 120 分钟内 | [[a3]][[a2]] |\n| R01 余额比例区间与金额门槛 | ratio 0.9–1.1，min_amount 10000 | ratio 0.9–1.1，min_amount 10000（未变） | [[a3]][[a2]] |\n| 追链时间窗 W | 60 分钟 | 120 分钟（取自 R01.window_min） | [[a6]][[a3]][[a2]] |\n| 新增规则 | — | R11 多个首次对手集中转入（风险，中；24 小时内不少于 2 个首次交易的对手各转入超过 10000 元） | [[a6]] |\n| 删除规则 | — | 无 | [[a6]] |\n\n变化含义：v1 到 v2 对 R01 只调整了时间窗参数，比值区间与金额门槛保持不变，规则名称、类型与等级也未变化[[a6]][[a3]][[a2]]。时间窗放宽后，部分原先超出 v1 时间窗但满足 v2 时间窗及其他追链条件的交易，可能被纳入新识别的资金链；识别还取决于交易类型、金额门槛、节点守恒和链接条件，不能仅凭账户停留时间判断是否成链[[a6]]。规则放宽也可能使普通转发场景进入待核查范围[[a6]]。\n\n说明：以上为辅助研判的规则释义，不构成违法或诈骗认定。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    },
+    {
+      "round": 3,
+      "question": 5,
+      "started": "2026-10-31T02:41:23.240Z",
+      "finished": "2026-10-31T02:41:47.099Z",
+      "http_status": 200,
+      "calls": [
+        "read_skill_md",
+        "read_skill_md",
+        "rejudge",
+        "knowledge_base_search",
+        "make_ticket"
+      ],
+      "tool_checks": [
+        {
+          "tool": "rejudge",
+          "arguments": {
+            "old": "v1",
+            "new": "v2"
+          },
+          "matches_local": true
+        },
+        {
+          "tool": "make_ticket",
+          "arguments": {
+            "acct_id": "A0176",
+            "rule_version": "v2"
+          },
+          "matches_local": true
+        }
+      ],
+      "identifier_check": {
+        "rule_version": "v2",
+        "dataset_id": "sim-gen_profile_v1-seed42",
+        "identifiers": {
+          "accounts": [
+            "A0015",
+            "A0039",
+            "A0082",
+            "A0104",
+            "A0127",
+            "A0146",
+            "A0168",
+            "A0176",
+            "A0261"
+          ],
+          "transactions": [
+            "T01338",
+            "T01349",
+            "T01381"
+          ],
+          "chains": [
+            "L-T00197",
+            "L-T01338",
+            "L-T01454"
+          ]
+        },
+        "unknown": {
+          "accounts": [],
+          "transactions": [],
+          "chains": []
+        },
+        "status": "PASS"
+      },
+      "errors": [],
+      "execution_error_excerpts": [],
+      "automatic_problems": [],
+      "automatic_status": "PASS_PENDING_MANUAL",
+      "final_answer": "## 一、工具事实\n\n**来源：rejudge（old=v1，new=v2）、make_ticket（A0176，v2）**\n\n数据性质：`_demo` 显示 mode=`synthetic_dataset`、backend_mode=`real`、dataset_id=`sim-gen_profile_v1-seed42`，即基于完整合成数据集按指定规则版本计算，不是真实银行数据，也不是固定样例。以下变化来自同一数据集上的规则口径差异，不代表账户行为发生变化。\n\n### 版本比较汇总（rejudge 原字段）\n\n| 字段 | 值 |\n|---|---|\n| old / new | v1 / v2 |\n| total | 300 |\n| changed | 8 |\n| upgraded | 8 |\n| downgraded | 0 |\n| by_transition | 存在风险信号→建议人工复核：2；未见异常→存在风险信号：5；未见异常→证据不足：1 |\n\n### 全部结论变化账户（8 户）\n\n| 账户 | 旧状态 | 新状态 | 方向 | 旧角色→新角色 | 旧链号→新链号 | 规则变化 | reason |\n|---|---|---|---|---|---|---|---|\n| A0015 | 未见异常 | 存在风险信号 | 升级 | 无→疑似受骗付款端 | null→L-T01338 | added:[]；removed:[] | 进入资金链 L-T01338（疑似受骗付款端） |\n| A0039 | 存在风险信号 | 建议人工复核 | 升级 | 无→一级收款端 | null→L-T00197 | added:[\"R01\"]；removed:[] | 新命中 R01（快进快出，window_min 60→120）；进入资金链 L-T00197（一级收款端） |\n| A0104 | 未见异常 | 证据不足 | 升级 | 无→一级收款端 | null→L-T01454 | added:[\"R01\"]；removed:[] | 新命中 R01（快进快出，window_min 60→120）；进入资金链 L-T01454（一级收款端） |\n| A0127 | 未见异常 | 存在风险信号 | 升级 | 无→疑似受骗付款端 | null→L-T01454 | added:[]；removed:[] | 进入资金链 L-T01454（疑似受骗付款端） |\n| A0146 | 未见异常 | 存在风险信号 | 升级 | 无→疑似受骗付款端 | null→L-T01338 | added:[]；removed:[] | 进入资金链 L-T01338（疑似受骗付款端） |\n| A0168 | 未见异常 | 存在风险信号 | 升级 | 无→末端 | null→L-T01454 | added:[]；removed:[] | 进入资金链 L-T01454（末端） |\n| A0176 | 存在风险信号 | 建议人工复核 | 升级 | 无→一级收款端 | null→L-T01338 | added:[\"R01\",\"R11\"]；removed:[] | 新命中 R01（快进快出，window_min 60→120）；新命中 R11（多个首次对手集中转入，v2 新增规则）；进入资金链 L-T01338（一级收款端） |\n| A0261 | 未见异常 | 存在风险信号 | 升级 | 无→疑似受骗付款端 | null→L-T00197 | added:[]；removed:[] | 进入资金链 L-T00197（疑似受骗付款端） |\n\n变化中出现的链号为 L-T01338、L-T00197、L-T01454；本节仅按重判返回逐户列示，不将 accounts 集合串成路径。\n\n### A0176 工单（make_ticket，v2）\n\n| 项目 | 内容 |\n|---|---|\n| ticket_id | TK-v2-A0176 |\n| acct_id / rule_version | A0176 / v2 |\n| status / status_code | 建议人工复核 / REVIEW |\n| role | 一级收款端 |\n| chain_id | L-T01338 |\n| conclusion | 该账户在资金链 L-T01338 中表现为一级收款端，命中 5 条风险规则（R01、R04、R05、R08、R11），建议人工复核。 |\n\n**支持证据（逐条原样保留）**\n\n- T01338（2026-03-04 10:18 收到 A0146 转入 46061 元，首次交易对手）\n- T01349（2026-03-04 10:26 收到 A0015 转入 39044 元，首次交易对手）\n- T01381（2026-03-04 11:37 向 A0082 转出 82445 元）\n\n**反向证据**：空（counter_evidence 为空，仅表示未命中反向规则，不代表不存在正常业务）\n\n**缺失证据**\n\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n- GAP_HISTORY：数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断）\n\n**工单规则依据（rule_basis 原样）**\n\n| 规则编号 | 规则名称 | 对齐依据 |\n|---|---|---|\n| R01 | 快进快出 | 仿真内部规则v2#R01 |\n| R04 | 余额清零 | 仿真内部规则v2#R04 |\n| R05 | 新开账户大额转入 | 仿真内部规则v2#R05 |\n| R08 | 首次对手大额转入 | 仿真内部规则v2#R08 |\n| R11 | 多个首次对手集中转入 | 仿真内部规则v2#R11 |\n\n**建议动作（照工单原样）**：建议人工复核\n\n## 二、规则定义与来源\n\n**来源：知识库检索（涉诈规则库：rules_diff_v1_v2_1.md、rules_v2.md、rules_v1.md）**\n\n- v1 到 v2 **未删除任何规则**；**新增 R11 多个首次对手集中转入**（风险，中）：24 小时内有不少于 2 个首次交易的对手各转入超过 10000 元 [[a1]]。\n- **参数变化**：R01 快进快出 `params.window_min` 由 v1 的 60 分钟改为 v2 的 120 分钟 [[a1]]。R01 条件为收到转入后窗口期内转出金额达到该段时间转入合计的 90% 至 110%，且转入合计不少于 10000 元；v1 窗口 60 分钟 [[a3]]，v2 窗口 120 分钟 [[a2]]。\n- **追链参数变化**：追链时间窗 W 取自 R01.window_min，由 v1 的 60 分钟改为 v2 的 120 分钟 [[a1]]。v1 追链参数见 [[a3]]，v2 追链参数见 [[a2]]。\n- 时间窗放宽后，部分原先超出 v1 时间窗、但满足 v2 时间窗及其他追链条件的交易可能被纳入新识别的资金链；识别还取决于交易类型、金额门槛、节点守恒和链接条件，不能仅凭账户停留时间判断是否成链。新增 R11 使满足条件的账户多一个风险信号 [[a1]]。\n- 以上阈值全部为仿真内部规则参数，不是任何监管机构的标准 [[a1]]。\n\n**说明**：以上为辅助研判结果，不构成违法或诈骗认定。",
+      "manual_review": {
+        "status": "PASS_WITH_PRESENTATION_LIMITATIONS",
+        "note": "Key facts, evidence, chain edges, status and source placement reviewed."
+      }
+    }
+  ],
+  "limitations": [
+    "14/15 automatic checks clean; R2Q3 region warning retained with manual review.",
+    "Some uncited account commentary remains after rule definitions; strict two-region formatting is not perfect.",
+    "R1Q1 labels chain total_amount as ticket field; value is correct but originates from trace_chain.",
+    "R1Q3 includes a generic counter-empty explanation despite actual R09 counter evidence.",
+    "Core ticket supporting descriptions omit full edge payers; use trace_chain.edges for direction.",
+    "15 runs validate these fixed questions only, not universal model reliability."
+  ]
+}

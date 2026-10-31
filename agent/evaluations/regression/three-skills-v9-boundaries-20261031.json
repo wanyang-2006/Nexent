@@ -1,0 +1,71 @@
+[
+  {
+    "question": 6,
+    "query": "请查看 A0209 按 v1 已有的工单，不要重新生成。",
+    "calls": [
+      {
+        "type": "tool",
+        "content": "",
+        "tool_name": "read_skill_md",
+        "tool_arguments": {
+          "skill_name": "evidence-citation"
+        },
+        "tool_call_id": "8a4d18c1-be3f-4a32-aa7c-a3496b729b76",
+        "unit_index": 6
+      },
+      {
+        "type": "tool",
+        "content": "",
+        "tool_name": "get_ticket",
+        "tool_arguments": {
+          "acct_id": "A0209",
+          "rule_version": "v1"
+        },
+        "tool_call_id": "e04968c3-2c3d-4bf6-b566-0bfb54a97222",
+        "unit_index": 12
+      }
+    ],
+    "http_status": 200,
+    "final_answer": "## 一、工具事实\n\n**来源工具**：`get_ticket`（读取已有工单，未调用 `make_ticket`，未重新研判）\n\n| 字段 | 内容 |\n| --- | --- |\n| 工单编号 | TK-v1-A0209 |\n| 账户 | A0209 |\n| 规则版本 | v1 |\n| 状态 | 建议人工复核（status_code：REVIEW） |\n| 角色 | 中转端 |\n| 链路编号 | L-T01908 |\n| 结论 | 该账户在资金链 L-T01908 中表现为中转端，命中 4 条风险规则（R01、R04、R07、R08），建议人工复核。 |\n\n### 支持证据\n\n- T01908（2026-03-05 14:28 向 A0283 转出 35710 元）\n- T01913（2026-03-05 14:33 向 A0283 转出 36059 元）\n- T01932（2026-03-05 15:04 收到 A0283 转入 70850 元，首次交易对手）\n- T01938（2026-03-05 15:14 向 A0177 转出 70396 元）\n- T01942（2026-03-05 15:20 向 A0186 转出 70093 元）\n\n### 反向证据\n\n为空（工单 counter_evidence 字段无内容）。\n\n### 缺失证据\n\n- GAP_KYC：对手方账户的开户与实名信息\n- GAP_MEMO_DEVICE：转账附言与登录设备信息\n- GAP_CALLBACK：付款方的回访或报案记录\n- GAP_HISTORY：数据时间范围之外的历史交易（“首次对手”仅在本数据窗口内判断）\n\n### 建议动作\n\n建议人工复核（照工单原样）\n\n### 数据性质\n\n_demo 声明：mode = synthetic_dataset，dataset_id = sim-gen_profile_v1-seed42，backend_mode = real，来源为 data/accounts.csv 与 data/transactions.csv；为完整合成数据算法计算结果，不是真实银行数据，也不是固定样例。以上为辅助研判，不构成违法或诈骗认定；阈值为仿真内部规则，非监管标准。\n\n## 二、规则定义与来源\n\n本次仅为查看已有工单，未检索规则知识库，以下规则名称与依据按工单 `rule_basis` 原样列出，不附加平台引用：\n\n| 规则编号 | 规则名称 | 依据（原样） |\n| --- | --- | --- |\n| R01 | 快进快出 | 仿真内部规则v1#R01 |\n| R04 | 余额清零 | 仿真内部规则v1#R04 |\n| R07 | 多层链路 | 仿真内部规则v1#R07 |\n| R08 | 首次对手大额转入 | 仿真内部规则v1#R08 |",
+    "status": "PASS"
+  },
+  {
+    "question": 7,
+    "query": "请按 v1 研判不存在的账户 A9999。",
+    "calls": [
+      {
+        "type": "tool",
+        "content": "",
+        "tool_name": "read_skill_md",
+        "tool_arguments": {
+          "skill_name": "evidence-citation"
+        },
+        "tool_call_id": "ff04c468-4c1b-40c4-bb6d-018e3fad5601",
+        "unit_index": 6
+      },
+      {
+        "type": "tool",
+        "content": "",
+        "tool_name": "read_skill_md",
+        "tool_arguments": {
+          "skill_name": "fund-chain-investigation"
+        },
+        "tool_call_id": "4627588a-8f31-40c7-ae6a-b4757d5f0358",
+        "unit_index": 12
+      },
+      {
+        "type": "tool",
+        "content": "",
+        "tool_name": "get_account",
+        "tool_arguments": {
+          "acct_id": "A9999"
+        },
+        "tool_call_id": "61f44da1-ad41-4fab-8e55-45a17c037820",
+        "unit_index": 18
+      }
+    ],
+    "http_status": 200,
+    "final_answer": "## 研判结果：账户 A9999（v1）\n\n### 工具事实\n\n**来源工具：get_account（账户画像）**\n\n| 项目 | 结果 |\n|---|---|\n| 账户编号 | A9999 |\n| 规则版本 | v1 |\n| 查询结果 | 失败：账户不存在 |\n| 错误代码 | ACCOUNT_NOT_FOUND |\n| 错误详情 | A9999 |\n\n**执行说明**\n\n- 按执行顺序，本流程已先加载 evidence-citation 技能与资金链研判技能，随后调用 get_account 查询账户 A9999（v1）。\n- get_account 返回业务错误 `ACCOUNT_NOT_FOUND`，未取得任何账户画像字段（状态、角色、开户信息等）。\n- 依据流程约束，账户画像调用失败后应说明原因并停止该账户的后续研判，因此未继续调用 get_transactions、trace_chain、check_rules，也未调用 make_ticket。以上步骤不是遗漏，而是缺少必要账户事实。\n\n**支持证据**：未取得（账户不存在，无交易与规则命中数据）。\n\n**反向证据**：未取得（未调用 check_rules，无法说明是否命中反向规则；此情形不代表已排除风险，只代表账户本身不存在于当前数据集中）。\n\n**缺失证据**：\n- 账户 A9999 的账户画像与状态、角色；\n- 该账户的交易明细与资金链路；\n- 该账户在 v1 规则下的命中与反向证据；\n- 对应研判工单（未生成）。\n\n**建议动作**：为空（未生成工单，未提供建议动作；不追加处置动作）。\n\n### 规则定义与来源\n\n- 本次仅执行账户存在性查询，未检索“涉诈规则库”，因此不列出任何规则条文引用，也不编造平台引用标记。\n- 未命中风险规则的情形不适用于本账户：因账户不存在，尚无任何规则计算发生。“未命中风险规则”不等于“无风险”，但本账户连计算前提都不成立。\n\n### 说明\n\n- 数据性质：以本次工具实际返回为准，get_account 未返回 `_demo` 标记（因账户不存在），故无法声明具体数据模式；结论仅反映当前数据集内不存在 A9999。\n- 处理建议：请核对账户编号是否录入有误，或确认该账户是否属于当前数据覆盖范围；更正后可重新按 v1 研判。\n- 本结果为辅助研判，不构成违法或诈骗认定；相关阈值属仿真内部规则，非监管标准。",
+    "status": "PASS"
+  }
+]

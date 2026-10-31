@@ -13,11 +13,20 @@
 | 导出的 ZIP 与 JSON | Nexent 导出的智能体配置 | 第 5 天以后 |
 | 提示词文本 | 职责、约束、示例三块提示词 | 第 2 天起 |
 
-## 当前环境记录（2026-10-30）
+## 当前环境记录（2026-10-31）
+
+- 当前正式版为 **V9 / fundtrace-v1.2-三技能-20261031**，三个Skill已绑定并按普通问法加载。最终草稿五题各三次全部完成，51份业务JSON与本地一致；严格自动检查14/15无告警，1条分区告警经人工复核保留。发布版再完成五题及只读工单/异常账户共7次、19份业务返回核对。少量格式与来源措辞限制详见 [最终发布报告](evaluations/three-skills-release-20261031.md)，不称严格模板全部达标。
+- 当前提示词为 [prompt_real.md](prompt_real.md)，新备份为 [V9 ZIP](exports/fundtrace_agent-v9-v1.2-20261031.zip)，已静态核对三个Skill及线上配置，未重新导入。截图仍暂停，Git提交推送由用户操作。以下V8及草稿未发布等文字为历史记录，以本段和最终发布报告为准。
+
+- 三技能草稿已跑原五题三轮，15次执行成功、56份业务JSON一致；人工发现去向范围、引用位置和一次加载顺序问题。追加修订后Q2/Q5两次业务复测通过，但引用表达仍待收敛，不能称新配置稳定15/15通过。详见evaluations/three-skills-regression-20261031.md；此条覆盖下方“回归待做”的旧状态。
+
+- 测试副本三技能自动路由已补充到草稿提示词，4次普通问法（2次只读工单、2次版本比较）均实际加载所需技能，5个业务返回与本地一致。仍待新路由单账户完整流程及原五题回归，不代表正式版本已更新。补丁见prompt_three_skills_test.md；详见evaluations/skills-20261031.md，此条覆盖下方先前自动加载限制。
+
+- V8 ZIP已完成同租户隔离副本智能体3导入恢复验收，详见exports/README.md。新增evidence-citation和rule-update-rejudge已在副本草稿绑定；重判修订复测与显式技能只读工单通过，普通工单未自动加载证据Skill，尚未推广正式版。详见evaluations/skills-20261031.md；以下旧V5及“尚未导入”等表述为历史状态。
 
 - 最新发布为平台V8/fundtrace-v1.1-20261030，严格输出协议与静默修复开启，模型仍DeepSeek-V4.1-Flash、最大步数15、记忆关闭。五题各三次独立回归15/15通过，有限样本边界见evaluations/stability-20261030.md。
 - 用户已提供开机恢复和SIGKILL异常退出自动恢复证据，NRestarts由0升至1、active/running、real模式8工具19调用自检通过。
-- 最新配置备份exports/fundtrace_agent-v8-v1.1-20261030.zip；旧V5 ZIP保留。V8 ZIP静态核查通过，尚未重新执行导入副本验收。以下V5状态属于历史记录。
+- 最新配置备份exports/fundtrace_agent-v8-v1.1-20261030.zip；旧V5 ZIP保留。V8 ZIP已完成同租户导入副本验收，只含原技能，不含10月31日新增技能。以下V5状态属于历史记录。
 
 - 云端用户回传两轮 `PASS: 8 tools; 19 MCP calls; real algorithms on synthetic dataset`，systemd enabled、active。当前 `MCP_MODE=real`，算法处理300账户、2973笔合成交易，不是真实银行记录。
 - Nexent `fundtrace_agent` 已绑定七个业务工具（增加 get_ticket、rejudge），以及 fund-chain-investigation Skill；最大步数15。

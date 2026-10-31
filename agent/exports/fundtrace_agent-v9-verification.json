@@ -1,0 +1,63 @@
+{
+  "version_no": 9,
+  "published_name": "fundtrace-v1.2-三技能-20261031",
+  "sha256": "658A39086AD8B400C9823DD601C0B2530CE0194000DBC180E90237FEF35DA449",
+  "skill_checks": [
+    {
+      "file": "skills/evidence-citation.zip",
+      "matches_local_body_and_metadata": true,
+      "note": "Platform serializes frontmatter; original investigation body also repeats identical frontmatter."
+    },
+    {
+      "file": "skills/fund-chain-investigation.zip",
+      "matches_local_body_and_metadata": true,
+      "note": "Platform serializes frontmatter; original investigation body also repeats identical frontmatter."
+    },
+    {
+      "file": "skills/rule-update-rejudge.zip",
+      "matches_local_body_and_metadata": true,
+      "note": "Platform serializes frontmatter; original investigation body also repeats identical frontmatter."
+    }
+  ],
+  "prompt_matches_published": true,
+  "max_steps": 15,
+  "protocol_repair": true,
+  "tool_count": 8,
+  "model_names": [
+    "deepseek-ai/DeepSeek-V4.1-Flash"
+  ],
+  "knowledge_base_count": 2,
+  "exported_fields": [
+    "agent_id",
+    "tenant_id",
+    "name",
+    "display_name",
+    "description",
+    "author",
+    "max_steps",
+    "requested_output_tokens",
+    "is_main_agent",
+    "provide_run_summary",
+    "allow_chat_metadata",
+    "enable_protocol_repair_retry",
+    "verification_config",
+    "context_policy",
+    "duty_prompt",
+    "constraint_prompt",
+    "few_shots_prompt",
+    "enabled",
+    "tools",
+    "managed_agents",
+    "model_ids",
+    "model_names",
+    "business_logic_model_id",
+    "business_logic_model_name",
+    "skill_names",
+    "prompt_template_id",
+    "prompt_template_name",
+    "model_params_override",
+    "greeting_message",
+    "example_questions"
+  ],
+  "restoration_tested": false
+}

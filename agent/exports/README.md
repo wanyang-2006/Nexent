@@ -1,12 +1,22 @@
 # Nexent 配置备份
 
+## 最新V9三技能备份（2026-10-31）
+
+当前正式版为V9 `fundtrace-v1.2-三技能-20261031`，文件 [fundtrace_agent-v9-v1.2-20261031.zip](fundtrace_agent-v9-v1.2-20261031.zip)。SHA256：`658A39086AD8B400C9823DD601C0B2530CE0194000DBC180E90237FEF35DA449`。
+
+ZIP包含agent.json及fund-chain-investigation、evidence-citation、rule-update-rejudge三个Skill ZIP。已核对提示词与正式V9一致、三个技能正文和元数据语义与本地一致（平台会重排YAML，原研判技能重复frontmatter保留）；模型DeepSeek-V4.1-Flash、最大步数15、协议修复true、八个工具和原两个知识库索引均正确。静态核对见 [verification.json](fundtrace_agent-v9-verification.json)，回归与限制见 [发布报告](../evaluations/three-skills-release-20261031.md)。
+
+新V9 ZIP未重新导入实测；V8恢复通过属于历史证据。恢复时重新检查三技能、模型、MCP连通性和目标知识库索引；记忆关闭仍需平台另行配置。ZIP不包含知识库正文/向量、模型凭据、MCP源码/依赖、CSV及工单、systemd或会话历史。包内地址、租户与索引标识仅适用于当前环境，按内部交接配置管理。以下“尚未发布或重新导出”等条目均为历史状态，以本节为准。
+
+2026-10-31边界：新增evidence-citation、rule-update-rejudge仅绑定智能体3草稿，尚未发布或重新导出。下列V8 ZIP仍只含fund-chain-investigation；三技能测试见../evaluations/skills-20261031.md。
+
 ## 最新V8备份（2026-10-30）
 
 文件 `fundtrace_agent-v8-v1.1-20261030.zip`，平台发布名称fundtrace-v1.1-20261030。SHA256：`CE3D3091712C5367DC0F95AD703C08BE313C8D545E7D49EA85AEA86F4DFD29BF`。
 
 已用平台导出并检查ZIP结构：agent.json及skills/fund-chain-investigation.zip。agent_info中模型DeepSeek-V4.1-Flash、最大步数15、8个工具（7业务工具加知识检索）、原Skill，enable_protocol_repair_retry=true，提示词包含精简核验约束。角色/使用要求/示例逐字等于线上V8详情，最大步数和修复开关一致。五题独立回归15/15通过，调整后评估记录见../evaluations/。平台ZIP不自带发布版本号，此版本对应关系来自导出时发布版核查。
 
-旧V5/r2备份保留为历史记录，勿以旧包恢复后声称协议修复已开启。V8包尚未重新导入验证；此前同环境导入验证针对旧V5包，不能直接套用。迁移资源与敏感标识边界同下文；平台记忆关闭仍需另行配置。
+旧V5/r2备份保留为历史记录，勿以旧包恢复后声称协议修复已开启。V8包已在同一Nexent租户导入为隔离测试智能体并完成恢复验收，结果见“V8同环境导入恢复实测”。迁移资源与敏感标识边界同下文；平台记忆关闭仍需另行配置。
 
 ## 历史V5备份
 
@@ -41,6 +51,13 @@ ZIP不包含知识库文档正文、向量索引、模型凭据、MCP服务器�
 压缩包包含内部地址、租户/索引标识及作者信息，交接时按项目内部配置管理。
 
 ## 同环境导入恢复实测（2026-10-30）
+
+### V8配置包恢复复测
+
+- V8 ZIP `fundtrace_agent-v8-v1.1-20261030.zip` 已在同租户导入为隔离副本 `fundtrace_v8_restore_test_20261030`（智能体3），原智能体1及V8未修改。自动创建的V1发布快照详情没有Skill；导入草稿则绑定“fund-chain-investigation 副本 2”。草稿确认已选涉诈规则库、涉诈案例库后，发布隔离测试V2 `V8恢复验收-测试版-20261030`，V2详情含绑定Skill。普通V2只读工单请求再次成功。不要把缺Skill的自动V1当作完整恢复版本。
+- 导入默认选GLM模型，已手动选回 `deepseek-ai/DeepSeek-V4.1-Flash`。发布V2核实 model_id=6、max_steps=15、enable_protocol_repair_retry=true；角色、使用要求、示例与V8源版本一致。草稿八个工具均启用，含七个fundtrace业务工具及knowledge_base_search。知识库选择窗口列出涉诈规则库与涉诈案例库；索引ID来自原租户，跨租户迁移仍需重建或重新选择索引。
+- 发布前草稿版完成A0209/v1、A0176/v2研判、A0176/v2只读工单、v1→v2重判及A9999异常账户五项回归。均HTTP 200；完整研判调用Skill副本并检索规则库，工单读取只调用get_ticket，重判只调用rejudge。A9999因协议重试调用get_account两次，返回ACCOUNT_NOT_FOUND后停止，没有工单。关键结果符合本地算法。
+- 原始SSE位于工作区 `.local-playwright/output/v8-restore-*.txt`，发布V2工单复测为 `v8-restore-v2-get-ticket.txt`。截图仍按用户要求暂停。此为同租户恢复测试，不证明干净租户迁移；记忆能力需在目标Nexent平台单独关闭。
 
 - 已从本ZIP导入独立智能体2：`fundtrace_restore_test_20261030`，展示名“资金链研判-备份恢复测试-1030”。导入向导自动创建V1，本次未另行点击发布。原智能体1保留V5，名称和关键配置与备份一致。
 - 重命名冲突时手动填写测试名称。模型步骤默认选择了GLM-4.5-Air，已显式改选原DeepSeek-V4.1-Flash；不能假定导入自动保留模型选择。
