@@ -27,9 +27,9 @@
 
 先备份云端现有 tickets；同步本轮 ticket.py 和 CHANGELOG；按现有服务流程重启；重新生成 A0209/v1 等工单，避免 get_ticket 继续读取旧文本。重新执行只读问题与五题回归，特别核对 T01908、T01913、T01942 的真实双方；留存失败和复测结果。随后重导出配置或说明运行时代码补丁版本，不把旧 V9 业务 JSON 文案一致性当作本次部署后验收。
 
-本轮实际 SSH BatchMode 连接 `60.205.124.241` 返回 `Permission denied (publickey,password)`；没有服务器 Shell/文件传输认证，无法上传或重启。未修改线上正式智能体、部署服务、清空工单或重启机器。无需改规则或增加组合工具；本次内容缺陷来自证据描述，不能用协议修复开关掩盖。不得把下列步骤写成已执行。
+本轮开始时 SSH BatchMode 返回 `Permission denied (publickey,password)`。随后用户再次授权并提供 SSH 密码后，以交互 SSH 登录成功，按上节步骤备份、上传单文件修复、重启原有 systemd 服务并完成线上验收。安装脚本不允许 root 调用；项目用户 sudo 需要的密码未提供，因此没有通过安装脚本重写 unit。服务原 unit 保持不变，仅由 root 执行 systemctl restart。没有改正式智能体配置、MCP 地址、知识库或规则。
 
-### 云端补丁同步步骤
+### 已执行的云端补丁同步步骤
 
 1. 先将当前 `tickets/v1/`、`tickets/v2/` 及云端运行目录备份到仓库目录以外的带时间戳路径。
 2. 上传最新补丁中的 `core/ticket.py` 至 `~/fundtrace-mcp/core/ticket.py`。该补丁兼容 V9 工具字段，不需修改智能体配置、规则、知识库、数据、MCP 地址或端口。
