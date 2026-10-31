@@ -59,5 +59,8 @@
     "greeting_message",
     "example_questions"
   ],
-  "restoration_tested": false
+  "restoration_tested": true,
+  "restoration_scope": "Same tenant, existing model/MCP/KB resources; restored agent 4 published test V2.",
+  "restoration_report": "../evaluations/v9-restore-20261031.md",
+  "restoration_limitations": "10 requests, 22 business JSON results matched. One final ticket answer omitted details; two identical retries succeeded. Does not prove cross-tenant migration or universal output stability."
 }

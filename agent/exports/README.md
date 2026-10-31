@@ -6,7 +6,9 @@
 
 ZIP包含agent.json及fund-chain-investigation、evidence-citation、rule-update-rejudge三个Skill ZIP。已核对提示词与正式V9一致、三个技能正文和元数据语义与本地一致（平台会重排YAML，原研判技能重复frontmatter保留）；模型DeepSeek-V4.1-Flash、最大步数15、协议修复true、八个工具和原两个知识库索引均正确。静态核对见 [verification.json](fundtrace_agent-v9-verification.json)，回归与限制见 [发布报告](../evaluations/three-skills-release-20261031.md)。
 
-新V9 ZIP未重新导入实测；V8恢复通过属于历史证据。恢复时重新检查三技能、模型、MCP连通性和目标知识库索引；记忆关闭仍需平台另行配置。ZIP不包含知识库正文/向量、模型凭据、MCP源码/依赖、CSV及工单、systemd或会话历史。包内地址、租户与索引标识仅适用于当前环境，按内部交接配置管理。以下“尚未发布或重新导出”等条目均为历史状态，以本节为准。
+V9 ZIP已于2026-10-31导入独立智能体4，发布恢复测试V2，三技能副本实际加载、模型及原提示词核对一致。10次请求、22份业务返回一致；一次只读正文遗漏保留失败，两次相同问题复测完整。详见 [V9恢复报告](../evaluations/v9-restore-20261031.md)。导入向导默认GLM需改回原模型；自动V1缺Skill，须检查草稿并显式发布含三技能的版本。同租户复用资源，不代表跨租户迁移。
+
+恢复时重新检查三技能、模型、MCP连通性和目标知识库索引；记忆关闭仍需平台另行配置。ZIP不包含知识库正文/向量、模型凭据、MCP源码/依赖、CSV及工单、systemd或会话历史。包内地址、租户与索引标识仅适用于当前环境，按内部交接配置管理。以下“尚未发布或重新导出”等条目均为历史状态，以本节为准。
 
 2026-10-31边界：新增evidence-citation、rule-update-rejudge仅绑定智能体3草稿，尚未发布或重新导出。下列V8 ZIP仍只含fund-chain-investigation；三技能测试见../evaluations/skills-20261031.md。
 

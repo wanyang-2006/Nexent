@@ -1,5 +1,7 @@
 # 三技能正式版发布与验收（2026-10-31）
 
+后续恢复验收已完成：V9 ZIP导入独立智能体4并发布测试V2，见 [恢复报告](v9-restore-20261031.md)。下文“未重新导入”是本报告发布当时的状态，以后续报告为准；原发布稳定性与表达限制保留。
+
 正式智能体为 agent_id=1 / fundtrace_agent，当前平台版本 V9，发布名称 `fundtrace-v1.2-三技能-20261031`。绑定 fund-chain-investigation、evidence-citation、rule-update-rejudge；规则版本仍为 v1/v2，与平台版本号不同。仅处理完整合成数据，不是真实银行数据。
 
 ## 本轮修改
