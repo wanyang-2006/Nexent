@@ -1,6 +1,0 @@
-- generic [active] [ref=e1]:
-  - heading "Local browser check" [level=1] [ref=e2]
-  - text: Check input
-  - textbox "Check input" [ref=e3]
-  - button "Apply" [ref=e4]
-  - status [ref=e5]: Waiting
