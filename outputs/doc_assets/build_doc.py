@@ -60,25 +60,25 @@ def table(header, rows, widths):
                      for s in ("top", "left", "bottom", "right", "insideH", "insideV"))
     grid = "".join(f'<w:gridCol w:w="{w}"/>' for w in widths)
 
-    def cell(text, w, head):
+    def cell(text, w, head, keep=False):
         shade = '<w:shd w:val="clear" w:color="auto" w:fill="DCE6F2"/>' if head else ""
         ps = "".join(
-            f'<w:p><w:pPr><w:spacing w:before="20" w:after="20" w:line="280" w:lineRule="auto"/>'
+            f'<w:p><w:pPr>{"<w:keepNext/>" if keep else ""}<w:spacing w:before="20" w:after="20" w:line="280" w:lineRule="auto"/>'
             f'{"<w:jc w:val=\"center\"/>" if head else ""}<w:rPr>{FONT}<w:sz w:val="18"/></w:rPr></w:pPr>'
             f'{runs(line, 18, bold=head)}</w:p>'
             for line in text.split("\n"))
         return (f'<w:tc><w:tcPr><w:tcW w:w="{w}" w:type="dxa"/>{shade}<w:vAlign w:val="center"/></w:tcPr>'
                 f'{ps}</w:tc>')
 
-    def row(cells, head=False):
+    def row(cells, head=False, keep=False):
         trpr = "<w:trPr><w:tblHeader/><w:cantSplit/></w:trPr>" if head else "<w:trPr><w:cantSplit/></w:trPr>"
-        return f'<w:tr>{trpr}' + "".join(cell(c, w, head) for c, w in zip(cells, widths)) + "</w:tr>"
+        return f'<w:tr>{trpr}' + "".join(cell(c, w, head, keep) for c, w in zip(cells, widths)) + "</w:tr>"
 
     return (f'<w:tbl><w:tblPr><w:tblW w:w="{TEXT_W}" w:type="dxa"/><w:jc w:val="center"/>'
             f'<w:tblBorders>{border}</w:tblBorders><w:tblLayout w:type="fixed"/>'
             f'<w:tblCellMar><w:left w:w="80" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar>'
             f'<w:tblLook w:val="04A0"/></w:tblPr><w:tblGrid>{grid}</w:tblGrid>'
-            + row(header, True) + "".join(row(r) for r in rows) + "</w:tbl>"
+            + row(header, True, True) + "".join(row(r, keep=len(rows) <= 6 and i < len(rows) - 1) for i, r in enumerate(rows)) + "</w:tbl>"
             + para("", indent=False, sz=12, after=0))
 
 
