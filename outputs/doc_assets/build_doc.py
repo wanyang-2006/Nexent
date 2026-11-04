@@ -146,7 +146,9 @@ def render(blocks, imgs):
 
 
 def fill_cell(d, marker, xml):
-    """把简介表中含 marker 占位文字的单元格内容换成 xml（保留单元格属性）。"""
+    """把简介表中含 marker 占位文字的单元格内容换成 xml（保留单元格属性）；已填写过（无占位文字）则不动。"""
+    if marker not in d:
+        return d
     i = d.index(marker)
     start = d.index("</w:tcPr>", max(d.rfind("<w:tc>", 0, i), d.rfind("<w:tc ", 0, i))) + len("</w:tcPr>")
     return d[:start] + xml + d[d.index("</w:tc>", i):]
@@ -185,6 +187,14 @@ def main(src, dst):
     media.mkdir(exist_ok=True)
     rels_p = work / "word/_rels/document.xml.rels"
     rels = rels_p.read_text(encoding="utf-8")
+    # 源文件若是之前生成过的文档，先去掉正文替换后不再引用的旧图片关系和图片文件
+    used = set(re.findall(r'r:embed="([^"]+)"', d))
+    for m in re.finditer(r'<Relationship [^>]*Type="[^"]*/image"[^>]*/>', rels):
+        rid = re.search(r'Id="([^"]+)"', m.group(0)).group(1)
+        if rid not in used or rid.startswith("rIdImg"):
+            target = re.search(r'Target="([^"]+)"', m.group(0)).group(1)
+            (work / "word" / target).unlink(missing_ok=True)
+            rels = rels.replace(m.group(0), "")
     add = ""
     for rid, path, name in imgs.items:
         shutil.copy(path, media / name)
