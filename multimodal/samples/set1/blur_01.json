@@ -1,4 +1,5 @@
 {
+  "id": "U01",
   "kind": "blur",
   "doc_type": "转账成功页",
   "payee_name": "赵*",
@@ -9,7 +10,9 @@
   "time": "2026-11-04 23:12",
   "channel": "手机银行",
   "remark": "刷单返佣 第3单",
-  "expect_unreadable": [
+  "expect_unreadable": [],
+  "may_be_unreadable": [
     "time"
-  ]
+  ],
+  "expect_level": "存在明显风险信号"
 }

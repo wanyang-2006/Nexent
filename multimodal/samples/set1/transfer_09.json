@@ -1,4 +1,5 @@
 {
+  "id": "R09",
   "kind": "transfer",
   "doc_type": "转账成功页",
   "payee_name": "吴*伟",
@@ -9,5 +10,7 @@
   "time": "2026-11-01 11:11",
   "channel": "第三方支付",
   "remark": null,
-  "expect_unreadable": []
+  "expect_unreadable": [],
+  "may_be_unreadable": [],
+  "expect_level": "未见明显风险信号"
 }

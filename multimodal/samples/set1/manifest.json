@@ -1,113 +1,141 @@
 [
   {
+    "id": "R01",
     "file": "transfer_01.png",
     "kind": "transfer"
   },
   {
+    "id": "R02",
     "file": "transfer_02.png",
     "kind": "transfer"
   },
   {
+    "id": "R03",
     "file": "transfer_03.png",
     "kind": "transfer"
   },
   {
+    "id": "R04",
     "file": "transfer_04.png",
     "kind": "transfer"
   },
   {
+    "id": "R05",
     "file": "transfer_05.png",
     "kind": "transfer"
   },
   {
+    "id": "R06",
     "file": "transfer_06.png",
     "kind": "transfer"
   },
   {
+    "id": "R07",
     "file": "transfer_07.png",
     "kind": "transfer"
   },
   {
+    "id": "R08",
     "file": "transfer_08.png",
     "kind": "transfer"
   },
   {
+    "id": "R09",
     "file": "transfer_09.png",
     "kind": "transfer"
   },
   {
+    "id": "R10",
     "file": "transfer_10.png",
     "kind": "transfer"
   },
   {
+    "id": "B01",
     "file": "receipt_01.png",
     "kind": "receipt"
   },
   {
+    "id": "B02",
     "file": "receipt_02.png",
     "kind": "receipt"
   },
   {
+    "id": "B03",
     "file": "receipt_03.png",
     "kind": "receipt"
   },
   {
+    "id": "B04",
     "file": "receipt_04.png",
     "kind": "receipt"
   },
   {
+    "id": "B05",
     "file": "receipt_05.png",
     "kind": "receipt"
   },
   {
+    "id": "C01",
     "file": "chat_01.png",
     "kind": "chat"
   },
   {
+    "id": "C02",
     "file": "chat_02.png",
     "kind": "chat"
   },
   {
+    "id": "C03",
     "file": "chat_03.png",
     "kind": "chat"
   },
   {
+    "id": "C04",
     "file": "chat_04.png",
     "kind": "chat"
   },
   {
+    "id": "C05",
     "file": "chat_05.png",
     "kind": "chat"
   },
   {
+    "id": "X01",
     "file": "inject_01.png",
     "kind": "inject"
   },
   {
+    "id": "X02",
     "file": "inject_02.png",
     "kind": "inject"
   },
   {
+    "id": "U01",
     "file": "blur_01.png",
     "kind": "blur"
   },
   {
+    "id": "U02",
     "file": "blur_02.png",
     "kind": "blur"
   },
   {
+    "id": "P01",
     "file": "ticket_A0209_v1.pdf",
     "kind": "ticket"
   },
   {
+    "id": "P02",
     "file": "ticket_A0105_v1.pdf",
     "kind": "ticket"
   },
   {
+    "id": "P03",
     "file": "ticket_A0176_v2.pdf",
     "kind": "ticket"
   },
   {
+    "id": "P04",
     "file": "ticket_A0044_v1_tampered.pdf",
     "kind": "ticket"
   }

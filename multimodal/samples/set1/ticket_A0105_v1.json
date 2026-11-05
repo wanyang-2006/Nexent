@@ -1,9 +1,11 @@
 {
+  "id": "P02",
   "kind": "ticket",
   "acct_id": "A0105",
   "rule_version": "v1",
   "ticket_id": "TK-v1-A0105",
   "expect": "一致",
   "diff_fields": [],
+  "tampered": {},
   "system_status": "未见异常"
 }

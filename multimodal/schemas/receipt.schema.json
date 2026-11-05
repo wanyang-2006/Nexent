@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "multimodal/schemas/receipt.schema.json",
+  "title": "转账凭证识别结果（方案 4.2 抽取提示的输出格式）",
+  "description": "视觉模型只提取图片中可见的文字，不做判断。看不清或图片中没有的字段填 null，并把看不清的字段名列入 unreadable_fields。账号、卡号、流水号只保留末 4 位。",
+  "type": "object",
+  "required": ["doc_type", "payee_name", "payee_account_tail", "payee_type", "amount", "time", "channel", "remark", "unreadable_fields"],
+  "properties": {
+    "doc_type": {"enum": ["转账成功页", "银行回单", "聊天截图", "工单", "流水", "其他"]},
+    "payer_name": {"type": ["string", "null"]},
+    "payer_account_tail": {"$ref": "#/$defs/tail4"},
+    "payer_bank": {"type": ["string", "null"]},
+    "payee_name": {"type": ["string", "null"]},
+    "payee_account_tail": {"$ref": "#/$defs/tail4"},
+    "payee_bank": {"type": ["string", "null"]},
+    "payee_type": {
+      "description": "只在图片上明确写有“个人/对公”等字样时填写；不得由名称推断，图中没有则为 null 或“未知”",
+      "enum": ["个人", "对公", "未知", null]
+    },
+    "amount": {"description": "数值，单位元", "type": ["number", "null"], "minimum": 0},
+    "currency": {"type": "string", "default": "CNY"},
+    "time": {
+      "description": "统一为 YYYY-MM-DD HH:MM",
+      "type": ["string", "null"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$"
+    },
+    "channel": {"enum": ["手机银行", "网银", "网上银行", "ATM", "柜面", "第三方支付", "未知", null]},
+    "remark": {"description": "用途/附言原文", "type": ["string", "null"]},
+    "serial_no_tail": {"$ref": "#/$defs/tail4"},
+    "chat_snippets": {
+      "description": "聊天截图中的原句（只摘录，不改写）",
+      "type": ["array", "null"],
+      "items": {"type": "string"}
+    },
+    "unreadable_fields": {
+      "description": "模糊、遮挡、截断导致看不清的字段名，供第②步向用户追问",
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "tail4": {"type": ["string", "null"], "pattern": "^\\d{4}$"}
+  }
+}

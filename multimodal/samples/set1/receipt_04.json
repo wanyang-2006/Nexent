@@ -1,4 +1,5 @@
 {
+  "id": "B04",
   "kind": "receipt",
   "doc_type": "银行回单",
   "payer_name": "示例物业服务有限公司",
@@ -10,5 +11,6 @@
   "time": "2026-11-01 10:12",
   "channel": "网上银行",
   "remark": "押金退还",
-  "expect_unreadable": []
+  "expect_unreadable": [],
+  "expect_level": "未见明显风险信号"
 }

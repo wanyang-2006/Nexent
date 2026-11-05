@@ -1,4 +1,5 @@
 {
+  "id": "P04",
   "kind": "ticket",
   "acct_id": "A0044",
   "rule_version": "v1",
@@ -7,5 +8,11 @@
   "diff_fields": [
     "status"
   ],
+  "tampered": {
+    "status": {
+      "system": "存在风险信号",
+      "pdf": "未见异常"
+    }
+  },
   "system_status": "存在风险信号"
 }

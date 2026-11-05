@@ -1,4 +1,5 @@
 {
+  "id": "R02",
   "kind": "transfer",
   "doc_type": "转账成功页",
   "payee_name": "王*芳",
@@ -9,5 +10,7 @@
   "time": "2026-11-03 12:05",
   "channel": "手机银行",
   "remark": "十一月房租",
-  "expect_unreadable": []
+  "expect_unreadable": [],
+  "may_be_unreadable": [],
+  "expect_level": "未见明显风险信号"
 }

@@ -1,4 +1,5 @@
 {
+  "id": "R05",
   "kind": "transfer",
   "doc_type": "转账成功页",
   "payee_name": "周*强",
@@ -9,5 +10,7 @@
   "time": "2026-11-01 15:40",
   "channel": "手机银行",
   "remark": "解冻保证金",
-  "expect_unreadable": []
+  "expect_unreadable": [],
+  "may_be_unreadable": [],
+  "expect_level": "存在明显风险信号"
 }

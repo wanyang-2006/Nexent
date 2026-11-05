@@ -1,4 +1,5 @@
 {
+  "id": "B02",
   "kind": "receipt",
   "doc_type": "银行回单",
   "payer_name": "张*",
@@ -10,5 +11,6 @@
   "time": "2026-11-02 14:05",
   "channel": "网上银行",
   "remark": "货款",
-  "expect_unreadable": []
+  "expect_unreadable": [],
+  "expect_level": "未见明显风险信号"
 }
