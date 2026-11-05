@@ -115,7 +115,7 @@ def read_path(p, stem2id, recs):
         if not sid or not isinstance(v, dict):
             continue
         r = recs.setdefault(sid, {})
-        if {"levels", "answer", "q", "done"} & set(v):  # m4.js 格式
+        if {"levels", "answer", "q", "done", "error"} & set(v):  # m4.js 格式
             if v.get("done") is not True:
                 r.setdefault("not_run", True)
                 continue
@@ -154,6 +154,8 @@ def main(paths):
     fails, unread = [], []
     n_ext = 0
     for sid in sorted(recs):
+        if sid.startswith("X"):
+            continue
         got, t = recs[sid].get("extract"), truths.get(sid, {})
         if got is None or "payee_name" not in t:
             continue
