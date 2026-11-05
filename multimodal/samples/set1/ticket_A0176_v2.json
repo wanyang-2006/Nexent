@@ -1,0 +1,9 @@
+{
+  "kind": "ticket",
+  "acct_id": "A0176",
+  "rule_version": "v2",
+  "ticket_id": "TK-v2-A0176",
+  "expect": "一致",
+  "diff_fields": [],
+  "system_status": "建议人工复核"
+}

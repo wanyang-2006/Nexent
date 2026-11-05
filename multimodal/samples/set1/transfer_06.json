@@ -1,0 +1,13 @@
+{
+  "kind": "transfer",
+  "doc_type": "转账成功页",
+  "payee_name": "陈*",
+  "payee_account_tail": "7720",
+  "payee_bank": "示例银行",
+  "payee_type": "个人",
+  "amount": 520.0,
+  "time": "2026-11-03 20:20",
+  "channel": "手机银行",
+  "remark": "生日快乐",
+  "expect_unreadable": []
+}

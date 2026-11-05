@@ -1,0 +1,13 @@
+{
+  "kind": "transfer",
+  "doc_type": "转账成功页",
+  "payee_name": "杭州示例贸易有限公司",
+  "payee_account_tail": "8831",
+  "payee_bank": "演示银行杭州分行",
+  "payee_type": "对公",
+  "amount": 26800.0,
+  "time": "2026-11-02 10:21",
+  "channel": "网上银行",
+  "remark": "货款 合同号HT2026-118",
+  "expect_unreadable": []
+}

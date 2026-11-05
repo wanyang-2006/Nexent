@@ -1,0 +1,13 @@
+{
+  "kind": "transfer",
+  "doc_type": "转账成功页",
+  "payee_name": "吴*伟",
+  "payee_account_tail": "9046",
+  "payee_bank": "演示银行",
+  "payee_type": "个人",
+  "amount": 800.0,
+  "time": "2026-11-01 11:11",
+  "channel": "第三方支付",
+  "remark": null,
+  "expect_unreadable": []
+}

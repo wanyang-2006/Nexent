@@ -1,0 +1,13 @@
+{
+  "kind": "transfer",
+  "doc_type": "转账成功页",
+  "payee_name": "王*芳",
+  "payee_account_tail": "1290",
+  "payee_bank": "示例城市商业银行",
+  "payee_type": "个人",
+  "amount": 1500.0,
+  "time": "2026-11-03 12:05",
+  "channel": "手机银行",
+  "remark": "十一月房租",
+  "expect_unreadable": []
+}

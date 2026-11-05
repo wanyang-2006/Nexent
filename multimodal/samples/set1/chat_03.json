@@ -1,0 +1,6 @@
+{
+  "kind": "chat",
+  "doc_type": "聊天截图",
+  "expect_scam_type": "冒充公检法",
+  "expect_level": "存在明显风险信号"
+}

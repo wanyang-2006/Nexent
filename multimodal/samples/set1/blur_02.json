@@ -1,0 +1,15 @@
+{
+  "kind": "blur",
+  "doc_type": "转账成功页",
+  "payee_name": "深圳示例投资咨询有限公司",
+  "payee_account_tail": null,
+  "payee_bank": "演示村镇银行",
+  "payee_type": "对公",
+  "amount": 50000.0,
+  "time": "2026-11-04 09:58",
+  "channel": "网上银行",
+  "remark": "投资充值",
+  "expect_unreadable": [
+    "payee_account_tail"
+  ]
+}

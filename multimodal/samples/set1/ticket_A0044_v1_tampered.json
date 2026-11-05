@@ -1,0 +1,11 @@
+{
+  "kind": "ticket",
+  "acct_id": "A0044",
+  "rule_version": "v1",
+  "ticket_id": "TK-v1-A0044",
+  "expect": "不一致",
+  "diff_fields": [
+    "status"
+  ],
+  "system_status": "存在风险信号"
+}

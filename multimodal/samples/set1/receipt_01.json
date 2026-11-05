@@ -1,0 +1,14 @@
+{
+  "kind": "receipt",
+  "doc_type": "银行回单",
+  "payer_name": "示例科技有限公司",
+  "payer_account_tail": "1024",
+  "payee_name": "李*",
+  "payee_account_tail": "5531",
+  "payee_type": null,
+  "amount": 4800.0,
+  "time": "2026-10-31 09:30",
+  "channel": "网上银行",
+  "remark": "工资",
+  "expect_unreadable": []
+}

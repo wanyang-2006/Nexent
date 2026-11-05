@@ -1,0 +1,13 @@
+{
+  "kind": "transfer",
+  "doc_type": "转账成功页",
+  "payee_name": "李*华",
+  "payee_account_tail": "6607",
+  "payee_bank": "演示农商银行",
+  "payee_type": null,
+  "amount": 38000.0,
+  "time": "2026-11-04 21:47",
+  "channel": "手机银行",
+  "remark": "安全账户资金核验",
+  "expect_unreadable": []
+}

@@ -1,0 +1,13 @@
+{
+  "kind": "transfer",
+  "doc_type": "转账成功页",
+  "payee_name": "孙*",
+  "payee_account_tail": "3184",
+  "payee_bank": "示例城市商业银行",
+  "payee_type": null,
+  "amount": 3200.0,
+  "time": "2026-11-02 18:33",
+  "channel": "第三方支付",
+  "remark": "贷款手续费",
+  "expect_unreadable": []
+}

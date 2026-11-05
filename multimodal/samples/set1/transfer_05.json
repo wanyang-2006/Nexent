@@ -1,0 +1,13 @@
+{
+  "kind": "transfer",
+  "doc_type": "转账成功页",
+  "payee_name": "周*强",
+  "payee_account_tail": "0352",
+  "payee_bank": "演示银行",
+  "payee_type": null,
+  "amount": 12000.0,
+  "time": "2026-11-01 15:40",
+  "channel": "手机银行",
+  "remark": "解冻保证金",
+  "expect_unreadable": []
+}
