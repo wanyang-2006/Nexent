@@ -1,0 +1,172 @@
+{
+  "total": 29,
+  "passed": 26,
+  "results": [
+    {
+      "file": "B01.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B02.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B03.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B04.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B05.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "C01-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "C02-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "C03-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "C04-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "C05-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R01-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R01.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "payee_name"
+          ],
+          "message": "Value differs from the sample truth; do not repair the saved output"
+        }
+      ]
+    },
+    {
+      "file": "R02.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R03.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R04-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R04.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R05.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "payee_name"
+          ],
+          "message": "Value differs from the sample truth; do not repair the saved output"
+        }
+      ]
+    },
+    {
+      "file": "R06-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R06.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R07.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R08.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R09.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "other_visible_text"
+          ],
+          "message": "'示例支付 App\\n转账成功\\n¥ 800.00\\n收款人 吴伟\\n收款账户 演示银行 (9046)\\n账户类型 个人账户\\n支付方式 第三方支付\\n付款账户 储蓄卡 (3821)\\n转账时间 2026-11-01 11:11:27\\n转账方式 余额转出\\n交易流水号 **** **** 6527\\n样例图片：信息均为虚构，仅用于测试' is not of type 'array'"
+        }
+      ]
+    },
+    {
+      "file": "R10.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U01-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U01.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U02-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U02.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "X01-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "X02-risk-extract.json",
+      "passed": true,
+      "errors": []
+    }
+  ]
+}

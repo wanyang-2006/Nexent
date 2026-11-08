@@ -1,0 +1,40 @@
+{
+  "doc_type": "聊天截图",
+  "payer_name": null,
+  "payer_account_tail": null,
+  "payer_bank": null,
+  "payee_name": null,
+  "payee_account_tail": null,
+  "payee_bank": null,
+  "payee_type": null,
+  "amount": 8000,
+  "currency": null,
+  "time": null,
+  "channel": "第三方支付",
+  "remark": null,
+  "serial_no_tail": null,
+  "chat_snippets": [
+    "您好，我是示例购物平台客服，您购买的商品有质量问题，可以为您办理三倍理赔。",
+    "怎么办理？",
+    "需要您打开支付软件的借呗额度做资金验证，验证后款项原路返还。",
+    "请先把额度内的 8000 元转到我们的理赔专用账户。"
+  ],
+  "not_shown_fields": [
+    "payer_name",
+    "payer_account_tail",
+    "payer_bank",
+    "payee_name",
+    "payee_account_tail",
+    "payee_bank",
+    "payee_type",
+    "currency",
+    "time",
+    "remark",
+    "serial_no_tail"
+  ],
+  "unreadable_fields": [],
+  "other_visible_text": [
+    "示例聊天",
+    "样例图片：信息均为虚构，仅用于测试"
+  ]
+}

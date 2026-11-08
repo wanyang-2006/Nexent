@@ -1,0 +1,40 @@
+{
+  "doc_type": "银行回单",
+  "payer_name": "刘*",
+  "payer_account_tail": "9902",
+  "payer_bank": "演示银行",
+  "payee_name": "何*",
+  "payee_account_tail": "4410",
+  "payee_bank": "示例银行",
+  "payee_type": null,
+  "amount": 30000,
+  "currency": null,
+  "time": "2026-11-03 22:48",
+  "channel": "网上银行",
+  "remark": "资金核验",
+  "serial_no_tail": "6726",
+  "chat_snippets": [],
+  "other_visible_text": [
+    "演示银行 电子回单",
+    "回单编号：85716726",
+    "付款人：刘*",
+    "收款人：何*",
+    "付款账号：…9902",
+    "收款账号：…4410",
+    "付款行：演示银行",
+    "收款行：示例银行",
+    "金额小写：¥30,000.00",
+    "金额大写：叁万元整",
+    "用途：资金核验",
+    "交易时间：2026-11-03 22:48:00",
+    "交易渠道：网上银行",
+    "交易状态：交易成功",
+    "业务专用章",
+    "样例图片：信息均为虚构，仅用于测试"
+  ],
+  "not_shown_fields": [
+    "payee_type",
+    "currency"
+  ],
+  "unreadable_fields": []
+}

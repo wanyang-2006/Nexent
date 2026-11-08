@@ -1,0 +1,211 @@
+{
+  "started": "2026-11-07T14:04:35.330Z",
+  "running": true,
+  "count": 21,
+  "records": [
+    {
+      "id": "R01",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:05:18.587Z",
+      "error": null,
+      "sha256": "c0dc5e42:f8c1f0ff:d2120e77:db2a9c10:9e239b95:b23751d7:9dc33742:3ea62eb0",
+      "json_parse": true
+    },
+    {
+      "id": "R02",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:06:12.239Z",
+      "error": null,
+      "sha256": "2e62d621:6dd57faa:b6d186f7:abb9bba0:6bcbacaf:2cff7b52:b1a5eae2:81f8fd91",
+      "json_parse": true
+    },
+    {
+      "id": "R03",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:07:46.838Z",
+      "error": null,
+      "sha256": "b10e97f9:5e86c002:d3cc671b:ef1acfa0:6a0fe45a:aabaeedb:d16fa743:4eb60cf6",
+      "json_parse": true
+    },
+    {
+      "id": "R04",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:08:21.426Z",
+      "error": null,
+      "sha256": "2688a109:ce063b39:901c53d3:4765c100:6b29bbe9:3e0b80bf:938ea136:e070f2ef",
+      "json_parse": true
+    },
+    {
+      "id": "R05",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:10:02.022Z",
+      "error": null,
+      "sha256": "b0955ef0:f6402598:23f6a516:71a0ec02:2982a6f0:ea280447:1920209e:09d21fec",
+      "json_parse": true
+    },
+    {
+      "id": "R06",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:10:52.599Z",
+      "error": null,
+      "sha256": "8fe1335e:c93dc148:1505ba01:23954aa7:0bd490e3:90679416:a79416dd:e9a33286",
+      "json_parse": true
+    },
+    {
+      "id": "R07",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:11:32.686Z",
+      "error": null,
+      "sha256": "2f9879c3:bc240f1c:30edf8be:590d2ac5:717b8e60:766fb3da:23c6808b:5a5a5450",
+      "json_parse": true
+    },
+    {
+      "id": "R08",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:12:47.032Z",
+      "error": null,
+      "sha256": "69b39f60:56af6abd:caef5635:98e085bc:aeef96b9:5f57028c:450de9ae:3ac18c1c",
+      "json_parse": true
+    },
+    {
+      "id": "R09",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:13:34.388Z",
+      "error": null,
+      "sha256": "9297ae2b:ec903e84:a7f6e687:4d8eb0e9:b2781687:2a67dfc2:49ec67b1:e8bd4282",
+      "json_parse": true
+    },
+    {
+      "id": "R10",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:14:19.731Z",
+      "error": null,
+      "sha256": "942dc3ad:ec134af5:e7eea272:c27ecd82:fbc40b86:c7e4c011:fc226677:4c863403",
+      "json_parse": true
+    },
+    {
+      "id": "B01",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:14:56.653Z",
+      "error": null,
+      "sha256": "ecd0c393:3f702cc9:da2e17d2:b1475823:9aa6eb78:e2edb408:ef95d0ef:d0bbbed7",
+      "json_parse": true
+    },
+    {
+      "id": "B02",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:15:35.224Z",
+      "error": null,
+      "sha256": "fdbf26a8:e964e8b5:a221c996:27305c5c:dcd8b871:09c27231:51edcb88:b591fbb4",
+      "json_parse": true
+    },
+    {
+      "id": "B03",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:16:19.466Z",
+      "error": null,
+      "sha256": "6d0e34d1:9e384a5f:7b46f87f:5d3b4dd0:7fd0a25a:62e7f409:72274764:ce5ae164",
+      "json_parse": true
+    },
+    {
+      "id": "B04",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:17:09.143Z",
+      "error": null,
+      "sha256": "0f76f93d:3edff56c:36f93192:c481fdec:b98fbaba:43eac097:424cb136:228f5ed7",
+      "json_parse": true
+    },
+    {
+      "id": "B05",
+      "kind": "extract",
+      "query": "仅提取上传图片中的可见字段，返回一个原始 JSON 对象。",
+      "status": 200,
+      "finished": "2026-11-07T14:19:55.309Z",
+      "error": null,
+      "sha256": "7794c264:8167e5e6:d2ce1bf0:53cf895d:bf609673:48ad4309:5ade5f38:31e87116",
+      "json_parse": true
+    },
+    {
+      "id": "R01",
+      "kind": "risk",
+      "query": "请分析上传的图片：提取可见字段，结合已关联知识库给出风险档位、依据、不确定项及建议。",
+      "status": 200,
+      "finished": "2026-11-07T14:20:52.765Z",
+      "error": null,
+      "sha256": "e88145d7:4a3c5ad0:5829b7fc:5312db78:f6de1580:b212baa1:bcb9d3ec:8bae64bf"
+    },
+    {
+      "id": "R04",
+      "kind": "risk",
+      "query": "请分析上传的图片：提取可见字段，结合已关联知识库给出风险档位、依据、不确定项及建议。",
+      "status": 200,
+      "finished": "2026-11-07T14:21:50.325Z",
+      "error": null,
+      "sha256": "aff162fd:fe6eb0b7:0cc950b7:1a58dfe0:db16a900:1d867779:2355ddbf:f7a3b73b"
+    },
+    {
+      "id": "R06",
+      "kind": "risk",
+      "query": "请分析上传的图片：提取可见字段，结合已关联知识库给出风险档位、依据、不确定项及建议。",
+      "status": 200,
+      "finished": "2026-11-07T14:22:59.517Z",
+      "error": null,
+      "sha256": "dca02124:e9915ed3:89998a43:b21d6ba5:36aa04b5:478bbc41:c60fd943:e07d0e4f"
+    },
+    {
+      "id": "C01",
+      "kind": "risk",
+      "query": "请分析上传的图片：提取可见字段，结合已关联知识库给出风险档位、依据、不确定项及建议。",
+      "status": 200,
+      "finished": "2026-11-07T14:25:25.280Z",
+      "error": null,
+      "sha256": "bb6c9ce1:7da7b07c:5b0bc41d:6efac263:43f4bf6c:e50092cd:f6aea53f:fa992881"
+    },
+    {
+      "id": "C02",
+      "kind": "risk",
+      "query": "请分析上传的图片：提取可见字段，结合已关联知识库给出风险档位、依据、不确定项及建议。",
+      "status": 200,
+      "finished": "2026-11-07T14:26:30.502Z",
+      "error": null,
+      "sha256": "f42dcfec:53b79ebd:7d636636:e7c1e4aa:ec68cf4b:ac79376f:105bce71:975555db"
+    },
+    {
+      "id": "C03",
+      "kind": "risk",
+      "query": "请分析上传的图片：提取可见字段，结合已关联知识库给出风险档位、依据、不确定项及建议。",
+      "status": 200,
+      "finished": "2026-11-07T14:27:32.134Z",
+      "error": null,
+      "sha256": "02a6d32f:a5d4382a:7dfc61b9:1468a941:8e56a848:653d955f:b2bfe253:d3635f1f"
+    }
+  ]
+}

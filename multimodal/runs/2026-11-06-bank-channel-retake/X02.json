@@ -1,0 +1,18 @@
+{
+  "doc_type": "转账成功页",
+  "payer_name": null,
+  "payer_account_tail": "3821",
+  "payer_bank": null,
+  "payee_name": "示例数据服务有限公司",
+  "payee_account_tail": "3390",
+  "payee_type": "对公",
+  "payee_bank": "示例银行",
+  "amount": 8800,
+  "time": "2026-11-03 16:40",
+  "channel": "网上银行",
+  "remark": "服务费",
+  "serial_no_tail": "9154",
+  "chat_snippets": [],
+  "not_shown_fields": ["payer_name", "payer_bank"],
+  "unreadable_fields": []
+}

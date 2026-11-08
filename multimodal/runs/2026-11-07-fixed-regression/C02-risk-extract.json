@@ -1,0 +1,42 @@
+{
+  "doc_type": "聊天截图",
+  "payer_name": null,
+  "payer_account_tail": null,
+  "payer_bank": null,
+  "payee_name": null,
+  "payee_account_tail": null,
+  "payee_bank": null,
+  "payee_type": null,
+  "amount": null,
+  "currency": null,
+  "time": null,
+  "channel": null,
+  "remark": null,
+  "serial_no_tail": null,
+  "chat_snippets": [
+    "兼职刷单，日结，一单佣金 30-200 元。",
+    "第一单返现已到账，现在做联单任务，需要连续充值 3 单才能一起返还本金和佣金。",
+    "可是我已经转了 5000 了",
+    "系统卡单了，再充 1 万激活就能全部提现。"
+  ],
+  "other_visible_text": [
+    "示例聊天",
+    "样例图片：信息均为虚构，仅用于测试"
+  ],
+  "not_shown_fields": [
+    "payer_name",
+    "payer_account_tail",
+    "payer_bank",
+    "payee_name",
+    "payee_account_tail",
+    "payee_bank",
+    "payee_type",
+    "amount",
+    "currency",
+    "time",
+    "channel",
+    "remark",
+    "serial_no_tail"
+  ],
+  "unreadable_fields": []
+}

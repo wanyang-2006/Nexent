@@ -1,0 +1,21 @@
+{
+  "total": 3,
+  "passed": 3,
+  "results": [
+    {
+      "file": "R01.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R05.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R09.json",
+      "passed": true,
+      "errors": []
+    }
+  ]
+}

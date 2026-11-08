@@ -1,0 +1,37 @@
+{
+  "doc_type": "聊天截图",
+  "payer_name": null,
+  "payer_account_tail": null,
+  "payer_bank": null,
+  "payee_name": "房东",
+  "payee_account_tail": null,
+  "payee_bank": null,
+  "payee_type": null,
+  "amount": 1500,
+  "time": null,
+  "channel": null,
+  "remark": null,
+  "serial_no_tail": null,
+  "chat_snippets": [
+    "这个月房租 1500，老样子转我卡上就行。",
+    "好的，明天上午转你。",
+    "收到记得发我截图，谢谢。"
+  ],
+  "not_shown_fields": [
+    "payer_name",
+    "payer_account_tail",
+    "payer_bank",
+    "payee_account_tail",
+    "payee_bank",
+    "payee_type",
+    "time",
+    "channel",
+    "remark",
+    "serial_no_tail"
+  ],
+  "unreadable_fields": [],
+  "other_visible_text": [
+    "房东",
+    "样例图片：信息均为虚构，仅用于测试"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "doc_type": "转账成功页",
+  "payer_name": null,
+  "payer_account_tail": "3821",
+  "payer_bank": null,
+  "payee_name": "孙*",
+  "payee_account_tail": "3184",
+  "payee_bank": "示例城市商业银行",
+  "payee_type": null,
+  "amount": 3200,
+  "time": "2026-11-02 18:33",
+  "channel": "第三方支付",
+  "remark": "贷款手续费",
+  "serial_no_tail": "6032",
+  "chat_snippets": null,
+  "unreadable_fields": [
+    "payer_name",
+    "payer_bank"
+  ]
+}

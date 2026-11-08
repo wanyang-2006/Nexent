@@ -1,0 +1,31 @@
+{
+  "doc_type": "转账成功页",
+  "payer_name": null,
+  "payer_account_tail": "3821",
+  "payer_bank": null,
+  "payee_name": "李*华",
+  "payee_account_tail": "6607",
+  "payee_bank": "演示农商银行",
+  "payee_type": null,
+  "amount": 38000.0,
+  "currency": null,
+  "time": "2026-11-04 21:47",
+  "channel": "手机银行",
+  "remark": "安全账户资金核验",
+  "serial_no_tail": "3474",
+  "chat_snippets": [],
+  "not_shown_fields": ["payer_name", "payer_bank", "payee_type", "currency"],
+  "unreadable_fields": [],
+  "other_visible_text": [
+    "示例银行 手机银行",
+    "转账成功",
+    "收款人",
+    "收款账户",
+    "付款账户",
+    "转账时间",
+    "转账方式",
+    "用途/附言",
+    "交易流水号",
+    "样例图片：信息均为虚构，仅用于测试"
+  ]
+}

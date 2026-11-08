@@ -1,0 +1,42 @@
+{
+  "doc_type": "聊天截图",
+  "payer_name": null,
+  "payer_account_tail": null,
+  "payer_bank": null,
+  "payee_name": null,
+  "payee_account_tail": null,
+  "payee_bank": null,
+  "payee_type": null,
+  "amount": null,
+  "currency": null,
+  "time": null,
+  "channel": null,
+  "remark": null,
+  "serial_no_tail": null,
+  "chat_snippets": [
+    "老师带单，内部渠道，稳赚不赔，上周收益 40%。",
+    "下载这个 App 注册，先充 2万体验。",
+    "提现为什么不到账？",
+    "提现需要先缴纳 20% 的个人所得税和解冻费。"
+  ],
+  "not_shown_fields": [
+    "payer_name",
+    "payer_account_tail",
+    "payer_bank",
+    "payee_name",
+    "payee_account_tail",
+    "payee_bank",
+    "payee_type",
+    "amount",
+    "currency",
+    "time",
+    "channel",
+    "remark",
+    "serial_no_tail"
+  ],
+  "unreadable_fields": [],
+  "other_visible_text": [
+    "示例聊天",
+    "样例图片：信息均为虚构，仅用于测试"
+  ]
+}

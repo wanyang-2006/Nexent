@@ -1,0 +1,2 @@
+# Frozen dataset hashes and CSV validators require LF on every platform.
+*.csv text eol=lf
