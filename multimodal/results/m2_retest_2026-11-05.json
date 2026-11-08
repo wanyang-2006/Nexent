@@ -1,0 +1,47 @@
+{
+ "transfer_08": {
+  "doc_type": "转账成功页",
+  "payer_name": null,
+  "payer_account_tail": "3821",
+  "payer_bank": null,
+  "payee_name": "孙*",
+  "payee_account_tail": "3184",
+  "payee_bank": "示例城市商业银行",
+  "payee_type": null,
+  "amount": 3200.0,
+  "time": "2026-11-02 18:33",
+  "channel": "第三方支付",
+  "remark": "贷款手续费",
+  "serial_no_tail": "6032",
+  "chat_snippets": [],
+  "unreadable_fields": [
+   "付款账户所属银行",
+   "收款人完整姓名"
+  ],
+  "_via": "开始问答·多模态M0测试 已发布V1（2611050953），提问“请识别这张图片中的转账信息。”",
+  "_secs": 30
+ },
+ "transfer_09": {
+  "doc_type": "转账成功页",
+  "payer_name": null,
+  "payer_account_tail": "3821",
+  "payer_bank": null,
+  "payee_name": "吴*伟",
+  "payee_account_tail": "9046",
+  "payee_bank": "演示银行",
+  "payee_type": "个人",
+  "amount": 800.0,
+  "time": "2026-11-01 11:11",
+  "channel": "第三方支付",
+  "remark": null,
+  "serial_no_tail": "6527",
+  "chat_snippets": null,
+  "unreadable_fields": [
+   "payer_name",
+   "payer_bank",
+   "remark"
+  ],
+  "_via": "开始问答·多模态M0测试 已发布V1（2611050953），提问“请识别这张图片中的转账信息。”",
+  "_secs": 55
+ }
+}

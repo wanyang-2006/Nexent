@@ -6,7 +6,8 @@
   P01 ticket_A0209_v1.pdf           原样渲染，期望核验“一致”
   P02 ticket_A0105_v1.pdf           原样渲染，期望“一致”
   P03 ticket_A0176_v2.pdf           原样渲染，期望“一致”
-  P04 ticket_A0044_v1_tampered.pdf  状态由“存在风险信号”改为“未见异常”，期望“不一致”，差异字段 status
+  P04 ticket_A0044_v1.pdf           状态由“存在风险信号”改为“未见异常”，期望“不一致”，差异字段 status
+  文件名不带“篡改”字样：平台实测模型会把文件名当作线索（2026-11-05 用旧名 *_tampered.pdf 测试时出现）
   每个 PDF 旁边有同名 .json 标准答案（含 id、expect、diff_fields、被改字段的原值与改后值）。
 
 为什么用 matplotlib 而不是 PIL：PIL 存的 PDF 只有图片，没有文字层；M0 实测纯图片 PDF 会让智能体反复切图，
@@ -73,7 +74,7 @@ def build(out=OUT, manifest=None):
     out.mkdir(parents=True, exist_ok=True)
     for sid, acct, ver, tamper in CASES:
         t = json.loads((TICKET_DIR / ver / f"{acct}.json").read_text(encoding="utf-8"))
-        name = f"ticket_{acct}_{ver}" + ("_tampered" if tamper else "")
+        name = f"ticket_{acct}_{ver}"
         render(ticket_lines(dict(t, **(tamper or {}))), out / f"{name}.pdf")
         truth = {"id": sid, "kind": "ticket", "acct_id": acct, "rule_version": ver, "ticket_id": t.get("ticket_id"),
                  "expect": "不一致" if tamper else "一致",
