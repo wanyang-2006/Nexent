@@ -1,0 +1,114 @@
+[
+  {
+    "file": "blur_01.png",
+    "sha256_hex_groups": "C81F85D8:AB3873E2:165B4D93:C658C333:2B2E6582:F6B3D740:5094E106:98B3BA2C"
+  },
+  {
+    "file": "blur_02.png",
+    "sha256_hex_groups": "AFC25C25:1B93B01A:E2E1AD03:667C8F14:88D4278E:F90E8BF1:53FD80B2:A280DA96"
+  },
+  {
+    "file": "chat_01.png",
+    "sha256_hex_groups": "E3BC232B:101CFE6F:E423DCCA:116C7F38:871FD5E7:9E0AE6B1:B30A1B79:6BD43CB3"
+  },
+  {
+    "file": "chat_02.png",
+    "sha256_hex_groups": "15455E20:F25BFF2F:41585A7E:EC2E291A:098A5AA5:1AC30BC8:9EA2FDAF:AD730404"
+  },
+  {
+    "file": "chat_03.png",
+    "sha256_hex_groups": "8E9FF800:859F9B34:597A0C6B:E37F1269:602D15FE:521BD6C6:BAF7928C:14D40434"
+  },
+  {
+    "file": "chat_04.png",
+    "sha256_hex_groups": "662F68B4:F4ED3848:5CD69262:805E6792:FCEFF79E:7CB7CF48:EE92B630:C20D6AF2"
+  },
+  {
+    "file": "chat_05.png",
+    "sha256_hex_groups": "11A23F30:C6CADF1E:4C545560:8D922848:EF6AC507:1536BF71:D826026D:64F567E2"
+  },
+  {
+    "file": "inject_01.png",
+    "sha256_hex_groups": "B60DE81D:C831FD1D:4EBF6794:70C921FB:5C6268B3:7EEF182C:21124353:6FE5A185"
+  },
+  {
+    "file": "inject_02.png",
+    "sha256_hex_groups": "106BC080:4E7AC297:4D35942E:D43BF84C:E99B6BE5:72A92C44:8B0B145D:3207D0B2"
+  },
+  {
+    "file": "receipt_01.png",
+    "sha256_hex_groups": "AEC53003:DEF912E6:064412CA:B08C8A63:91A6EC6D:D607771C:A47CC2DA:C001D46D"
+  },
+  {
+    "file": "receipt_02.png",
+    "sha256_hex_groups": "097751C9:D1DFB9AB:AAF862CD:2DC7E907:C4E52DBC:342D46BB:98A2C3E2:9226CAA3"
+  },
+  {
+    "file": "receipt_03.png",
+    "sha256_hex_groups": "79DC147A:E80F75A7:37F4DEBE:270E3AD2:AC2EDED9:D8743C39:7F16B33F:8C1389B3"
+  },
+  {
+    "file": "receipt_04.png",
+    "sha256_hex_groups": "EEDC4657:F630B9AA:75873446:5589616C:7B58B225:3FF1D78A:DD4248A5:8EEE219F"
+  },
+  {
+    "file": "receipt_05.png",
+    "sha256_hex_groups": "B503050A:96C7E909:BB963888:5E9BA6E1:F13D6014:7F27B622:33316E33:B3E8B1E8"
+  },
+  {
+    "file": "ticket_A0044_v1_tampered.pdf",
+    "sha256_hex_groups": "ACA16ED0:62457428:212086EE:051D6EA6:603F1978:315AEFD3:5AC242EA:FC30D3F6"
+  },
+  {
+    "file": "ticket_A0105_v1.pdf",
+    "sha256_hex_groups": "3CBFEFD2:74E93448:E06BD229:75563AE1:90E0E0D9:DCACF949:6CF615BC:B0B50B79"
+  },
+  {
+    "file": "ticket_A0176_v2.pdf",
+    "sha256_hex_groups": "6F6EC656:4A80516E:4A5ACB78:D8398B8A:237C83A5:EA067E86:EF248829:1A6774E5"
+  },
+  {
+    "file": "ticket_A0209_v1.pdf",
+    "sha256_hex_groups": "5ECA7A38:1C006E14:922D17CF:80156B08:923FC79A:F4FD7881:F9CF4B2F:082EF02C"
+  },
+  {
+    "file": "transfer_01.png",
+    "sha256_hex_groups": "DC7834DC:B08D34A8:6F16F60C:C671E35F:2A751DDC:AF609947:554BAFF7:B336F90D"
+  },
+  {
+    "file": "transfer_02.png",
+    "sha256_hex_groups": "F8087CAB:15C58CF7:FABE2686:38D11FED:2C1A126D:9FE3AFE9:B762FC8E:BA59ABBE"
+  },
+  {
+    "file": "transfer_03.png",
+    "sha256_hex_groups": "97112C21:21CAA9B1:EB167026:614C5C65:D1920013:7F46E0EC:8AAE0B90:FE0A7995"
+  },
+  {
+    "file": "transfer_04.png",
+    "sha256_hex_groups": "381DA3B0:E4ADB805:3705166C:949DE5AE:01F250C8:F6627CB0:D3BD491C:6F6AA294"
+  },
+  {
+    "file": "transfer_05.png",
+    "sha256_hex_groups": "36BF8A57:972111C3:02588A1E:F6960A97:A0492BE9:190F995D:88CE1646:DC833BA8"
+  },
+  {
+    "file": "transfer_06.png",
+    "sha256_hex_groups": "CE4BDC64:77FD8288:1D5EEF54:5E76875B:CEFBF94E:8909616C:771CF269:BB672011"
+  },
+  {
+    "file": "transfer_07.png",
+    "sha256_hex_groups": "94BE8AC4:89B4E6AB:A4EF9225:CBA82E8E:3DAD5F49:2E2E79EC:2CD8114B:1295D7CF"
+  },
+  {
+    "file": "transfer_08.png",
+    "sha256_hex_groups": "381EE682:2B9387EC:6915B70D:D4B5ACB2:632DAA98:E00170E9:30EA450B:9ABF52F3"
+  },
+  {
+    "file": "transfer_09.png",
+    "sha256_hex_groups": "4E23AC0B:5BDFB5D6:B5595820:F1784F09:DD6DFB04:AA3A0921:7DE14A81:0AAC811F"
+  },
+  {
+    "file": "transfer_10.png",
+    "sha256_hex_groups": "DA5F7EC6:05E97E5B:9AEEB097:AB0709E8:72DE42D2:F71C2320:26581479:074382B2"
+  }
+]

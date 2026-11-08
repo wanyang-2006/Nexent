@@ -1,0 +1,179 @@
+{
+  "total": 29,
+  "passed": 25,
+  "results": [
+    {
+      "file": "B01.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B02.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B03.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B04.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "B05.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "C01-risk-extract.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "currency"
+          ],
+          "message": "None is not of type 'string'"
+        }
+      ]
+    },
+    {
+      "file": "C02-risk-extract.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "currency"
+          ],
+          "message": "None is not of type 'string'"
+        }
+      ]
+    },
+    {
+      "file": "C03-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "C04-risk-extract.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "currency"
+          ],
+          "message": "None is not of type 'string'"
+        }
+      ]
+    },
+    {
+      "file": "C05-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R01-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R01.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "currency"
+          ],
+          "message": "None is not of type 'string'"
+        }
+      ]
+    },
+    {
+      "file": "R02.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R03.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R04-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R04.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R05.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R06-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R06.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R07.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R08.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R09.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R10.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U01-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U01.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U02-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "U02.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "X01-risk-extract.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "X02-risk-extract.json",
+      "passed": true,
+      "errors": []
+    }
+  ]
+}

@@ -18,7 +18,7 @@
       "enum": ["个人", "对公", "未知", null]
     },
     "amount": {"description": "数值，单位元", "type": ["number", "null"], "minimum": 0},
-    "currency": {"type": "string", "default": "CNY"},
+    "currency": {"description": "只按明确币种标识映射 CNY/USD 等代码；单独的 ¥ 符号不足以区分人民币和日元，无明确币种时为 null，不设置推断默认值", "type": ["string", "null"], "minLength": 1},
     "time": {
       "description": "统一为 YYYY-MM-DD HH:MM",
       "type": ["string", "null"],

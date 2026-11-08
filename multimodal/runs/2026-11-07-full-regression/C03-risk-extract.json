@@ -1,0 +1,39 @@
+{
+  "doc_type": "聊天截图",
+  "payer_name": null,
+  "payer_account_tail": null,
+  "payer_bank": null,
+  "payee_name": null,
+  "payee_account_tail": null,
+  "payee_bank": null,
+  "payee_type": null,
+  "amount": null,
+  "time": null,
+  "channel": null,
+  "remark": null,
+  "serial_no_tail": null,
+  "chat_snippets": [
+    "这里是示例市公安局，你的你的身份证涉嫌一起洗钱案，现在需要配合调查。",
+    "为证明清白，你需要把名下资金转到国家安全账户进行核验，核验后会退回。",
+    "此案保密，不要告诉家人，也不要去银行柜台办理。"
+  ],
+  "not_shown_fields": [
+    "payer_name",
+    "payer_account_tail",
+    "payer_bank",
+    "payee_name",
+    "payee_account_tail",
+    "payee_bank",
+    "payee_type",
+    "amount",
+    "time",
+    "channel",
+    "remark",
+    "serial_no_tail"
+  ],
+  "unreadable_fields": [],
+  "other_visible_text": [
+    "示例聊天",
+    "样例图片：信息均为虚构，仅用于测试"
+  ]
+}

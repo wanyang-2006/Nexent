@@ -1,0 +1,462 @@
+{
+  "date": "2026-11-07",
+  "agent_id": 6,
+  "agent_name": "多模态M0测试",
+  "configuration": "usage-requirements.txt",
+  "total_completed": 33,
+  "release": "HOLD",
+  "records": [
+    {
+      "id": "R01",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "file": "R01.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R02",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "file": "R02.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R03",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 2,
+      "file": "R03.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R04",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 1,
+      "file": "R04.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R05",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 2,
+      "file": "R05.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R06",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "file": "R06.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R07",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 4,
+      "file": "R07.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R08",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 2,
+      "file": "R08.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R09",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 2,
+      "file": "R09.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R10",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 2,
+      "file": "R10.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "B01",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 2,
+      "file": "B01.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "B02",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "file": "B02.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "B03",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "B03.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "B04",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "B04.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "B05",
+      "running": false,
+      "hasTable": false,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 1,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "B05.json",
+      "jsonValid": true,
+      "mode": "extract"
+    },
+    {
+      "id": "R04-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "R04-risk-answer.md",
+      "jsonValid": false,
+      "mode": "risk"
+    },
+    {
+      "id": "R06-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image",
+        "knowledge_base_search"
+      ],
+      "file": "R06-risk-answer.md",
+      "jsonValid": false,
+      "mode": "risk"
+    },
+    {
+      "id": "R01-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 4,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "R01-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "C01-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image",
+        "knowledge_base_search"
+      ],
+      "file": "C01-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "C02-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image",
+        "knowledge_base_search"
+      ],
+      "file": "C02-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "C03-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "C03-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "C04-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image",
+        "knowledge_base_search"
+      ],
+      "file": "C04-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "C05-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image",
+        "knowledge_base_search"
+      ],
+      "file": "C05-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "X01-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "X01-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "X02-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "X02-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "U01-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 4,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "U01-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "U02-risk",
+      "running": false,
+      "hasTable": true,
+      "hasFence": true,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_image"
+      ],
+      "file": "U02-risk-answer.md",
+      "mode": "risk"
+    },
+    {
+      "id": "A0209",
+      "running": false,
+      "hasTable": true,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 10,
+      "calls": [
+        "read_skill_md",
+        "knowledge_base_search",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "get_ticket",
+        "make_ticket"
+      ],
+      "file": "A0209-answer.md",
+      "mode": "business"
+    },
+    {
+      "id": "A0105",
+      "running": false,
+      "hasTable": true,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 10,
+      "calls": [
+        "read_skill_md",
+        "knowledge_base_search",
+        "get_account",
+        "get_transactions",
+        "trace_chain",
+        "check_rules",
+        "make_ticket"
+      ],
+      "file": "A0105-answer.md",
+      "mode": "business"
+    },
+    {
+      "id": "P01",
+      "running": false,
+      "hasTable": true,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_text_file",
+        "get_ticket"
+      ],
+      "file": "P01-answer.md",
+      "mode": "ticket"
+    },
+    {
+      "id": "P02",
+      "running": false,
+      "hasTable": true,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_text_file",
+        "get_ticket"
+      ],
+      "file": "P02-answer.md",
+      "mode": "ticket"
+    },
+    {
+      "id": "P03",
+      "running": false,
+      "hasTable": true,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_text_file",
+        "get_ticket"
+      ],
+      "file": "P03-answer.md",
+      "mode": "ticket"
+    },
+    {
+      "id": "P04",
+      "running": false,
+      "hasTable": true,
+      "hasFence": false,
+      "reasoningVisible": true,
+      "executedCodeCount": 3,
+      "calls": [
+        "read_skill_md",
+        "analyze_text_file",
+        "get_ticket"
+      ],
+      "file": "P04-answer.md",
+      "mode": "ticket"
+    }
+  ],
+  "note": "Calls are visible name observations, not exhaustive logs. No hidden reasoning or executed code is archived. U01/U02 JSON aliases duplicate their risk extraction payloads. PDF pages were remapped by account and filename after tab indices shifted; only identified final responses are retained."
+}

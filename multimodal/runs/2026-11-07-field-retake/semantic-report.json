@@ -1,0 +1,28 @@
+{
+  "total": 3,
+  "passed": 2,
+  "results": [
+    {
+      "file": "R01.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R05.json",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "file": "R09.json",
+      "passed": false,
+      "errors": [
+        {
+          "path": [
+            "payee_name"
+          ],
+          "message": "Value differs from the sample truth; do not repair the saved output"
+        }
+      ]
+    }
+  ]
+}
