@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "fundtrace-a2a": {
+      "type": "sse",
+      "url": "http://60.205.124.241:8901/",
+      "note": "Fundtrace A2A northbound interface. Requires port 8901 open in Alibaba Cloud security group.",
+      "disabled": false
+    },
+    "fundtrace-ssh": {
+      "type": "stdio",
+      "command": "ssh",
+      "args": [
+        "-i", "C:/Users/yang/.ssh/id_ed25519",
+        "-o", "StrictHostKeyChecking=no",
+        "-o", "ConnectTimeout=15",
+        "-L", "18901:127.0.0.1:8901",
+        "-N",
+        "root@60.205.124.241"
+      ],
+      "note": "SSH tunnel for A2A: forwards localhost:18901 → ECS:8901. After this MCP is active, use http://localhost:18901/ for A2A calls.",
+      "disabled": true
+    }
+  }
+}
